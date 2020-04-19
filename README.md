@@ -104,10 +104,10 @@ string : '"' TEXT '"' ;
 fragment LETTER : [a-zA-Z] ;
 fragment DIGIT : [0-9] ;
 
-INTEGER_NUMBER : '-'? DIGIT+ ;
-REAL_NUMBER : DIGIT+ ([.] DIGIT+)? ;
+fragment KEYWORDS : ('int' | 'real' | 'string' | 'print' | 'PRINT' | 'read' | 'READ') ;
 
-KEYWORDS : ('int' | 'real' | 'string' | 'print' | 'PRINT' | 'read' | 'READ') ;
+INTEGER_NUMBER : '-'? DIGIT+ ;
+REAL_NUMBER : '-'? DIGIT+ ([.] DIGIT+)? ;
 
 VARIABLE_NAME : (?!KEYWORDS) ((LETTER | DIGIT | '_')* LETTER+ (LETTER | DIGIT | '_')*) ;
 

@@ -1,0 +1,17 @@
+{
+  "name": "FiszczLang",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Fiszcz/FiszczLang.git",
+  "author": "Filip Szczesniak <fiszczu@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "antlr4": "^4.8.0"
+  },
+  "scripts": {
+    "start": "node ./FiszczLangCompiler.js ./test.fs",
+    "genarate:test": "antlr4 ./FiszczLang.g4 & javac ./FiszczLang*.java",
+    "test:gui": "grun FiszczLang program test.fs -gui",
+    "generate": "antlr4 -Dlanguage=JavaScript -visitor ./FiszczLang.g4"
+  }
+}
