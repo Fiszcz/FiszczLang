@@ -6,12 +6,14 @@
   "author": "Filip Szczesniak <fiszczu@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "antlr4": "^4.8.0"
+    "antlr4": "^4.8.0",
+    "cross-env": "^7.0.2",
+    "typescript": "^3.8.3"
   },
   "scripts": {
-    "start": "node ./FiszczLangCompiler.js ./test.fs",
-    "genarate:test": "antlr4 ./FiszczLang.g4 & javac ./FiszczLang*.java",
+    "start": "cross-env NODE_ENV=production node ./src/FiszczLangCompiler.js ./src/test.fs",
+    "genarate:test": "antlr4 ./src/FiszczLang.g4 & javac ./src/FiszczLang*.java",
     "test:gui": "grun FiszczLang program test.fs -gui",
-    "generate": "antlr4 -Dlanguage=JavaScript -visitor ./FiszczLang.g4"
+    "generate": "antlr4 -Dlanguage=JavaScript -visitor ./src/FiszczLang.g4 -o ./src"
   }
 }
