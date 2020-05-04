@@ -78,7 +78,36 @@ class OutputProgram {
             const lengthOfText = getLengthOfString(value);
             this.addLineOfIR(createVariableDefinition(name, 'i8*', `getelementptr inbounds ([${lengthOfText + 1} x i8], [${lengthOfText + 1} x i8]* @.str.${stringConstantId}, i64 0, i64 0)`, 8));
             this.variables.set(name, {type, value: {stringConstantId, lengthOfText}, name});
+        } else if (type.endsWith('i32]')) {
+            this.addLineOfIR(createVariableDefinition(name, type, `[${value.map((valueOfElement) => {return 'i32 ' + valueOfElement}).join(',')}]`, 4));
+            this.variables.set(name, {type, value, name, basicType: 'i32'});
+        } else if (type.endsWith('i8*]')) {
+            this.createStringArray(name, type, value);
         }
+    }
+
+    createStringArray(name, type, value) {
+        const createdStrings = value.map((someString) => {
+            const lengthOfText = getLengthOfString(someString);
+            const stringConstantId = this.addStringConstant(someString);
+            return {
+                lengthOfText,
+                stringConstantId,
+            }
+        });
+        const valueToStoreInstruction = `[${createdStrings.map((createdString) => `i8* getelementptr inbounds ([${createdString.lengthOfText + 1} x i8], [${createdString.lengthOfText + 1} x i8]* @.str.${createdString.stringConstantId}, i64 0, i64 0)`).join(',')}]`;
+        this.addLineOfIR(`%${name} = alloca ${type}, align ${16}`);
+        this.addLineOfIR(store(name, type, valueToStoreInstruction, 4));
+        this.variables.set(name, {type, value: createdStrings, name, basicType: 'i8*'});
+    }
+
+    assignmentToArrayElement(variableName, elementNumber, newValue) {
+        const variable = this.getVariable(variableName);
+
+        const regIdOfGetElement = this.getNextRegId();
+        this.addLineOfIR(loadArrayElement(regIdOfGetElement, variable.type, variable.name, elementNumber.value));
+
+        this.addLineOfIR(store(regIdOfGetElement, variable.basicType, newValue.value, getAlign(variable.basicType)));
     }
 
     loadOperation(variable) {
@@ -86,6 +115,14 @@ class OutputProgram {
         this.addLineOfIR(load(regId, variable.type, variable.name, getAlign(variable.type)));
 
         return regId;
+    }
+
+    loadArrayElementOperation(variable, element) {
+        const regIdOfGetElement = this.getNextRegId();
+        // TODO: we should remove this logic (this.iteratorOfUnnamedVariables - 1)).toString() == element.toString() ? '%' + element : element)
+        this.addLineOfIR(loadArrayElement(regIdOfGetElement, variable.type, variable.name, ((this.iteratorOfUnnamedVariables - 1)).toString() == element.toString() ? '%' + element : element));
+
+        return this.loadOperation({name: regIdOfGetElement, type: variable.basicType});
     }
 
     printValue(valueToPrint) {
@@ -115,6 +152,12 @@ class OutputProgram {
                 this.addLineOfIR(printString(this.getNextRegId(), getLengthOfString(valueToPrint.value), stringConstantId));
                 break;
             }
+            case 'arrayVariable': {
+                const variable = this.getVariable(valueToPrint.value);
+                const elementRegId = this.loadArrayElementOperation(variable, valueToPrint.element.value);
+                this.addLineOfIR(print(this.getNextRegId(), getInputOutputStringType(variable.basicType), variable.basicType, elementRegId));
+                break;
+            }
         }
     }
 
@@ -135,7 +178,7 @@ class OutputProgram {
             return {type: 'i32', value: '%' + returnRegId};
         } else if (firstElement.type === 'i32' && secondElement.type === 'double') {
             const convertedToDouble = this.getNextRegId();
-            this.addLineOfIR(convertToDouble('%' + convertedToDouble, firstElement.value));
+            this.addLineOfIR(convertToDouble(convertedToDouble, firstElement.value));
             const returnRegId = this.getNextRegId();
             this.addLineOfIR(global['f' + operation](returnRegId, '%' + convertedToDouble, secondElement.value));
             return {type: 'double', value: '%' + returnRegId};
@@ -240,9 +283,16 @@ const load = (regId, type, fromId, align) => {
     return `%${regId} = load ${type}, ${type}* %${fromId}, align ${align}`;
 };
 
+const loadArrayElement = (regId, type, fromId, element) => {
+    return `%${regId} = getelementptr inbounds ${type}, ${type}* %${fromId}, i64 0, i32 ${element}`;
+}
+
 const createVariableDefinition = (name, type, value, align) => {
-    return `%${name} = alloca ${type}, align ${align}\n` +
-        `store ${type} ${value}, ${type}* %${name}, align ${align}`;
+    return `%${name} = alloca ${type}, align ${align}\n` + store(name, type, value, align);
 };
+
+const store = (name, type, value, align) => {
+    return `store ${type} ${value}, ${type}* %${name}, align ${align}`;
+}
 
 exports.OutputProgram = OutputProgram;

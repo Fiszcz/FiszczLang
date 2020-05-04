@@ -1,4 +1,11 @@
 # FiszczLang
+```
+  _
+ |_ o  _ _   _ _  |   _. ._   _
+ |  | _> /_ (_ /_ |_ (_| | | (_|
+                              _|
+```
+
 A new amateurish programming language 
 
 ### Example fragment of code
@@ -48,13 +55,16 @@ print array_of_numbers[0];
 - ``-`` - minus
 - ``*`` - multiplication
 - ``/`` - division
+- ``()`` - brackets
 
 ### Lexical and grammatical rules
 
 ##### Grammar
 
 ```
-instruction : (definition | print_instruction) ';' ;
+program : (instruction | W)+ EOF ;
+
+instruction : (definition | print_instruction | print_instruction | read_instruction | assignment | array_element_assignment) ';' ;
 
 definition : (single_element_definition | array_definition) ;
 
@@ -72,30 +82,26 @@ string_array_definition : 'string[]' VARIABLE_NAME '[' string (',' string)* ']' 
 element_number : '[' value ']' ;
 element_of_array : VARIABLE_NAME element_number ;
 
-print_instruction : ('print' | 'PRINT') W value* ;
+print_instruction : ('print' | 'PRINT') W (value | W)* ;
 read_instruction : ('read' | 'READ') W (VARIABLE_NAME | element_of_array) ;
 
 arithmetic_expression : '(' arithmetic_expression ')'
-                      | multiplication_operation
-                      | division_operation
-                      | subtraction_operation
-                      | addition_operation
+                      | arithmetic_expression W? ASTERISK W? arithmetic_expression
+                      | arithmetic_expression W? SLASH W? arithmetic_expression
+                      | arithmetic_expression W? PLUS W? arithmetic_expression
+                      | arithmetic_expression W? MINUS W? arithmetic_expression
                       | VARIABLE_NAME
                       | element_of_array
                       | INTEGER_NUMBER
                       | REAL_NUMBER
                       ;
-multiplication_operation : arithmetic_expression '*' arithmetic_expression ;
-division_operation : arithmetic_expression '/' arithmetic_expression ;
-subtraction_operation : arithmetic_expression '-' arithmetic_expression ;
-addition_operation : arithmetic_expression '+' arithmetic_expression ;
 
 assignment :  VARIABLE_NAME W value ;
 array_element_assignment : element_of_array  value ;
 
-value : (VARIABLE_NAME | INTEGER_NUMBER | REAL_NUMBER | string | arithmetic_expression | element_of_array) ;
+value : (VARIABLE_NAME | INTEGER_NUMBER | REAL_NUMBER | string | element_of_array | arithmetic_expression) ;
 
-string : '"' TEXT '"' ;
+string : TEXT ;
 ```
 
 ##### Lexical rules
@@ -106,13 +112,23 @@ fragment DIGIT : [0-9] ;
 
 fragment KEYWORDS : ('int' | 'real' | 'string' | 'print' | 'PRINT' | 'read' | 'READ') ;
 
+COMMENT
+    :   ( '//' ~[\r\n]* '\r'? '\n'
+        | '/*' .*? '*/'
+        ) -> skip
+    ;
+
 INTEGER_NUMBER : '-'? DIGIT+ ;
 REAL_NUMBER : '-'? DIGIT+ ([.] DIGIT+)? ;
 
-VARIABLE_NAME : (?!KEYWORDS) ((LETTER | DIGIT | '_')* LETTER+ (LETTER | DIGIT | '_')*) ;
+ASTERISK : '*' ;
+SLASH : '/' ;
+PLUS : '+' ;
+MINUS : '-' ;
 
-TEXT : [^"]*
+VARIABLE_NAME : ((LETTER | DIGIT | '_')* LETTER+ (LETTER | DIGIT | '_')*) ;
 
-WHITESPACE : (' ' | '\t' | '\n') -> skip ;
-W : WHITESPACE+ ;
+TEXT : '"' ~["]+? '"';
+
+W : (' ' | '\t' | '\n' | '\r')+;
 ````

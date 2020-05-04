@@ -1,18 +1,35 @@
-// Example of FiszczLang
-int some_number 5;
-real float_number 5.0;
-PRINT some_number float_number;
+/*
+  _
+ |_ o  _ _   _ _  |   _. ._   _
+ |  | _> /_ (_ /_ |_ (_| | | (_|
+                              _|
 
-READ some_number;
-PRINT some_number;
-PRINT some_number + 5 * (6 - 7) / 7;
+Creator: Filip Szcześniak
+*/
+
+// Example of FiszczLang
+int someNumber 5;
+real floatNumber 5.0;
+PRINT someNumber floatNumber;
+
+READ someNumber;
+PRINT someNumber;
+PRINT someNumber + 5 * (6 - 7) / 7;
 PRINT 1.5 / 3;
 
-int some_new_number 10 + 5;
-PRINT some_new_number;
+int someNewNumber 10 + 5;
+PRINT someNewNumber;
 
-string some_text "some text";
-PRINT some_text33 " and other text";
+string someText "some text";
+PRINT someText " and other text";
 PRINT "New line\nAnd we are in new line";
-READ some_text;
-PRINT some_text;
+READ someText;
+PRINT someText;
+
+int[] arrayOfNumbers [1, 2, 3];
+PRINT arrayOfNumbers[0];
+arrayOfNumbers[0] 100;
+PRINT arrayOfNumbers[0];
+
+string[] arrayOfStrings ["one", "two", "three"];
+PRINT arrayOfStrings[1];
