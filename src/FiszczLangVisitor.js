@@ -183,7 +183,7 @@ FiszczLangVisitor.prototype.visitValue = function (ctx) {
         const resultOfArithmeticExpression = this.visitArithmetic_expression(ctx.arithmetic_expression());
         return {
             typeOfValue: resultOfArithmeticExpression.type,
-            value: resultOfArithmeticExpression.value.replace(/%/g, '')
+            value: resultOfArithmeticExpression.value
         };
     } else if (ctx.string()) {
         const text = getTextOfString(ctx.string().getText());

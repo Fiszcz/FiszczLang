@@ -119,8 +119,7 @@ class OutputProgram {
 
     loadArrayElementOperation(variable, element) {
         const regIdOfGetElement = this.getNextRegId();
-        // TODO: we should remove this logic (this.iteratorOfUnnamedVariables - 1)).toString() == element.toString() ? '%' + element : element)
-        this.addLineOfIR(loadArrayElement(regIdOfGetElement, variable.type, variable.name, ((this.iteratorOfUnnamedVariables - 1)).toString() == element.toString() ? '%' + element : element));
+        this.addLineOfIR(loadArrayElement(regIdOfGetElement, variable.type, variable.name, element));
 
         return this.loadOperation({name: regIdOfGetElement, type: variable.basicType});
     }
@@ -132,10 +131,10 @@ class OutputProgram {
                 const variable = this.getVariable(variableName);
                 if (variable.type === 'i8*') {
                     const regIdWithValueToPrint = this.loadOperation(variable);
-                    this.addLineOfIR(print(this.getNextRegId(), getInputOutputStringType(variable.type, variable.value), variable.type, regIdWithValueToPrint));
+                    this.addLineOfIR(print(this.getNextRegId(), getInputOutputStringType(variable.type, variable.value), variable.type, '%' + regIdWithValueToPrint));
                 } else {
                     const regIdWithValueToPrint = this.loadOperation(variable);
-                    this.addLineOfIR(print(this.getNextRegId(), getInputOutputStringType(variable.type), variable.type, regIdWithValueToPrint));
+                    this.addLineOfIR(print(this.getNextRegId(), getInputOutputStringType(variable.type), variable.type, '%' + regIdWithValueToPrint));
                 }
                 break;
             }
@@ -155,7 +154,7 @@ class OutputProgram {
             case 'arrayVariable': {
                 const variable = this.getVariable(valueToPrint.value);
                 const elementRegId = this.loadArrayElementOperation(variable, valueToPrint.element.value);
-                this.addLineOfIR(print(this.getNextRegId(), getInputOutputStringType(variable.basicType), variable.basicType, elementRegId));
+                this.addLineOfIR(print(this.getNextRegId(), getInputOutputStringType(variable.basicType), variable.basicType, '%' + elementRegId));
                 break;
             }
         }
@@ -272,7 +271,7 @@ const read = (returnRegId, typeOfFirstArgumentOfScanf, type, nameOfVariable) => 
 }
 
 const print = (returnRegId, typeOfFirstArgumentOfPrintf, type, valueToPrint) => {
-    return `%${returnRegId} = call i32 (i8*, ...) @printf(i8* getelementptr inbounds (${typeOfFirstArgumentOfPrintf}, i64 0, i64 0), ${type} %${valueToPrint})`;
+    return `%${returnRegId} = call i32 (i8*, ...) @printf(i8* getelementptr inbounds (${typeOfFirstArgumentOfPrintf}, i64 0, i64 0), ${type} ${valueToPrint})`;
 }
 
 const printString = (returnRegId, lengthOfText, stringConstantId) => {
