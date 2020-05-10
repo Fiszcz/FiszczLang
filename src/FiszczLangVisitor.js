@@ -21,6 +21,7 @@ FiszczLangVisitor.prototype.visitProgram = function (ctx) {
 
 // Visit a parse tree produced by FiszczLangParser#instruction.
 FiszczLangVisitor.prototype.visitInstruction = function (ctx) {
+    this.program.addCommentAboutCurrentInstruction(ctx.getText().split('\n')[0]);
     return this.visitChildren(ctx);
 };
 

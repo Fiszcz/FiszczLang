@@ -27,6 +27,10 @@ class OutputProgram {
     stringConstants = [];
     iteratorOfStrings = 0;
 
+    addCommentAboutCurrentInstruction(instruction) {
+        this.instructions.push('\n\t; ' + instruction);
+    }
+
     writeToFile() {
         let outputProgram = headerOfFile;
         this.stringConstants.forEach((stringConstant, index) => outputProgram += createStringConstant(index + 1, getLengthOfString(stringConstant), stringConstant) + '\n');
