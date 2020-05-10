@@ -57,6 +57,11 @@ print array_of_numbers[0];
 - ``/`` - division
 - ``()`` - brackets
 
+##### Comments
+
+- ``// some comment`` - single line comment
+- ``/* some comment */`` - multiline comment
+
 ### Lexical and grammatical rules
 
 ##### Grammar
