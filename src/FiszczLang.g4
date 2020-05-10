@@ -4,16 +4,16 @@ grammar FiszczLang;
 
 program : (instruction | W)+ EOF ;
 
-instruction : (definition | print_instruction | print_instruction | read_instruction | assignment | array_element_assignment) ';' ;
+instruction : (definition | print_instruction | print_instruction | read_instruction | assignment | array_element_assignment) W? ';' ;
 
 definition : (single_element_definition | array_definition) ;
 
 single_element_definition : (int_definition | real_definition | string_definition) ;
 array_definition : (int_array_definition | real_array_definition | string_array_definition) ;
 
-int_definition : 'int' W VARIABLE_NAME W arithmetic_expression ;
-real_definition : 'real' W VARIABLE_NAME W arithmetic_expression ;
-string_definition : 'string' W VARIABLE_NAME W (string | VARIABLE_NAME | element_of_array) ;
+int_definition : 'int' W VARIABLE_NAME (W arithmetic_expression)? ;
+real_definition : 'real' W VARIABLE_NAME (W arithmetic_expression)? ;
+string_definition : 'string' W VARIABLE_NAME (W (string | VARIABLE_NAME | element_of_array))? ;
 
 int_array_definition : 'int[]' VARIABLE_NAME '[' INTEGER_NUMBER (',' INTEGER_NUMBER)* ']' ;
 real_array_definition : 'real[]' VARIABLE_NAME '[' (INTEGER_NUMBER | REAL_NUMBER) (',' (INTEGER_NUMBER | REAL_NUMBER))* ']' ;

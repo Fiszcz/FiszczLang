@@ -33,3 +33,6 @@ PRINT arrayOfNumbers[0];
 
 string[] arrayOfStrings ["one", "two", "three"];
 PRINT arrayOfStrings[1];
+
+int numberWithoutInitialValue;
+PRINT numberWithoutInitialValue;
