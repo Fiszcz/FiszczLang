@@ -36,3 +36,18 @@ PRINT arrayOfStrings[1];
 
 int numberWithoutInitialValue;
 PRINT numberWithoutInitialValue;
+
+PRINT "\n" arrayOfNumbers[2];
+IF arrayOfNumbers[2] < 10 {
+    PRINT "\nBeginning of IF";
+    PRINT "\nInside IF (greater than)";
+    PRINT "\nEnd of IF";
+}
+
+IF someNumber = 44 {
+    PRINT "\nInside IF (equal)";
+}
+
+IF 44 > someNumber {
+    PRINT "\nInside IF (less than)";
+}

@@ -146,6 +146,15 @@ FiszczLangListener.prototype.exitRead_instruction = function(ctx) {
 };
 
 
+// Enter a parse tree produced by FiszczLangParser#if_instruction.
+FiszczLangListener.prototype.enterIf_instruction = function(ctx) {
+};
+
+// Exit a parse tree produced by FiszczLangParser#if_instruction.
+FiszczLangListener.prototype.exitIf_instruction = function(ctx) {
+};
+
+
 // Enter a parse tree produced by FiszczLangParser#arithmetic_expression.
 FiszczLangListener.prototype.enterArithmetic_expression = function(ctx) {
 };

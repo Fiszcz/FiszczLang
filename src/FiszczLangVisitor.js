@@ -123,6 +123,26 @@ FiszczLangVisitor.prototype.visitRead_instruction = function (ctx) {
 };
 
 
+// Visit a parse tree produced by FiszczLangParser#if_instruction.
+FiszczLangVisitor.prototype.visitIf_instruction = function(ctx) {
+    const leftSideOfOperator = this.visitValue(ctx.value()[0]);
+    const rightSideOfOperator = this.visitValue(ctx.value()[1]);
+
+    let comparisonResult;
+    if (ctx.EQUAL()) {
+        comparisonResult = this.program.makeComparison(leftSideOfOperator, rightSideOfOperator, 'eq');
+    } else if (ctx.GREATER_THAN()) {
+        comparisonResult = this.program.makeComparison(leftSideOfOperator, rightSideOfOperator, 'gt');
+    } else if (ctx.LESS_THAN()) {
+        comparisonResult = this.program.makeComparison(leftSideOfOperator, rightSideOfOperator, 'lt');
+    }
+
+    const informationAboutIf = this.program.startIf();
+    this.visitChildren(ctx);
+    this.program.endIf({comparisonResult, ...informationAboutIf});
+};
+
+
 // Visit a parse tree produced by FiszczLangParser#arithmetic_expression.
 FiszczLangVisitor.prototype.visitArithmetic_expression = function (ctx) {
     if (ctx.ASTERISK()) {
@@ -191,6 +211,8 @@ FiszczLangVisitor.prototype.visitValue = function (ctx) {
         return {typeOfValue: 'i8*', value: text};
     } else if (ctx.INTEGER_NUMBER()) {
         return {typeOfValue: 'i32', value: ctx.INTEGER_NUMBER().getText()};
+    } else if (ctx.REAL_NUMBER()) {
+        return {type: 'double', value: ctx.REAL_NUMBER().getText()};
     }
 };
 

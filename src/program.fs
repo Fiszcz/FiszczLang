@@ -22,7 +22,7 @@ READ nazwisko;
 // Wiek
 int wiek;
 PRINT "Podaj wiek: ";
-READ dfsdfsdfsdsf;
+READ wiek;
 
 // Kraj pochodzenia
 int wybranePanstwo;

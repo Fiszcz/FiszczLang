@@ -169,9 +169,62 @@ class OutputProgram {
         this.addLineOfIR(read(this.getNextRegId(), getInputOutputStringType(variable.type), variable.type, variableName));
     }
 
+    startIf() {
+        const labelOfIf = this.getNextRegId();
+
+        const lineOfIRToEditAfterEndOfIf = this.instructions.length;
+        this.addLineOfIR("WAITING FOR IF");
+
+        return {lineOfIRToEditAfterEndOfIf, labelOfIf};
+    }
+
+    endIf({comparisonResult, lineOfIRToEditAfterEndOfIf, labelOfIf}) {
+        const labelAfterIf = this.getNextRegId();
+
+        this.instructions[lineOfIRToEditAfterEndOfIf] = ifInstruction(comparisonResult, labelOfIf, labelAfterIf);
+
+        this.addLineOfIR(endOfIfInstruction(labelAfterIf));
+    }
+
+    makeComparison(firstElement, secondElement, typeOfComparison) {
+        if (firstElement.typeOfValue === 'variable') {
+            firstElement = this.getVariableForArithmeticExpression(firstElement.value);
+            firstElement = {typeOfValue: firstElement.type, value: firstElement.value};
+        }
+        if (secondElement.typeOfValue === 'variable') {
+            secondElement = this.getVariableForArithmeticExpression(secondElement.value);
+            secondElement = {typeOfValue: secondElement.type, value: secondElement.value};
+        }
+        if (firstElement.typeOfValue === 'arrayVariable') {
+            const variableRepresentation = this.getVariable(firstElement.value);
+            firstElement = {typeOfValue: variableRepresentation.basicType, value: '%' + this.loadArrayElementOperation(variableRepresentation, firstElement.element.value)};
+        }
+        if (secondElement.typeOfValue === 'arrayVariable') {
+            const variableRepresentation = this.getVariable(secondElement.value);
+            secondElement = {typeOfValue: variableRepresentation.basicType, value: '%' + this.loadArrayElementOperation(variableRepresentation, secondElement.element.value)};
+        }
+
+        const comparisonRegId = this.getNextRegId();
+        if (firstElement.typeOfValue === 'i32' && secondElement.typeOfValue === 'i32') {
+            this.addLineOfIR(comparison(comparisonRegId, getTypeOfComparisonForType(typeOfComparison, 'i32'), 'i32', firstElement.value, secondElement.value));
+        } else if (firstElement.typeOfValue === 'i32' && secondElement.typeOfValue === 'double') {
+            const convertedToDouble = this.getNextRegId();
+            this.addLineOfIR(convertToDouble(convertedToDouble, firstElement.value));
+            this.addLineOfIR(comparison(comparisonRegId, getTypeOfComparisonForType(typeOfComparison, 'double'), 'double', convertedToDouble, secondElement.value));
+        } else if (firstElement.typeOfValue === 'double' && secondElement.typeOfValue === 'i32') {
+            const convertedToDouble = this.getNextRegId();
+            this.addLineOfIR(convertToDouble(convertedToDouble, secondElement.value));
+            this.addLineOfIR(comparison(comparisonRegId, getTypeOfComparisonForType(typeOfComparison, 'double'), 'double', firstElement.value, convertedToDouble));
+        } else {
+            this.addLineOfIR(comparison(comparisonRegId, getTypeOfComparisonForType(typeOfComparison, 'double'), 'double', firstElement.value, secondElement.value));
+        }
+
+        return '%' + comparisonRegId;
+    }
+
     getVariableForArithmeticExpression(variableName) {
         const variable = this.getVariable(variableName);
-        return {type: variable.type, value: '%' + this.loadOperation(variable)};
+        return {...variable, value: '%' + this.loadOperation(variable)};
     }
 
     arithmeticOperation(firstElement, secondElement, operation) {
@@ -223,6 +276,19 @@ const getAlign = (type) => {
             return 8;
         case 'i8*':
             return 8;
+    }
+}
+
+const getTypeOfComparisonForType = (comparison, typeOfElements) => {
+    if (comparison === 'eq') {
+        if (typeOfElements === 'double') {
+            return 'oeq';
+        }
+        return 'eq';
+    } else if (typeOfElements === 'double') {
+        return 'o' + comparison;
+    } else {
+        return 's' + comparison;
     }
 }
 
@@ -280,6 +346,18 @@ const print = (returnRegId, typeOfFirstArgumentOfPrintf, type, valueToPrint) => 
 
 const printString = (returnRegId, lengthOfText, stringConstantId) => {
     return `%${returnRegId} = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([${lengthOfText + 1} x i8], [${lengthOfText + 1} x i8]* @.str.${stringConstantId}, i64 0, i64 0))`;
+}
+
+const ifInstruction = (comparison, labelOfIf, labelAfterIf) => {
+    return `br i1 ${comparison}, label %${labelOfIf}, label %${labelAfterIf}\n; <label>:${labelOfIf}:`;
+}
+
+const endOfIfInstruction = (labelAfterIf) => {
+    return `br label %${labelAfterIf}\n; <label>:${labelAfterIf}:`;
+}
+
+const comparison = (regId, typeOfComparison, typeOfElements, firstElement, secondElement) => {
+    return `%${regId} = ${typeOfElements === 'i32' ? 'i' : 'f'}cmp ${typeOfComparison} ${typeOfElements} ${firstElement}, ${secondElement}`;
 }
 
 const load = (regId, type, fromId, align) => {

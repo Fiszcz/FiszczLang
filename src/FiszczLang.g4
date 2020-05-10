@@ -4,7 +4,7 @@ grammar FiszczLang;
 
 program : (instruction | W)+ EOF ;
 
-instruction : (definition | print_instruction | print_instruction | read_instruction | assignment | array_element_assignment) W? ';' ;
+instruction : (definition | print_instruction | print_instruction | read_instruction | if_instruction | assignment | array_element_assignment) W? ';' ;
 
 definition : (single_element_definition | array_definition) ;
 
@@ -25,6 +25,8 @@ element_of_array : VARIABLE_NAME element_number ;
 print_instruction : ('print' | 'PRINT') W (value | W)* ;
 read_instruction : ('read' | 'READ') W (VARIABLE_NAME | element_of_array) ;
 
+if_instruction : ('if' | 'IF') W value W? (EQUAL | GREATER_THAN | LESS_THAN) W? value W? '{' (instruction | W)+ '}';
+
 arithmetic_expression : '(' arithmetic_expression ')'
                       | arithmetic_expression W? ASTERISK W? arithmetic_expression
                       | arithmetic_expression W? SLASH W? arithmetic_expression
@@ -37,7 +39,7 @@ arithmetic_expression : '(' arithmetic_expression ')'
                       ;
 
 assignment :  VARIABLE_NAME W value ;
-array_element_assignment : element_of_array  value ;
+array_element_assignment : element_of_array value ;
 
 value : (VARIABLE_NAME | INTEGER_NUMBER | REAL_NUMBER | string | element_of_array | arithmetic_expression) ;
 
@@ -48,7 +50,7 @@ string : TEXT ;
 fragment LETTER : [a-zA-Z] ;
 fragment DIGIT : [0-9] ;
 
-fragment KEYWORDS : ('int' | 'real' | 'string' | 'print' | 'PRINT' | 'read' | 'READ') ;
+fragment KEYWORDS : ('int' | 'real' | 'string' | 'print' | 'PRINT' | 'read' | 'READ' | 'if' | 'IF') ;
 
 COMMENT
     :   ( '//' ~[\r\n]* '\r'? '\n'
@@ -63,6 +65,10 @@ ASTERISK : '*' ;
 SLASH : '/' ;
 PLUS : '+' ;
 MINUS : '-' ;
+
+EQUAL : '=' ;
+GREATER_THAN : '>' ;
+LESS_THAN : '<' ;
 
 VARIABLE_NAME : ((LETTER | DIGIT | '_')* LETTER+ (LETTER | DIGIT | '_')*) ;
 

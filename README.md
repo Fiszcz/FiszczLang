@@ -33,6 +33,18 @@ int[] array_of_numbers [1, 2, 3];
 PRINT array_of_numbers[0];
 array_of_numbers[0] 100;
 PRINT array_of_numbers[0];
+
+IF 44 > someNumber {
+    PRINT "\nInside IF (greater than)";
+}
+
+IF 44 = someNumber {
+    PRINT "\nInside IF (equal)";
+}
+
+IF 44 < someNumber {
+    PRINT "\nInside IF (less than)";
+}
 ```
 
 ### Concept of language
@@ -61,6 +73,16 @@ PRINT array_of_numbers[0];
 
 - ``// some comment`` - single line comment
 - ``/* some comment */`` - multiline comment
+
+##### Conditional instructions
+
+- ``if condition { instructions }`` - if condition
+
+##### Comparison operators (conditions)
+
+- ``=`` - equal
+- ``>`` - greater than
+- ``<`` - less than
 
 ### Lexical and grammatical rules
 
