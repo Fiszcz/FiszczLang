@@ -51,3 +51,11 @@ IF someNumber = 44 {
 IF 44 > someNumber {
     PRINT "\nInside IF (less than)";
 }
+
+if 44 >= 44 {
+    PRINT "\nGreater or equal";
+}
+
+if 44 <= 44 {
+    PRINT "\nLess or equal";
+}

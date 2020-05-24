@@ -8,7 +8,7 @@ var grammarFileName = "FiszczLang.g4";
 
 
 var serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964",
-    "\u0003#\u0103\u0004\u0002\t\u0002\u0004\u0003\t\u0003\u0004\u0004\t",
+    "\u0003%\u0103\u0004\u0002\t\u0002\u0004\u0003\t\u0003\u0004\u0004\t",
     "\u0004\u0004\u0005\t\u0005\u0004\u0006\t\u0006\u0004\u0007\t\u0007\u0004",
     "\b\t\b\u0004\t\t\t\u0004\n\t\n\u0004\u000b\t\u000b\u0004\f\t\f\u0004",
     "\r\t\r\u0004\u000e\t\u000e\u0004\u000f\t\u000f\u0004\u0010\t\u0010\u0004",
@@ -51,7 +51,7 @@ var serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964",
     "\u0003\"\u0017\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016",
     "\u0018\u001a\u001c\u001e \"$&(*\u0002\u0007\u0003\u0002\u0018\u0019",
     "\u0003\u0002\r\u000e\u0003\u0002\u000f\u0010\u0003\u0002\u0011\u0012",
-    "\u0003\u0002\u001e \u0002\u0120\u0002.\u0003\u0002\u0002\u0002\u0004",
+    "\u0003\u0002\u001e\"\u0002\u0120\u0002.\u0003\u0002\u0002\u0002\u0004",
     ";\u0003\u0002\u0002\u0002\u0006D\u0003\u0002\u0002\u0002\bI\u0003\u0002",
     "\u0002\u0002\nN\u0003\u0002\u0002\u0002\fP\u0003\u0002\u0002\u0002\u000e",
     "W\u0003\u0002\u0002\u0002\u0010^\u0003\u0002\u0002\u0002\u0012i\u0003",
@@ -61,7 +61,7 @@ var serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964",
     "\u0002\u0002\u0002 \u00a6\u0003\u0002\u0002\u0002\"\u00c6\u0003\u0002",
     "\u0002\u0002$\u00f1\u0003\u0002\u0002\u0002&\u00f5\u0003\u0002\u0002",
     "\u0002(\u00fe\u0003\u0002\u0002\u0002*\u0100\u0003\u0002\u0002\u0002",
-    ",/\u0005\u0004\u0003\u0002-/\u0007#\u0002\u0002.,\u0003\u0002\u0002",
+    ",/\u0005\u0004\u0003\u0002-/\u0007%\u0002\u0002.,\u0003\u0002\u0002",
     "\u0002.-\u0003\u0002\u0002\u0002/0\u0003\u0002\u0002\u00020.\u0003\u0002",
     "\u0002\u000201\u0003\u0002\u0002\u000212\u0003\u0002\u0002\u000223\u0007",
     "\u0002\u0002\u00033\u0003\u0003\u0002\u0002\u00024<\u0005\u0006\u0004",
@@ -70,7 +70,7 @@ var serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964",
     "\u0002;4\u0003\u0002\u0002\u0002;5\u0003\u0002\u0002\u0002;6\u0003\u0002",
     "\u0002\u0002;7\u0003\u0002\u0002\u0002;8\u0003\u0002\u0002\u0002;9\u0003",
     "\u0002\u0002\u0002;:\u0003\u0002\u0002\u0002<>\u0003\u0002\u0002\u0002",
-    "=?\u0007#\u0002\u0002>=\u0003\u0002\u0002\u0002>?\u0003\u0002\u0002",
+    "=?\u0007%\u0002\u0002>=\u0003\u0002\u0002\u0002>?\u0003\u0002\u0002",
     "\u0002?@\u0003\u0002\u0002\u0002@A\u0007\u0003\u0002\u0002A\u0005\u0003",
     "\u0002\u0002\u0002BE\u0005\b\u0005\u0002CE\u0005\n\u0006\u0002DB\u0003",
     "\u0002\u0002\u0002DC\u0003\u0002\u0002\u0002E\u0007\u0003\u0002\u0002",
@@ -79,29 +79,29 @@ var serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964",
     "\u0002J\t\u0003\u0002\u0002\u0002KO\u0005\u0012\n\u0002LO\u0005\u0014",
     "\u000b\u0002MO\u0005\u0016\f\u0002NK\u0003\u0002\u0002\u0002NL\u0003",
     "\u0002\u0002\u0002NM\u0003\u0002\u0002\u0002O\u000b\u0003\u0002\u0002",
-    "\u0002PQ\u0007\u0004\u0002\u0002QR\u0007#\u0002\u0002RU\u0007!\u0002",
-    "\u0002ST\u0007#\u0002\u0002TV\u0005\"\u0012\u0002US\u0003\u0002\u0002",
+    "\u0002PQ\u0007\u0004\u0002\u0002QR\u0007%\u0002\u0002RU\u0007#\u0002",
+    "\u0002ST\u0007%\u0002\u0002TV\u0005\"\u0012\u0002US\u0003\u0002\u0002",
     "\u0002UV\u0003\u0002\u0002\u0002V\r\u0003\u0002\u0002\u0002WX\u0007",
-    "\u0005\u0002\u0002XY\u0007#\u0002\u0002Y\\\u0007!\u0002\u0002Z[\u0007",
-    "#\u0002\u0002[]\u0005\"\u0012\u0002\\Z\u0003\u0002\u0002\u0002\\]\u0003",
+    "\u0005\u0002\u0002XY\u0007%\u0002\u0002Y\\\u0007#\u0002\u0002Z[\u0007",
+    "%\u0002\u0002[]\u0005\"\u0012\u0002\\Z\u0003\u0002\u0002\u0002\\]\u0003",
     "\u0002\u0002\u0002]\u000f\u0003\u0002\u0002\u0002^_\u0007\u0006\u0002",
-    "\u0002_`\u0007#\u0002\u0002`g\u0007!\u0002\u0002ae\u0007#\u0002\u0002",
-    "bf\u0005*\u0016\u0002cf\u0007!\u0002\u0002df\u0005\u001a\u000e\u0002",
+    "\u0002_`\u0007%\u0002\u0002`g\u0007#\u0002\u0002ae\u0007%\u0002\u0002",
+    "bf\u0005*\u0016\u0002cf\u0007#\u0002\u0002df\u0005\u001a\u000e\u0002",
     "eb\u0003\u0002\u0002\u0002ec\u0003\u0002\u0002\u0002ed\u0003\u0002\u0002",
     "\u0002fh\u0003\u0002\u0002\u0002ga\u0003\u0002\u0002\u0002gh\u0003\u0002",
     "\u0002\u0002h\u0011\u0003\u0002\u0002\u0002ij\u0007\u0007\u0002\u0002",
-    "jk\u0007!\u0002\u0002kl\u0007\b\u0002\u0002lq\u0007\u0018\u0002\u0002",
+    "jk\u0007#\u0002\u0002kl\u0007\b\u0002\u0002lq\u0007\u0018\u0002\u0002",
     "mn\u0007\t\u0002\u0002np\u0007\u0018\u0002\u0002om\u0003\u0002\u0002",
     "\u0002ps\u0003\u0002\u0002\u0002qo\u0003\u0002\u0002\u0002qr\u0003\u0002",
     "\u0002\u0002rt\u0003\u0002\u0002\u0002sq\u0003\u0002\u0002\u0002tu\u0007",
     "\n\u0002\u0002u\u0013\u0003\u0002\u0002\u0002vw\u0007\u000b\u0002\u0002",
-    "wx\u0007!\u0002\u0002xy\u0007\b\u0002\u0002y~\t\u0002\u0002\u0002z{",
+    "wx\u0007#\u0002\u0002xy\u0007\b\u0002\u0002y~\t\u0002\u0002\u0002z{",
     "\u0007\t\u0002\u0002{}\t\u0002\u0002\u0002|z\u0003\u0002\u0002\u0002",
     "}\u0080\u0003\u0002\u0002\u0002~|\u0003\u0002\u0002\u0002~\u007f\u0003",
     "\u0002\u0002\u0002\u007f\u0081\u0003\u0002\u0002\u0002\u0080~\u0003",
     "\u0002\u0002\u0002\u0081\u0082\u0007\n\u0002\u0002\u0082\u0015\u0003",
     "\u0002\u0002\u0002\u0083\u0084\u0007\f\u0002\u0002\u0084\u0085\u0007",
-    "!\u0002\u0002\u0085\u0086\u0007\b\u0002\u0002\u0086\u008b\u0005*\u0016",
+    "#\u0002\u0002\u0085\u0086\u0007\b\u0002\u0002\u0086\u008b\u0005*\u0016",
     "\u0002\u0087\u0088\u0007\t\u0002\u0002\u0088\u008a\u0005*\u0016\u0002",
     "\u0089\u0087\u0003\u0002\u0002\u0002\u008a\u008d\u0003\u0002\u0002\u0002",
     "\u008b\u0089\u0003\u0002\u0002\u0002\u008b\u008c\u0003\u0002\u0002\u0002",
@@ -109,75 +109,75 @@ var serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964",
     "\u008e\u008f\u0007\n\u0002\u0002\u008f\u0017\u0003\u0002\u0002\u0002",
     "\u0090\u0091\u0007\b\u0002\u0002\u0091\u0092\u0005(\u0015\u0002\u0092",
     "\u0093\u0007\n\u0002\u0002\u0093\u0019\u0003\u0002\u0002\u0002\u0094",
-    "\u0095\u0007!\u0002\u0002\u0095\u0096\u0005\u0018\r\u0002\u0096\u001b",
+    "\u0095\u0007#\u0002\u0002\u0095\u0096\u0005\u0018\r\u0002\u0096\u001b",
     "\u0003\u0002\u0002\u0002\u0097\u0098\t\u0003\u0002\u0002\u0098\u009d",
-    "\u0007#\u0002\u0002\u0099\u009c\u0005(\u0015\u0002\u009a\u009c\u0007",
-    "#\u0002\u0002\u009b\u0099\u0003\u0002\u0002\u0002\u009b\u009a\u0003",
+    "\u0007%\u0002\u0002\u0099\u009c\u0005(\u0015\u0002\u009a\u009c\u0007",
+    "%\u0002\u0002\u009b\u0099\u0003\u0002\u0002\u0002\u009b\u009a\u0003",
     "\u0002\u0002\u0002\u009c\u009f\u0003\u0002\u0002\u0002\u009d\u009b\u0003",
     "\u0002\u0002\u0002\u009d\u009e\u0003\u0002\u0002\u0002\u009e\u001d\u0003",
     "\u0002\u0002\u0002\u009f\u009d\u0003\u0002\u0002\u0002\u00a0\u00a1\t",
-    "\u0004\u0002\u0002\u00a1\u00a4\u0007#\u0002\u0002\u00a2\u00a5\u0007",
-    "!\u0002\u0002\u00a3\u00a5\u0005\u001a\u000e\u0002\u00a4\u00a2\u0003",
+    "\u0004\u0002\u0002\u00a1\u00a4\u0007%\u0002\u0002\u00a2\u00a5\u0007",
+    "#\u0002\u0002\u00a3\u00a5\u0005\u001a\u000e\u0002\u00a4\u00a2\u0003",
     "\u0002\u0002\u0002\u00a4\u00a3\u0003\u0002\u0002\u0002\u00a5\u001f\u0003",
     "\u0002\u0002\u0002\u00a6\u00a7\t\u0005\u0002\u0002\u00a7\u00a8\u0007",
-    "#\u0002\u0002\u00a8\u00aa\u0005(\u0015\u0002\u00a9\u00ab\u0007#\u0002",
+    "%\u0002\u0002\u00a8\u00aa\u0005(\u0015\u0002\u00a9\u00ab\u0007%\u0002",
     "\u0002\u00aa\u00a9\u0003\u0002\u0002\u0002\u00aa\u00ab\u0003\u0002\u0002",
     "\u0002\u00ab\u00ac\u0003\u0002\u0002\u0002\u00ac\u00ae\t\u0006\u0002",
-    "\u0002\u00ad\u00af\u0007#\u0002\u0002\u00ae\u00ad\u0003\u0002\u0002",
+    "\u0002\u00ad\u00af\u0007%\u0002\u0002\u00ae\u00ad\u0003\u0002\u0002",
     "\u0002\u00ae\u00af\u0003\u0002\u0002\u0002\u00af\u00b0\u0003\u0002\u0002",
-    "\u0002\u00b0\u00b2\u0005(\u0015\u0002\u00b1\u00b3\u0007#\u0002\u0002",
+    "\u0002\u00b0\u00b2\u0005(\u0015\u0002\u00b1\u00b3\u0007%\u0002\u0002",
     "\u00b2\u00b1\u0003\u0002\u0002\u0002\u00b2\u00b3\u0003\u0002\u0002\u0002",
     "\u00b3\u00b4\u0003\u0002\u0002\u0002\u00b4\u00b7\u0007\u0013\u0002\u0002",
-    "\u00b5\u00b8\u0005\u0004\u0003\u0002\u00b6\u00b8\u0007#\u0002\u0002",
+    "\u00b5\u00b8\u0005\u0004\u0003\u0002\u00b6\u00b8\u0007%\u0002\u0002",
     "\u00b7\u00b5\u0003\u0002\u0002\u0002\u00b7\u00b6\u0003\u0002\u0002\u0002",
     "\u00b8\u00b9\u0003\u0002\u0002\u0002\u00b9\u00b7\u0003\u0002\u0002\u0002",
     "\u00b9\u00ba\u0003\u0002\u0002\u0002\u00ba\u00bb\u0003\u0002\u0002\u0002",
     "\u00bb\u00bc\u0007\u0014\u0002\u0002\u00bc!\u0003\u0002\u0002\u0002",
     "\u00bd\u00be\b\u0012\u0001\u0002\u00be\u00bf\u0007\u0015\u0002\u0002",
     "\u00bf\u00c0\u0005\"\u0012\u0002\u00c0\u00c1\u0007\u0016\u0002\u0002",
-    "\u00c1\u00c7\u0003\u0002\u0002\u0002\u00c2\u00c7\u0007!\u0002\u0002",
+    "\u00c1\u00c7\u0003\u0002\u0002\u0002\u00c2\u00c7\u0007#\u0002\u0002",
     "\u00c3\u00c7\u0005\u001a\u000e\u0002\u00c4\u00c7\u0007\u0018\u0002\u0002",
     "\u00c5\u00c7\u0007\u0019\u0002\u0002\u00c6\u00bd\u0003\u0002\u0002\u0002",
     "\u00c6\u00c2\u0003\u0002\u0002\u0002\u00c6\u00c3\u0003\u0002\u0002\u0002",
     "\u00c6\u00c4\u0003\u0002\u0002\u0002\u00c6\u00c5\u0003\u0002\u0002\u0002",
     "\u00c7\u00ee\u0003\u0002\u0002\u0002\u00c8\u00ca\f\n\u0002\u0002\u00c9",
-    "\u00cb\u0007#\u0002\u0002\u00ca\u00c9\u0003\u0002\u0002\u0002\u00ca",
+    "\u00cb\u0007%\u0002\u0002\u00ca\u00c9\u0003\u0002\u0002\u0002\u00ca",
     "\u00cb\u0003\u0002\u0002\u0002\u00cb\u00cc\u0003\u0002\u0002\u0002\u00cc",
-    "\u00ce\u0007\u001a\u0002\u0002\u00cd\u00cf\u0007#\u0002\u0002\u00ce",
+    "\u00ce\u0007\u001a\u0002\u0002\u00cd\u00cf\u0007%\u0002\u0002\u00ce",
     "\u00cd\u0003\u0002\u0002\u0002\u00ce\u00cf\u0003\u0002\u0002\u0002\u00cf",
     "\u00d0\u0003\u0002\u0002\u0002\u00d0\u00ed\u0005\"\u0012\u000b\u00d1",
-    "\u00d3\f\t\u0002\u0002\u00d2\u00d4\u0007#\u0002\u0002\u00d3\u00d2\u0003",
+    "\u00d3\f\t\u0002\u0002\u00d2\u00d4\u0007%\u0002\u0002\u00d3\u00d2\u0003",
     "\u0002\u0002\u0002\u00d3\u00d4\u0003\u0002\u0002\u0002\u00d4\u00d5\u0003",
     "\u0002\u0002\u0002\u00d5\u00d7\u0007\u001b\u0002\u0002\u00d6\u00d8\u0007",
-    "#\u0002\u0002\u00d7\u00d6\u0003\u0002\u0002\u0002\u00d7\u00d8\u0003",
+    "%\u0002\u0002\u00d7\u00d6\u0003\u0002\u0002\u0002\u00d7\u00d8\u0003",
     "\u0002\u0002\u0002\u00d8\u00d9\u0003\u0002\u0002\u0002\u00d9\u00ed\u0005",
-    "\"\u0012\n\u00da\u00dc\f\b\u0002\u0002\u00db\u00dd\u0007#\u0002\u0002",
+    "\"\u0012\n\u00da\u00dc\f\b\u0002\u0002\u00db\u00dd\u0007%\u0002\u0002",
     "\u00dc\u00db\u0003\u0002\u0002\u0002\u00dc\u00dd\u0003\u0002\u0002\u0002",
     "\u00dd\u00de\u0003\u0002\u0002\u0002\u00de\u00e0\u0007\u001c\u0002\u0002",
-    "\u00df\u00e1\u0007#\u0002\u0002\u00e0\u00df\u0003\u0002\u0002\u0002",
+    "\u00df\u00e1\u0007%\u0002\u0002\u00e0\u00df\u0003\u0002\u0002\u0002",
     "\u00e0\u00e1\u0003\u0002\u0002\u0002\u00e1\u00e2\u0003\u0002\u0002\u0002",
     "\u00e2\u00ed\u0005\"\u0012\t\u00e3\u00e5\f\u0007\u0002\u0002\u00e4\u00e6",
-    "\u0007#\u0002\u0002\u00e5\u00e4\u0003\u0002\u0002\u0002\u00e5\u00e6",
+    "\u0007%\u0002\u0002\u00e5\u00e4\u0003\u0002\u0002\u0002\u00e5\u00e6",
     "\u0003\u0002\u0002\u0002\u00e6\u00e7\u0003\u0002\u0002\u0002\u00e7\u00e9",
-    "\u0007\u001d\u0002\u0002\u00e8\u00ea\u0007#\u0002\u0002\u00e9\u00e8",
+    "\u0007\u001d\u0002\u0002\u00e8\u00ea\u0007%\u0002\u0002\u00e9\u00e8",
     "\u0003\u0002\u0002\u0002\u00e9\u00ea\u0003\u0002\u0002\u0002\u00ea\u00eb",
     "\u0003\u0002\u0002\u0002\u00eb\u00ed\u0005\"\u0012\b\u00ec\u00c8\u0003",
     "\u0002\u0002\u0002\u00ec\u00d1\u0003\u0002\u0002\u0002\u00ec\u00da\u0003",
     "\u0002\u0002\u0002\u00ec\u00e3\u0003\u0002\u0002\u0002\u00ed\u00f0\u0003",
     "\u0002\u0002\u0002\u00ee\u00ec\u0003\u0002\u0002\u0002\u00ee\u00ef\u0003",
     "\u0002\u0002\u0002\u00ef#\u0003\u0002\u0002\u0002\u00f0\u00ee\u0003",
-    "\u0002\u0002\u0002\u00f1\u00f2\u0007!\u0002\u0002\u00f2\u00f3\u0007",
-    "#\u0002\u0002\u00f3\u00f4\u0005(\u0015\u0002\u00f4%\u0003\u0002\u0002",
+    "\u0002\u0002\u0002\u00f1\u00f2\u0007#\u0002\u0002\u00f2\u00f3\u0007",
+    "%\u0002\u0002\u00f3\u00f4\u0005(\u0015\u0002\u00f4%\u0003\u0002\u0002",
     "\u0002\u00f5\u00f6\u0005\u001a\u000e\u0002\u00f6\u00f7\u0005(\u0015",
-    "\u0002\u00f7\'\u0003\u0002\u0002\u0002\u00f8\u00ff\u0007!\u0002\u0002",
+    "\u0002\u00f7\'\u0003\u0002\u0002\u0002\u00f8\u00ff\u0007#\u0002\u0002",
     "\u00f9\u00ff\u0007\u0018\u0002\u0002\u00fa\u00ff\u0007\u0019\u0002\u0002",
     "\u00fb\u00ff\u0005*\u0016\u0002\u00fc\u00ff\u0005\u001a\u000e\u0002",
     "\u00fd\u00ff\u0005\"\u0012\u0002\u00fe\u00f8\u0003\u0002\u0002\u0002",
     "\u00fe\u00f9\u0003\u0002\u0002\u0002\u00fe\u00fa\u0003\u0002\u0002\u0002",
     "\u00fe\u00fb\u0003\u0002\u0002\u0002\u00fe\u00fc\u0003\u0002\u0002\u0002",
     "\u00fe\u00fd\u0003\u0002\u0002\u0002\u00ff)\u0003\u0002\u0002\u0002",
-    "\u0100\u0101\u0007\"\u0002\u0002\u0101+\u0003\u0002\u0002\u0002$.0;",
-    ">DINU\\egq~\u008b\u009b\u009d\u00a4\u00aa\u00ae\u00b2\u00b7\u00b9\u00c6",
+    "\u0100\u0101\u0007$\u0002\u0002\u0101+\u0003\u0002\u0002\u0002$.0;>",
+    "DINU\\egq~\u008b\u009b\u009d\u00a4\u00aa\u00ae\u00b2\u00b7\u00b9\u00c6",
     "\u00ca\u00ce\u00d3\u00d7\u00dc\u00e0\u00e5\u00e9\u00ec\u00ee\u00fe"].join("");
 
 
@@ -191,13 +191,14 @@ var literalNames = [ null, "';'", "'int'", "'real'", "'string'", "'int[]'",
                      "'['", "','", "']'", "'real[]'", "'string[]'", "'print'", 
                      "'PRINT'", "'read'", "'READ'", "'if'", "'IF'", "'{'", 
                      "'}'", "'('", "')'", null, null, null, "'*'", "'/'", 
-                     "'+'", "'-'", "'='", "'>'", "'<'" ];
+                     "'+'", "'-'", "'='", "'<='", "'>='", "'>'", "'<'" ];
 
 var symbolicNames = [ null, null, null, null, null, null, null, null, null, 
                       null, null, null, null, null, null, null, null, null, 
                       null, null, null, "COMMENT", "INTEGER_NUMBER", "REAL_NUMBER", 
-                      "ASTERISK", "SLASH", "PLUS", "MINUS", "EQUAL", "GREATER_THAN", 
-                      "LESS_THAN", "VARIABLE_NAME", "TEXT", "W" ];
+                      "ASTERISK", "SLASH", "PLUS", "MINUS", "EQUAL", "LESS_OR_EQUAL", 
+                      "GREATER_OR_EQUAL", "GREATER_THAN", "LESS_THAN", "VARIABLE_NAME", 
+                      "TEXT", "W" ];
 
 var ruleNames =  [ "program", "instruction", "definition", "single_element_definition", 
                    "array_definition", "int_definition", "real_definition", 
@@ -254,11 +255,13 @@ FiszczLangParser.SLASH = 25;
 FiszczLangParser.PLUS = 26;
 FiszczLangParser.MINUS = 27;
 FiszczLangParser.EQUAL = 28;
-FiszczLangParser.GREATER_THAN = 29;
-FiszczLangParser.LESS_THAN = 30;
-FiszczLangParser.VARIABLE_NAME = 31;
-FiszczLangParser.TEXT = 32;
-FiszczLangParser.W = 33;
+FiszczLangParser.LESS_OR_EQUAL = 29;
+FiszczLangParser.GREATER_OR_EQUAL = 30;
+FiszczLangParser.GREATER_THAN = 31;
+FiszczLangParser.LESS_THAN = 32;
+FiszczLangParser.VARIABLE_NAME = 33;
+FiszczLangParser.TEXT = 34;
+FiszczLangParser.W = 35;
 
 FiszczLangParser.RULE_program = 0;
 FiszczLangParser.RULE_instruction = 1;
@@ -391,7 +394,7 @@ FiszczLangParser.prototype.program = function() {
             this.state = 46; 
             this._errHandler.sync(this);
             _la = this._input.LA(1);
-        } while(((((_la - 2)) & ~0x1f) == 0 && ((1 << (_la - 2)) & ((1 << (FiszczLangParser.T__1 - 2)) | (1 << (FiszczLangParser.T__2 - 2)) | (1 << (FiszczLangParser.T__3 - 2)) | (1 << (FiszczLangParser.T__4 - 2)) | (1 << (FiszczLangParser.T__8 - 2)) | (1 << (FiszczLangParser.T__9 - 2)) | (1 << (FiszczLangParser.T__10 - 2)) | (1 << (FiszczLangParser.T__11 - 2)) | (1 << (FiszczLangParser.T__12 - 2)) | (1 << (FiszczLangParser.T__13 - 2)) | (1 << (FiszczLangParser.T__14 - 2)) | (1 << (FiszczLangParser.T__15 - 2)) | (1 << (FiszczLangParser.VARIABLE_NAME - 2)) | (1 << (FiszczLangParser.W - 2)))) !== 0));
+        } while((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << FiszczLangParser.T__1) | (1 << FiszczLangParser.T__2) | (1 << FiszczLangParser.T__3) | (1 << FiszczLangParser.T__4) | (1 << FiszczLangParser.T__8) | (1 << FiszczLangParser.T__9) | (1 << FiszczLangParser.T__10) | (1 << FiszczLangParser.T__11) | (1 << FiszczLangParser.T__12) | (1 << FiszczLangParser.T__13) | (1 << FiszczLangParser.T__14) | (1 << FiszczLangParser.T__15))) !== 0) || _la===FiszczLangParser.VARIABLE_NAME || _la===FiszczLangParser.W);
         this.state = 48;
         this.match(FiszczLangParser.EOF);
     } catch (re) {
@@ -1890,6 +1893,14 @@ If_instructionContext.prototype.EQUAL = function() {
     return this.getToken(FiszczLangParser.EQUAL, 0);
 };
 
+If_instructionContext.prototype.LESS_OR_EQUAL = function() {
+    return this.getToken(FiszczLangParser.LESS_OR_EQUAL, 0);
+};
+
+If_instructionContext.prototype.GREATER_OR_EQUAL = function() {
+    return this.getToken(FiszczLangParser.GREATER_OR_EQUAL, 0);
+};
+
 If_instructionContext.prototype.GREATER_THAN = function() {
     return this.getToken(FiszczLangParser.GREATER_THAN, 0);
 };
@@ -1964,7 +1975,7 @@ FiszczLangParser.prototype.if_instruction = function() {
 
         this.state = 170;
         _la = this._input.LA(1);
-        if(!((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << FiszczLangParser.EQUAL) | (1 << FiszczLangParser.GREATER_THAN) | (1 << FiszczLangParser.LESS_THAN))) !== 0))) {
+        if(!(((((_la - 28)) & ~0x1f) == 0 && ((1 << (_la - 28)) & ((1 << (FiszczLangParser.EQUAL - 28)) | (1 << (FiszczLangParser.LESS_OR_EQUAL - 28)) | (1 << (FiszczLangParser.GREATER_OR_EQUAL - 28)) | (1 << (FiszczLangParser.GREATER_THAN - 28)) | (1 << (FiszczLangParser.LESS_THAN - 28)))) !== 0))) {
         this._errHandler.recoverInline(this);
         }
         else {
@@ -2024,7 +2035,7 @@ FiszczLangParser.prototype.if_instruction = function() {
             this.state = 183; 
             this._errHandler.sync(this);
             _la = this._input.LA(1);
-        } while(((((_la - 2)) & ~0x1f) == 0 && ((1 << (_la - 2)) & ((1 << (FiszczLangParser.T__1 - 2)) | (1 << (FiszczLangParser.T__2 - 2)) | (1 << (FiszczLangParser.T__3 - 2)) | (1 << (FiszczLangParser.T__4 - 2)) | (1 << (FiszczLangParser.T__8 - 2)) | (1 << (FiszczLangParser.T__9 - 2)) | (1 << (FiszczLangParser.T__10 - 2)) | (1 << (FiszczLangParser.T__11 - 2)) | (1 << (FiszczLangParser.T__12 - 2)) | (1 << (FiszczLangParser.T__13 - 2)) | (1 << (FiszczLangParser.T__14 - 2)) | (1 << (FiszczLangParser.T__15 - 2)) | (1 << (FiszczLangParser.VARIABLE_NAME - 2)) | (1 << (FiszczLangParser.W - 2)))) !== 0));
+        } while((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << FiszczLangParser.T__1) | (1 << FiszczLangParser.T__2) | (1 << FiszczLangParser.T__3) | (1 << FiszczLangParser.T__4) | (1 << FiszczLangParser.T__8) | (1 << FiszczLangParser.T__9) | (1 << FiszczLangParser.T__10) | (1 << FiszczLangParser.T__11) | (1 << FiszczLangParser.T__12) | (1 << FiszczLangParser.T__13) | (1 << FiszczLangParser.T__14) | (1 << FiszczLangParser.T__15))) !== 0) || _la===FiszczLangParser.VARIABLE_NAME || _la===FiszczLangParser.W);
         this.state = 185;
         this.match(FiszczLangParser.T__17);
     } catch (re) {

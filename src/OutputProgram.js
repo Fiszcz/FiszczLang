@@ -1,143 +1,127 @@
-const fs = require('fs');
-
-const headerOfFile = `
-declare i32 @scanf(i8*, ...)
-declare i32 @printf(i8*, ...)
-
-@.strdouble = private unnamed_addr constant [4 x i8] c"%lf\\00", align 1
-@.strint = private unnamed_addr constant [3 x i8] c"%d\\00", align 1
-@.str.0 = private unnamed_addr constant [3 x i8] c"%s\\00", align 1
-
-`;
-
-const mainFunction = `
-define i32 @main() nounwind {\n\n
-`;
-
-const endOfFile = `\nret i32 0\n}`;
-
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.OutputProgram = void 0;
+var types_1 = require("./types");
+var fs = require('fs');
+var headerOfFile = "\ndeclare i32 @scanf(i8*, ...)\ndeclare i32 @printf(i8*, ...)\n\n@.strdouble = private unnamed_addr constant [4 x i8] c\"%lf\\00\", align 1\n@.strint = private unnamed_addr constant [3 x i8] c\"%d\\00\", align 1\n@.str.0 = private unnamed_addr constant [3 x i8] c\"%s\\00\", align 1\n\n";
+var mainFunction = "\ndefine i32 @main() nounwind {\n\n\n";
+var endOfFile = "\nret i32 0\n}";
 process.env.NODE_ENV = 'production';
-
-class OutputProgram {
-
-    instructions = [];
-    variables = new Map();
-    iteratorOfUnnamedVariables = 0;
-
-    stringConstants = [];
-    iteratorOfStrings = 0;
-
-    addCommentAboutCurrentInstruction(instruction) {
+var OutputProgram = /** @class */ (function () {
+    function OutputProgram() {
+        this.instructions = [];
+        this.variables = new Map();
+        this.iteratorOfUnnamedVariables = 0;
+        this.stringConstants = [];
+        this.iteratorOfStrings = 0;
+    }
+    OutputProgram.prototype.addCommentAboutCurrentInstruction = function (instruction) {
         this.instructions.push('\n\t; ' + instruction);
-    }
-
-    writeToFile() {
-        let outputProgram = headerOfFile;
-        this.stringConstants.forEach((stringConstant, index) => outputProgram += createStringConstant(index + 1, getLengthOfString(stringConstant), stringConstant) + '\n');
+    };
+    OutputProgram.prototype.writeToFile = function () {
+        var outputProgram = headerOfFile;
+        this.stringConstants.forEach(function (stringConstant, index) { return outputProgram += createStringConstant(index + 1, getLengthOfString(stringConstant), stringConstant) + '\n'; });
         outputProgram += mainFunction;
-        this.instructions.forEach((instruction) => outputProgram += instruction + '\n');
+        this.instructions.forEach(function (instruction) { return outputProgram += instruction + '\n'; });
         outputProgram += endOfFile;
-
         fs.writeFileSync('output.ll', outputProgram);
-    }
-
-    getVariable(variableName) {
-        const variable = this.variables.get(variableName);
+    };
+    OutputProgram.prototype.getVariable = function (variableName) {
+        var variable = this.variables.get(variableName);
         if (variable) {
             return variable;
-        } else {
+        }
+        else {
             process.stderr.write("You are trying to use a variable that does not exist " + ":Line - " + global.additionalData.line + " :Column - " + global.additionalData.column + '\n');
             process.exit(1);
         }
-    }
-
-    getNextRegId() {
+    };
+    OutputProgram.prototype.getNextRegId = function () {
         return ++this.iteratorOfUnnamedVariables;
-    }
-
-    addLineOfIR(line) {
+    };
+    OutputProgram.prototype.addLineOfIR = function (line) {
         this.instructions.push(line);
-    }
-
-    addStringConstant(text) {
+    };
+    OutputProgram.prototype.addStringConstant = function (text) {
         ++this.iteratorOfStrings;
         this.stringConstants.push(text);
         return this.iteratorOfStrings;
-    }
-
-    createVariable(name, type, value) {
-        if (type === 'i32' || type === 'double') {
-            let valueToVariable = value.value;
-            if (type === 'i32' && value.type === 'double') {
-                valueToVariable = this.getNextRegId();
-                convertToi32(valueToVariable, value.value);
-            } else if (type === 'double' && value.type === 'i32') {
-                valueToVariable = this.getNextRegId();
-                convertToDouble(valueToVariable, value.value);
-            }
-            this.addLineOfIR(createVariableDefinition(name, type, valueToVariable, getAlign(type)));
-            this.variables.set(name, {type, value, name});
-        } else if (type === 'i8*') {
-            const stringConstantId = this.addStringConstant(value);
-            const lengthOfText = getLengthOfString(value);
-            this.addLineOfIR(createVariableDefinition(name, 'i8*', `getelementptr inbounds ([${lengthOfText + 1} x i8], [${lengthOfText + 1} x i8]* @.str.${stringConstantId}, i64 0, i64 0)`, 8));
-            this.variables.set(name, {type, value: {stringConstantId, lengthOfText}, name});
-        } else if (type.endsWith('i32]')) {
-            this.addLineOfIR(createVariableDefinition(name, type, `[${value.map((valueOfElement) => {return 'i32 ' + valueOfElement}).join(',')}]`, 4));
-            this.variables.set(name, {type, value, name, basicType: 'i32'});
-        } else if (type.endsWith('i8*]')) {
-            this.createStringArray(name, type, value);
+    };
+    OutputProgram.prototype.createNumericVariable = function (name, type, value) {
+        var valueToVariable = value.value;
+        if (type === 'i32' && (value === null || value === void 0 ? void 0 : value.type) === 'double') {
+            valueToVariable = this.getNextRegId();
+            convertToi32(valueToVariable, value.value);
         }
-    }
-
-    createStringArray(name, type, value) {
-        const createdStrings = value.map((someString) => {
-            const lengthOfText = getLengthOfString(someString);
-            const stringConstantId = this.addStringConstant(someString);
+        else if (type === 'double' && value.type === 'i32') {
+            valueToVariable = this.getNextRegId();
+            convertToDouble(valueToVariable, value.value);
+        }
+        this.addLineOfIR(createVariableDefinition(name, type, valueToVariable, getAlign(type)));
+        this.variables.set(name, { type: type, value: value, name: name });
+    };
+    OutputProgram.prototype.createStringVariable = function (name, type, value) {
+        var stringConstantId = this.addStringConstant(value);
+        var lengthOfText = getLengthOfString(value);
+        this.addLineOfIR(createVariableDefinition(name, 'i8*', "getelementptr inbounds ([" + (lengthOfText + 1) + " x i8], [" + (lengthOfText + 1) + " x i8]* @.str." + stringConstantId + ", i64 0, i64 0)", 8));
+        this.variables.set(name, { type: type, value: { stringConstantId: stringConstantId, lengthOfText: lengthOfText }, name: name });
+    };
+    OutputProgram.prototype.createNumericArray = function (name, type, value) {
+        this.addLineOfIR(createVariableDefinition(name, type, "[" + value.map(function (valueOfElement) { return 'i32 ' + valueOfElement; }).join(',') + "]", 4));
+        this.variables.set(name, { type: type, value: value, name: name, basicType: 'i32' });
+    };
+    OutputProgram.prototype.createStringArray = function (name, type, value) {
+        var _this = this;
+        var createdStrings = value.map(function (someString) {
+            var lengthOfText = getLengthOfString(someString);
+            var stringConstantId = _this.addStringConstant(someString);
             return {
-                lengthOfText,
-                stringConstantId,
-            }
+                lengthOfText: lengthOfText,
+                stringConstantId: stringConstantId,
+            };
         });
-        const valueToStoreInstruction = `[${createdStrings.map((createdString) => `i8* getelementptr inbounds ([${createdString.lengthOfText + 1} x i8], [${createdString.lengthOfText + 1} x i8]* @.str.${createdString.stringConstantId}, i64 0, i64 0)`).join(',')}]`;
-        this.addLineOfIR(`%${name} = alloca ${type}, align ${16}`);
+        var valueToStoreInstruction = "[" + createdStrings.map(function (createdString) { return "i8* getelementptr inbounds ([" + (createdString.lengthOfText + 1) + " x i8], [" + (createdString.lengthOfText + 1) + " x i8]* @.str." + createdString.stringConstantId + ", i64 0, i64 0)"; }).join(',') + "]";
+        this.addLineOfIR("%" + name + " = alloca " + type + ", align " + 16);
         this.addLineOfIR(store(name, type, valueToStoreInstruction, 4));
-        this.variables.set(name, {type, value: createdStrings, name, basicType: 'i8*'});
-    }
-
-    assignmentToArrayElement(variableName, elementNumber, newValue) {
-        const variable = this.getVariable(variableName);
-
-        const regIdOfGetElement = this.getNextRegId();
+        this.variables.set(name, { type: type, value: createdStrings, name: name, basicType: 'i8*' });
+    };
+    OutputProgram.prototype.assignmentToArrayElement = function (variableName, elementNumber, newValue) {
+        var variable = this.getVariable(variableName);
+        var regIdOfGetElement = this.getNextRegId();
         this.addLineOfIR(loadArrayElement(regIdOfGetElement, variable.type, variable.name, elementNumber.value));
-
         this.addLineOfIR(store(regIdOfGetElement, variable.basicType, newValue.value, getAlign(variable.basicType)));
-    }
-
-    loadOperation(variable) {
-        const regId = this.getNextRegId();
+    };
+    OutputProgram.prototype.loadOperation = function (variable) {
+        var regId = this.getNextRegId();
         this.addLineOfIR(load(regId, variable.type, variable.name, getAlign(variable.type)));
-
         return regId;
-    }
-
-    loadArrayElementOperation(variable, element) {
-        const regIdOfGetElement = this.getNextRegId();
+    };
+    OutputProgram.prototype.loadArrayElementOperation = function (variable, element) {
+        var regIdOfGetElement = this.getNextRegId();
         this.addLineOfIR(loadArrayElement(regIdOfGetElement, variable.type, variable.name, element));
-
-        return this.loadOperation({name: regIdOfGetElement, type: variable.basicType});
-    }
-
-    printValue(valueToPrint) {
+        return this.loadOperation({ name: regIdOfGetElement, type: variable.basicType });
+    };
+    OutputProgram.prototype.printValue = function (valueToPrint) {
         switch (valueToPrint.typeOfValue) {
             case 'variable': {
-                const variableName = valueToPrint.value;
-                const variable = this.getVariable(variableName);
+                var variableName = valueToPrint.value;
+                var variable = this.getVariable(variableName);
                 if (variable.type === 'i8*') {
-                    const regIdWithValueToPrint = this.loadOperation(variable);
+                    var regIdWithValueToPrint = this.loadOperation(variable);
                     this.addLineOfIR(print(this.getNextRegId(), getInputOutputStringType(variable.type, variable.value), variable.type, '%' + regIdWithValueToPrint));
-                } else {
-                    const regIdWithValueToPrint = this.loadOperation(variable);
+                }
+                else {
+                    var regIdWithValueToPrint = this.loadOperation(variable);
                     this.addLineOfIR(print(this.getNextRegId(), getInputOutputStringType(variable.type), variable.type, '%' + regIdWithValueToPrint));
                 }
                 break;
@@ -151,124 +135,118 @@ class OutputProgram {
                 break;
             }
             case 'i8*': {
-                const stringConstantId = this.addStringConstant(valueToPrint.value);
+                var stringConstantId = this.addStringConstant(valueToPrint.value);
                 this.addLineOfIR(printString(this.getNextRegId(), getLengthOfString(valueToPrint.value), stringConstantId));
                 break;
             }
             case 'arrayVariable': {
-                const variable = this.getVariable(valueToPrint.value);
-                const elementRegId = this.loadArrayElementOperation(variable, valueToPrint.element.value);
+                var variable = this.getVariable(valueToPrint.value);
+                var elementRegId = this.loadArrayElementOperation(variable, valueToPrint.element.value);
                 this.addLineOfIR(print(this.getNextRegId(), getInputOutputStringType(variable.basicType), variable.basicType, '%' + elementRegId));
                 break;
             }
         }
-    }
-
-    readValue(variableName) {
-        const variable = this.getVariable(variableName);
+    };
+    OutputProgram.prototype.readValue = function (variableName) {
+        var variable = this.getVariable(variableName);
         this.addLineOfIR(read(this.getNextRegId(), getInputOutputStringType(variable.type), variable.type, variableName));
-    }
-
-    startIf() {
-        const labelOfIf = this.getNextRegId();
-
-        const lineOfIRToEditAfterEndOfIf = this.instructions.length;
+    };
+    OutputProgram.prototype.startIf = function () {
+        var labelOfIf = this.getNextRegId();
+        var lineOfIRToEditAfterEndOfIf = this.instructions.length;
         this.addLineOfIR("WAITING FOR IF");
-
-        return {lineOfIRToEditAfterEndOfIf, labelOfIf};
-    }
-
-    endIf({comparisonResult, lineOfIRToEditAfterEndOfIf, labelOfIf}) {
-        const labelAfterIf = this.getNextRegId();
-
+        return { lineOfIRToEditAfterEndOfIf: lineOfIRToEditAfterEndOfIf, labelOfIf: labelOfIf };
+    };
+    OutputProgram.prototype.endIf = function (_a) {
+        var comparisonResult = _a.comparisonResult, lineOfIRToEditAfterEndOfIf = _a.lineOfIRToEditAfterEndOfIf, labelOfIf = _a.labelOfIf;
+        var labelAfterIf = this.getNextRegId();
         this.instructions[lineOfIRToEditAfterEndOfIf] = ifInstruction(comparisonResult, labelOfIf, labelAfterIf);
-
         this.addLineOfIR(endOfIfInstruction(labelAfterIf));
-    }
-
-    makeComparison(firstElement, secondElement, typeOfComparison) {
+    };
+    OutputProgram.prototype.makeComparison = function (firstElement, secondElement, typeOfComparison) {
         if (firstElement.typeOfValue === 'variable') {
             firstElement = this.getVariableForArithmeticExpression(firstElement.value);
-            firstElement = {typeOfValue: firstElement.type, value: firstElement.value};
+            firstElement = { typeOfValue: firstElement.type, value: firstElement.value };
         }
         if (secondElement.typeOfValue === 'variable') {
             secondElement = this.getVariableForArithmeticExpression(secondElement.value);
-            secondElement = {typeOfValue: secondElement.type, value: secondElement.value};
+            secondElement = { typeOfValue: secondElement.type, value: secondElement.value };
         }
         if (firstElement.typeOfValue === 'arrayVariable') {
-            const variableRepresentation = this.getVariable(firstElement.value);
-            firstElement = {typeOfValue: variableRepresentation.basicType, value: '%' + this.loadArrayElementOperation(variableRepresentation, firstElement.element.value)};
+            var variableRepresentation = this.getVariable(firstElement.value);
+            firstElement = { typeOfValue: variableRepresentation.basicType, value: '%' + this.loadArrayElementOperation(variableRepresentation, firstElement.element.value) };
         }
         if (secondElement.typeOfValue === 'arrayVariable') {
-            const variableRepresentation = this.getVariable(secondElement.value);
-            secondElement = {typeOfValue: variableRepresentation.basicType, value: '%' + this.loadArrayElementOperation(variableRepresentation, secondElement.element.value)};
+            var variableRepresentation = this.getVariable(secondElement.value);
+            secondElement = { typeOfValue: variableRepresentation.basicType, value: '%' + this.loadArrayElementOperation(variableRepresentation, secondElement.element.value) };
         }
-
-        const comparisonRegId = this.getNextRegId();
+        var comparisonRegId = this.getNextRegId();
         if (firstElement.typeOfValue === 'i32' && secondElement.typeOfValue === 'i32') {
             this.addLineOfIR(comparison(comparisonRegId, getTypeOfComparisonForType(typeOfComparison, 'i32'), 'i32', firstElement.value, secondElement.value));
-        } else if (firstElement.typeOfValue === 'i32' && secondElement.typeOfValue === 'double') {
-            const convertedToDouble = this.getNextRegId();
+        }
+        else if (firstElement.typeOfValue === 'i32' && secondElement.typeOfValue === 'double') {
+            var convertedToDouble = this.getNextRegId();
             this.addLineOfIR(convertToDouble(convertedToDouble, firstElement.value));
             this.addLineOfIR(comparison(comparisonRegId, getTypeOfComparisonForType(typeOfComparison, 'double'), 'double', convertedToDouble, secondElement.value));
-        } else if (firstElement.typeOfValue === 'double' && secondElement.typeOfValue === 'i32') {
-            const convertedToDouble = this.getNextRegId();
+        }
+        else if (firstElement.typeOfValue === 'double' && secondElement.typeOfValue === 'i32') {
+            var convertedToDouble = this.getNextRegId();
             this.addLineOfIR(convertToDouble(convertedToDouble, secondElement.value));
             this.addLineOfIR(comparison(comparisonRegId, getTypeOfComparisonForType(typeOfComparison, 'double'), 'double', firstElement.value, convertedToDouble));
-        } else {
+        }
+        else {
             this.addLineOfIR(comparison(comparisonRegId, getTypeOfComparisonForType(typeOfComparison, 'double'), 'double', firstElement.value, secondElement.value));
         }
-
         return '%' + comparisonRegId;
-    }
-
-    getVariableForArithmeticExpression(variableName) {
-        const variable = this.getVariable(variableName);
-        return {...variable, value: '%' + this.loadOperation(variable)};
-    }
-
-    arithmeticOperation(firstElement, secondElement, operation) {
+    };
+    OutputProgram.prototype.getVariableForArithmeticExpression = function (variableName) {
+        var variable = this.getVariable(variableName);
+        return __assign(__assign({}, variable), { value: '%' + this.loadOperation(variable) });
+    };
+    OutputProgram.prototype.arithmeticOperation = function (firstElement, secondElement, operation) {
         if (firstElement.type === 'i32' && secondElement.type === 'i32') {
-            const returnRegId = this.getNextRegId();
+            var returnRegId = this.getNextRegId();
             this.addLineOfIR(global[operation](returnRegId, firstElement.value, secondElement.value));
-            return {type: 'i32', value: '%' + returnRegId};
-        } else if (firstElement.type === 'i32' && secondElement.type === 'double') {
-            const convertedToDouble = this.getNextRegId();
-            this.addLineOfIR(convertToDouble(convertedToDouble, firstElement.value));
-            const returnRegId = this.getNextRegId();
-            this.addLineOfIR(global['f' + operation](returnRegId, '%' + convertedToDouble, secondElement.value));
-            return {type: 'double', value: '%' + returnRegId};
-        } else if (firstElement.type === 'double' && secondElement.type === 'i32') {
-            const convertedToDouble = this.getNextRegId();
-            this.addLineOfIR(convertToDouble(convertedToDouble, secondElement.value));
-            const returnRegId = this.getNextRegId();
-            this.addLineOfIR(global['f' + operation](returnRegId, firstElement.value, '%' + convertedToDouble));
-            return {type: 'double', value: '%' + returnRegId};
-        } else {
-            const returnRegId = this.getNextRegId();
-            this.addLineOfIR(global['f' + operation](returnRegId, firstElement.value, secondElement.value));
-            return {type: 'double', value: '%' + returnRegId};
+            return { type: 'i32', value: '%' + returnRegId };
         }
-    }
-
-}
-
-const getLengthOfString = (text) => {
-    return text.length - 2 * (text.match(/\\0/g) || []).length
-}
-
-const getInputOutputStringType = (type, options = {lengthOfText: 2, stringConstantId: 0}) => {
+        else if (firstElement.type === 'i32' && secondElement.type === 'double') {
+            var convertedToDouble = this.getNextRegId();
+            this.addLineOfIR(convertToDouble(convertedToDouble, firstElement.value));
+            var returnRegId = this.getNextRegId();
+            this.addLineOfIR(global['f' + operation](returnRegId, '%' + convertedToDouble, secondElement.value));
+            return { type: 'double', value: '%' + returnRegId };
+        }
+        else if (firstElement.type === 'double' && secondElement.type === 'i32') {
+            var convertedToDouble = this.getNextRegId();
+            this.addLineOfIR(convertToDouble(convertedToDouble, secondElement.value));
+            var returnRegId = this.getNextRegId();
+            this.addLineOfIR(global['f' + operation](returnRegId, firstElement.value, '%' + convertedToDouble));
+            return { type: 'double', value: '%' + returnRegId };
+        }
+        else {
+            var returnRegId = this.getNextRegId();
+            this.addLineOfIR(global['f' + operation](returnRegId, firstElement.value, secondElement.value));
+            return { type: 'double', value: '%' + returnRegId };
+        }
+    };
+    return OutputProgram;
+}());
+exports.OutputProgram = OutputProgram;
+var getLengthOfString = function (text) {
+    return text.length - 2 * (text.match(/\\0/g) || []).length;
+};
+var getInputOutputStringType = function (type, options) {
+    if (options === void 0) { options = { lengthOfText: 2, stringConstantId: 0 }; }
     switch (type) {
         case 'i32':
             return '[3 x i8], [3 x i8]* @.strint';
         case 'double':
             return '[4 x i8], [4 x i8]* @.strdouble';
         case 'i8*':
-            return `[${options.lengthOfText + 1} x i8], [${options.lengthOfText + 1} x i8]* @.str.${options.stringConstantId}`;
+            return "[" + (options.lengthOfText + 1) + " x i8], [" + (options.lengthOfText + 1) + " x i8]* @.str." + options.stringConstantId;
     }
-}
-
-const getAlign = (type) => {
+};
+var getAlign = function (type) {
     switch (type) {
         case 'i32':
             return 4;
@@ -277,103 +255,92 @@ const getAlign = (type) => {
         case 'i8*':
             return 8;
     }
-}
-
-const getTypeOfComparisonForType = (comparison, typeOfElements) => {
-    if (comparison === 'eq') {
-        if (typeOfElements === 'double') {
-            return 'oeq';
+};
+var getTypeOfComparisonForType = function (comparison, typeOfElements) {
+    switch (comparison) {
+        case types_1.Comparisons.EQUAL: {
+            if (typeOfElements === 'double') {
+                return 'oeq';
+            }
+            else {
+                return 'eq';
+            }
         }
-        return 'eq';
-    } else if (typeOfElements === 'double') {
-        return 'o' + comparison;
-    } else {
-        return 's' + comparison;
+        case types_1.Comparisons.LESS_THAN: {
+            return (typeOfElements === 'double' ? 'o' : 's') + 'lt';
+        }
+        case types_1.Comparisons.GREATER_THAN: {
+            return (typeOfElements === 'double' ? 'o' : 's') + 'gt';
+        }
+        case types_1.Comparisons.GREATER_OR_EQUAL: {
+            return (typeOfElements === 'double' ? 'o' : 's') + 'ge';
+        }
+        case types_1.Comparisons.LESS_OR_EQUAL: {
+            return (typeOfElements === 'double' ? 'o' : 's') + 'le';
+        }
     }
-}
-
-const createStringConstant = (index, lengthOfText, text) => {
-    return `@.str.${index} = private constant [${lengthOfText + 1} x i8] c"${text}${'\00'}", align 1`;
-}
-
-const convertToi32 = (returnRegId, elementToConvert) => {
-    return `%${returnRegId} = fptosi double ${elementToConvert} to i32`;
 };
-
-const convertToDouble = (returnRegId, elementToConvert) => {
-    return `%${returnRegId} = sitofp i32 ${elementToConvert} to double`;
+var createStringConstant = function (index, lengthOfText, text) {
+    return "@.str." + index + " = private constant [" + (lengthOfText + 1) + " x i8] c\"" + text + '\00' + "\", align 1";
 };
-
-global.fdiv = (returnRegId, firstElement, secondElement) => {
-    return `%${returnRegId} = fdiv double ${firstElement}, ${secondElement}`;
-}
-
-global.div = (returnRegId, firstElement, secondElement) => {
-    return `%${returnRegId} = sdiv i32 ${firstElement}, ${secondElement}`;
-}
-
-global.fadd = (returnRegId, firstElement, secondElement) => {
-    return `%${returnRegId} = fadd double ${firstElement}, ${secondElement}`;
-}
-
-global.add = (returnRegId, firstElement, secondElement) => {
-    return `%${returnRegId} = add nsw i32 ${firstElement}, ${secondElement}`;
-}
-
-global.fsub = (returnRegId, firstElement, secondElement) => {
-    return `%${returnRegId} = fsub double ${firstElement}, ${secondElement}`;
-}
-
-global.sub = (returnRegId, firstElement, secondElement) => {
-    return `%${returnRegId} = sub nsw i32 ${firstElement}, ${secondElement}`;
-}
-
-global.fmul = (returnRegId, firstElement, secondElement) => {
-    return `%${returnRegId} = fmul double ${firstElement}, ${secondElement}`;
-}
-
-global.mul = (returnRegId, firstElement, secondElement) => {
-    return `%${returnRegId} = mul nsw i32 ${firstElement}, ${secondElement}`;
-}
-
-const read = (returnRegId, typeOfFirstArgumentOfScanf, type, nameOfVariable) => {
-    return `%${returnRegId} = call i32 (i8*, ...) @scanf(i8* getelementptr inbounds (${typeOfFirstArgumentOfScanf}, i64 0, i64 0), ${type}* %${nameOfVariable})`
-}
-
-const print = (returnRegId, typeOfFirstArgumentOfPrintf, type, valueToPrint) => {
-    return `%${returnRegId} = call i32 (i8*, ...) @printf(i8* getelementptr inbounds (${typeOfFirstArgumentOfPrintf}, i64 0, i64 0), ${type} ${valueToPrint})`;
-}
-
-const printString = (returnRegId, lengthOfText, stringConstantId) => {
-    return `%${returnRegId} = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([${lengthOfText + 1} x i8], [${lengthOfText + 1} x i8]* @.str.${stringConstantId}, i64 0, i64 0))`;
-}
-
-const ifInstruction = (comparison, labelOfIf, labelAfterIf) => {
-    return `br i1 ${comparison}, label %${labelOfIf}, label %${labelAfterIf}\n; <label>:${labelOfIf}:`;
-}
-
-const endOfIfInstruction = (labelAfterIf) => {
-    return `br label %${labelAfterIf}\n; <label>:${labelAfterIf}:`;
-}
-
-const comparison = (regId, typeOfComparison, typeOfElements, firstElement, secondElement) => {
-    return `%${regId} = ${typeOfElements === 'i32' ? 'i' : 'f'}cmp ${typeOfComparison} ${typeOfElements} ${firstElement}, ${secondElement}`;
-}
-
-const load = (regId, type, fromId, align) => {
-    return `%${regId} = load ${type}, ${type}* %${fromId}, align ${align}`;
+var convertToi32 = function (returnRegId, elementToConvert) {
+    return "%" + returnRegId + " = fptosi double " + elementToConvert + " to i32";
 };
-
-const loadArrayElement = (regId, type, fromId, element) => {
-    return `%${regId} = getelementptr inbounds ${type}, ${type}* %${fromId}, i64 0, i32 ${element}`;
-}
-
-const createVariableDefinition = (name, type, value, align) => {
-    return `%${name} = alloca ${type}, align ${align}\n` + store(name, type, value, align);
+var convertToDouble = function (returnRegId, elementToConvert) {
+    return "%" + returnRegId + " = sitofp i32 " + elementToConvert + " to double";
 };
-
-const store = (name, type, value, align) => {
-    return `store ${type} ${value}, ${type}* %${name}, align ${align}`;
-}
-
+global.fdiv = function (returnRegId, firstElement, secondElement) {
+    return "%" + returnRegId + " = fdiv double " + firstElement + ", " + secondElement;
+};
+global.div = function (returnRegId, firstElement, secondElement) {
+    return "%" + returnRegId + " = sdiv i32 " + firstElement + ", " + secondElement;
+};
+global.fadd = function (returnRegId, firstElement, secondElement) {
+    return "%" + returnRegId + " = fadd double " + firstElement + ", " + secondElement;
+};
+global.add = function (returnRegId, firstElement, secondElement) {
+    return "%" + returnRegId + " = add nsw i32 " + firstElement + ", " + secondElement;
+};
+global.fsub = function (returnRegId, firstElement, secondElement) {
+    return "%" + returnRegId + " = fsub double " + firstElement + ", " + secondElement;
+};
+global.sub = function (returnRegId, firstElement, secondElement) {
+    return "%" + returnRegId + " = sub nsw i32 " + firstElement + ", " + secondElement;
+};
+global.fmul = function (returnRegId, firstElement, secondElement) {
+    return "%" + returnRegId + " = fmul double " + firstElement + ", " + secondElement;
+};
+global.mul = function (returnRegId, firstElement, secondElement) {
+    return "%" + returnRegId + " = mul nsw i32 " + firstElement + ", " + secondElement;
+};
+var read = function (returnRegId, typeOfFirstArgumentOfScanf, type, nameOfVariable) {
+    return "%" + returnRegId + " = call i32 (i8*, ...) @scanf(i8* getelementptr inbounds (" + typeOfFirstArgumentOfScanf + ", i64 0, i64 0), " + type + "* %" + nameOfVariable + ")";
+};
+var print = function (returnRegId, typeOfFirstArgumentOfPrintf, type, valueToPrint) {
+    return "%" + returnRegId + " = call i32 (i8*, ...) @printf(i8* getelementptr inbounds (" + typeOfFirstArgumentOfPrintf + ", i64 0, i64 0), " + type + " " + valueToPrint + ")";
+};
+var printString = function (returnRegId, lengthOfText, stringConstantId) {
+    return "%" + returnRegId + " = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([" + (lengthOfText + 1) + " x i8], [" + (lengthOfText + 1) + " x i8]* @.str." + stringConstantId + ", i64 0, i64 0))";
+};
+var ifInstruction = function (comparison, labelOfIf, labelAfterIf) {
+    return "br i1 " + comparison + ", label %" + labelOfIf + ", label %" + labelAfterIf + "\n; <label>:" + labelOfIf + ":";
+};
+var endOfIfInstruction = function (labelAfterIf) {
+    return "br label %" + labelAfterIf + "\n; <label>:" + labelAfterIf + ":";
+};
+var comparison = function (regId, typeOfComparison, typeOfElements, firstElement, secondElement) {
+    return "%" + regId + " = " + (typeOfElements === 'i32' ? 'i' : 'f') + "cmp " + typeOfComparison + " " + typeOfElements + " " + firstElement + ", " + secondElement;
+};
+var load = function (regId, type, fromId, align) {
+    return "%" + regId + " = load " + type + ", " + type + "* %" + fromId + ", align " + align;
+};
+var loadArrayElement = function (regId, type, fromId, element) {
+    return "%" + regId + " = getelementptr inbounds " + type + ", " + type + "* %" + fromId + ", i64 0, i32 " + element;
+};
+var createVariableDefinition = function (name, type, value, align) {
+    return "%" + name + " = alloca " + type + ", align " + align + "\n" + store(name, type, value, align);
+};
+var store = function (name, type, value, align) {
+    return "store " + type + " " + value + ", " + type + "* %" + name + ", align " + align;
+};
 exports.OutputProgram = OutputProgram;

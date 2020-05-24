@@ -83,6 +83,8 @@ IF 44 < someNumber {
 - ``=`` - equal
 - ``>`` - greater than
 - ``<`` - less than
+- ``>=`` - greater or equal
+- ``<=`` - less or equal
 
 ### Lexical and grammatical rules
 

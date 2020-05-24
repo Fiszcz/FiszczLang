@@ -25,7 +25,7 @@ element_of_array : VARIABLE_NAME element_number ;
 print_instruction : ('print' | 'PRINT') W (value | W)* ;
 read_instruction : ('read' | 'READ') W (VARIABLE_NAME | element_of_array) ;
 
-if_instruction : ('if' | 'IF') W value W? (EQUAL | GREATER_THAN | LESS_THAN) W? value W? '{' (instruction | W)+ '}';
+if_instruction : ('if' | 'IF') W value W? (EQUAL | LESS_OR_EQUAL | GREATER_OR_EQUAL | GREATER_THAN | LESS_THAN) W? value W? '{' (instruction | W)+ '}';
 
 arithmetic_expression : '(' arithmetic_expression ')'
                       | arithmetic_expression W? ASTERISK W? arithmetic_expression
@@ -67,6 +67,8 @@ PLUS : '+' ;
 MINUS : '-' ;
 
 EQUAL : '=' ;
+LESS_OR_EQUAL : '<=';
+GREATER_OR_EQUAL : '>=';
 GREATER_THAN : '>' ;
 LESS_THAN : '<' ;
 
