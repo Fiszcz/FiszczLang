@@ -146,12 +146,30 @@ FiszczLangListener.prototype.exitRead_instruction = function(ctx) {
 };
 
 
+// Enter a parse tree produced by FiszczLangParser#while_instruction.
+FiszczLangListener.prototype.enterWhile_instruction = function(ctx) {
+};
+
+// Exit a parse tree produced by FiszczLangParser#while_instruction.
+FiszczLangListener.prototype.exitWhile_instruction = function(ctx) {
+};
+
+
 // Enter a parse tree produced by FiszczLangParser#if_instruction.
 FiszczLangListener.prototype.enterIf_instruction = function(ctx) {
 };
 
 // Exit a parse tree produced by FiszczLangParser#if_instruction.
 FiszczLangListener.prototype.exitIf_instruction = function(ctx) {
+};
+
+
+// Enter a parse tree produced by FiszczLangParser#condition.
+FiszczLangListener.prototype.enterCondition = function(ctx) {
+};
+
+// Exit a parse tree produced by FiszczLangParser#condition.
+FiszczLangListener.prototype.exitCondition = function(ctx) {
 };
 
 

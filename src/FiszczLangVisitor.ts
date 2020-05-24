@@ -126,30 +126,50 @@ FiszczLangVisitor.prototype.visitRead_instruction = function (ctx) {
     }
 };
 
+// Visit a parse tree produced by FiszczLangParser#condition.
+FiszczLangVisitor.prototype.visitCondition = function (ctx) {
+    return this.visitChildren(ctx);
+};
+
+// Visit a parse tree produced by FiszczLangParser#while_instruction.
+FiszczLangVisitor.prototype.visitWhile_instruction = function (ctx) {
+    const conditionElements = this.getConditionElements(ctx.condition());
+
+    const informationAboutWhileLoop = this.program.startWhile(conditionElements);
+    this.visitChildren(ctx);
+    this.program.endWhile(informationAboutWhileLoop);
+};
+
 
 // Visit a parse tree produced by FiszczLangParser#if_instruction.
 FiszczLangVisitor.prototype.visitIf_instruction = function(ctx) {
-    const leftSideOfOperator = this.visitValue(ctx.value()[0]);
-    const rightSideOfOperator = this.visitValue(ctx.value()[1]);
-
-    let comparisonType: Comparisons;
-    if (ctx.EQUAL()) {
-        comparisonType = Comparisons.EQUAL;
-    } else if (ctx.GREATER_THAN()) {
-        comparisonType = Comparisons.GREATER_THAN;
-    } else if (ctx.LESS_THAN()) {
-        comparisonType = Comparisons.LESS_THAN;
-    } else if (ctx.LESS_OR_EQUAL()) {
-        comparisonType = Comparisons.LESS_OR_EQUAL;
-    } else if (ctx.GREATER_OR_EQUAL()) {
-        comparisonType = Comparisons.GREATER_OR_EQUAL;
-    }
+    const {leftSideOfOperator, rightSideOfOperator, comparisonType} = this.getConditionElements(ctx.condition());
     const comparisonResult = this.program.makeComparison(leftSideOfOperator, rightSideOfOperator, comparisonType);
 
     const informationAboutIf = this.program.startIf();
     this.visitChildren(ctx);
     this.program.endIf({comparisonResult, ...informationAboutIf});
 };
+
+FiszczLangVisitor.prototype.getConditionElements = function(conditionCtx) {
+    const leftSideOfOperator = this.visitValue(conditionCtx.value()[0]);
+    const rightSideOfOperator = this.visitValue(conditionCtx.value()[1]);
+
+    let comparisonType: Comparisons;
+    if (conditionCtx.EQUAL()) {
+        comparisonType = Comparisons.EQUAL;
+    } else if (conditionCtx.GREATER_THAN()) {
+        comparisonType = Comparisons.GREATER_THAN;
+    } else if (conditionCtx.LESS_THAN()) {
+        comparisonType = Comparisons.LESS_THAN;
+    } else if (conditionCtx.LESS_OR_EQUAL()) {
+        comparisonType = Comparisons.LESS_OR_EQUAL;
+    } else if (conditionCtx.GREATER_OR_EQUAL()) {
+        comparisonType = Comparisons.GREATER_OR_EQUAL;
+    }
+
+    return {leftSideOfOperator, rightSideOfOperator, comparisonType};
+}
 
 
 // Visit a parse tree produced by FiszczLangParser#arithmetic_expression.
@@ -185,7 +205,10 @@ FiszczLangVisitor.prototype.visitArithmetic_expression = function (ctx) {
 
 // Visit a parse tree produced by FiszczLangParser#assignment.
 FiszczLangVisitor.prototype.visitAssignment = function (ctx) {
-    return this.visitChildren(ctx);
+    const variableNameCtx = ctx.VARIABLE_NAME();
+    global.additionalData = getLineAndColumn(variableNameCtx);
+    const newValueCtx = ctx.value();
+    this.program.assignment(variableNameCtx.getText(), this.visitValue(newValueCtx));
 };
 
 

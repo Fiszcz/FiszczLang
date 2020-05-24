@@ -8,177 +8,194 @@ var grammarFileName = "FiszczLang.g4";
 
 
 var serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964",
-    "\u0003%\u0103\u0004\u0002\t\u0002\u0004\u0003\t\u0003\u0004\u0004\t",
+    "\u0003\'\u0119\u0004\u0002\t\u0002\u0004\u0003\t\u0003\u0004\u0004\t",
     "\u0004\u0004\u0005\t\u0005\u0004\u0006\t\u0006\u0004\u0007\t\u0007\u0004",
     "\b\t\b\u0004\t\t\t\u0004\n\t\n\u0004\u000b\t\u000b\u0004\f\t\f\u0004",
     "\r\t\r\u0004\u000e\t\u000e\u0004\u000f\t\u000f\u0004\u0010\t\u0010\u0004",
     "\u0011\t\u0011\u0004\u0012\t\u0012\u0004\u0013\t\u0013\u0004\u0014\t",
-    "\u0014\u0004\u0015\t\u0015\u0004\u0016\t\u0016\u0003\u0002\u0003\u0002",
-    "\u0006\u0002/\n\u0002\r\u0002\u000e\u00020\u0003\u0002\u0003\u0002\u0003",
-    "\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003",
-    "\u0003\u0005\u0003<\n\u0003\u0003\u0003\u0005\u0003?\n\u0003\u0003\u0003",
-    "\u0003\u0003\u0003\u0004\u0003\u0004\u0005\u0004E\n\u0004\u0003\u0005",
-    "\u0003\u0005\u0003\u0005\u0005\u0005J\n\u0005\u0003\u0006\u0003\u0006",
-    "\u0003\u0006\u0005\u0006O\n\u0006\u0003\u0007\u0003\u0007\u0003\u0007",
-    "\u0003\u0007\u0003\u0007\u0005\u0007V\n\u0007\u0003\b\u0003\b\u0003",
-    "\b\u0003\b\u0003\b\u0005\b]\n\b\u0003\t\u0003\t\u0003\t\u0003\t\u0003",
-    "\t\u0003\t\u0003\t\u0005\tf\n\t\u0005\th\n\t\u0003\n\u0003\n\u0003\n",
-    "\u0003\n\u0003\n\u0003\n\u0007\np\n\n\f\n\u000e\ns\u000b\n\u0003\n\u0003",
-    "\n\u0003\u000b\u0003\u000b\u0003\u000b\u0003\u000b\u0003\u000b\u0003",
-    "\u000b\u0007\u000b}\n\u000b\f\u000b\u000e\u000b\u0080\u000b\u000b\u0003",
-    "\u000b\u0003\u000b\u0003\f\u0003\f\u0003\f\u0003\f\u0003\f\u0003\f\u0007",
-    "\f\u008a\n\f\f\f\u000e\f\u008d\u000b\f\u0003\f\u0003\f\u0003\r\u0003",
-    "\r\u0003\r\u0003\r\u0003\u000e\u0003\u000e\u0003\u000e\u0003\u000f\u0003",
-    "\u000f\u0003\u000f\u0003\u000f\u0007\u000f\u009c\n\u000f\f\u000f\u000e",
-    "\u000f\u009f\u000b\u000f\u0003\u0010\u0003\u0010\u0003\u0010\u0003\u0010",
-    "\u0005\u0010\u00a5\n\u0010\u0003\u0011\u0003\u0011\u0003\u0011\u0003",
-    "\u0011\u0005\u0011\u00ab\n\u0011\u0003\u0011\u0003\u0011\u0005\u0011",
-    "\u00af\n\u0011\u0003\u0011\u0003\u0011\u0005\u0011\u00b3\n\u0011\u0003",
-    "\u0011\u0003\u0011\u0003\u0011\u0006\u0011\u00b8\n\u0011\r\u0011\u000e",
-    "\u0011\u00b9\u0003\u0011\u0003\u0011\u0003\u0012\u0003\u0012\u0003\u0012",
-    "\u0003\u0012\u0003\u0012\u0003\u0012\u0003\u0012\u0003\u0012\u0003\u0012",
-    "\u0005\u0012\u00c7\n\u0012\u0003\u0012\u0003\u0012\u0005\u0012\u00cb",
-    "\n\u0012\u0003\u0012\u0003\u0012\u0005\u0012\u00cf\n\u0012\u0003\u0012",
-    "\u0003\u0012\u0003\u0012\u0005\u0012\u00d4\n\u0012\u0003\u0012\u0003",
-    "\u0012\u0005\u0012\u00d8\n\u0012\u0003\u0012\u0003\u0012\u0003\u0012",
-    "\u0005\u0012\u00dd\n\u0012\u0003\u0012\u0003\u0012\u0005\u0012\u00e1",
-    "\n\u0012\u0003\u0012\u0003\u0012\u0003\u0012\u0005\u0012\u00e6\n\u0012",
-    "\u0003\u0012\u0003\u0012\u0005\u0012\u00ea\n\u0012\u0003\u0012\u0007",
-    "\u0012\u00ed\n\u0012\f\u0012\u000e\u0012\u00f0\u000b\u0012\u0003\u0013",
-    "\u0003\u0013\u0003\u0013\u0003\u0013\u0003\u0014\u0003\u0014\u0003\u0014",
-    "\u0003\u0015\u0003\u0015\u0003\u0015\u0003\u0015\u0003\u0015\u0003\u0015",
-    "\u0005\u0015\u00ff\n\u0015\u0003\u0016\u0003\u0016\u0003\u0016\u0002",
-    "\u0003\"\u0017\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016",
-    "\u0018\u001a\u001c\u001e \"$&(*\u0002\u0007\u0003\u0002\u0018\u0019",
+    "\u0014\u0004\u0015\t\u0015\u0004\u0016\t\u0016\u0004\u0017\t\u0017\u0004",
+    "\u0018\t\u0018\u0003\u0002\u0003\u0002\u0006\u00023\n\u0002\r\u0002",
+    "\u000e\u00024\u0003\u0002\u0003\u0002\u0003\u0003\u0003\u0003\u0003",
+    "\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0005",
+    "\u0003A\n\u0003\u0003\u0003\u0005\u0003D\n\u0003\u0003\u0003\u0003\u0003",
+    "\u0003\u0004\u0003\u0004\u0005\u0004J\n\u0004\u0003\u0005\u0003\u0005",
+    "\u0003\u0005\u0005\u0005O\n\u0005\u0003\u0006\u0003\u0006\u0003\u0006",
+    "\u0005\u0006T\n\u0006\u0003\u0007\u0003\u0007\u0003\u0007\u0003\u0007",
+    "\u0003\u0007\u0005\u0007[\n\u0007\u0003\b\u0003\b\u0003\b\u0003\b\u0003",
+    "\b\u0005\bb\n\b\u0003\t\u0003\t\u0003\t\u0003\t\u0003\t\u0003\t\u0003",
+    "\t\u0005\tk\n\t\u0005\tm\n\t\u0003\n\u0003\n\u0003\n\u0003\n\u0003\n",
+    "\u0003\n\u0007\nu\n\n\f\n\u000e\nx\u000b\n\u0003\n\u0003\n\u0003\u000b",
+    "\u0003\u000b\u0003\u000b\u0003\u000b\u0003\u000b\u0003\u000b\u0007\u000b",
+    "\u0082\n\u000b\f\u000b\u000e\u000b\u0085\u000b\u000b\u0003\u000b\u0003",
+    "\u000b\u0003\f\u0003\f\u0003\f\u0003\f\u0003\f\u0003\f\u0007\f\u008f",
+    "\n\f\f\f\u000e\f\u0092\u000b\f\u0003\f\u0003\f\u0003\r\u0003\r\u0003",
+    "\r\u0003\r\u0003\u000e\u0003\u000e\u0003\u000e\u0003\u000f\u0003\u000f",
+    "\u0003\u000f\u0003\u000f\u0007\u000f\u00a1\n\u000f\f\u000f\u000e\u000f",
+    "\u00a4\u000b\u000f\u0003\u0010\u0003\u0010\u0003\u0010\u0003\u0010\u0005",
+    "\u0010\u00aa\n\u0010\u0003\u0011\u0003\u0011\u0003\u0011\u0003\u0011",
+    "\u0005\u0011\u00b0\n\u0011\u0003\u0011\u0003\u0011\u0003\u0011\u0006",
+    "\u0011\u00b5\n\u0011\r\u0011\u000e\u0011\u00b6\u0003\u0011\u0003\u0011",
+    "\u0003\u0012\u0003\u0012\u0003\u0012\u0003\u0012\u0005\u0012\u00bf\n",
+    "\u0012\u0003\u0012\u0003\u0012\u0003\u0012\u0006\u0012\u00c4\n\u0012",
+    "\r\u0012\u000e\u0012\u00c5\u0003\u0012\u0003\u0012\u0003\u0013\u0003",
+    "\u0013\u0005\u0013\u00cc\n\u0013\u0003\u0013\u0003\u0013\u0005\u0013",
+    "\u00d0\n\u0013\u0003\u0013\u0003\u0013\u0003\u0014\u0003\u0014\u0003",
+    "\u0014\u0003\u0014\u0003\u0014\u0003\u0014\u0003\u0014\u0003\u0014\u0003",
+    "\u0014\u0005\u0014\u00dd\n\u0014\u0003\u0014\u0003\u0014\u0005\u0014",
+    "\u00e1\n\u0014\u0003\u0014\u0003\u0014\u0005\u0014\u00e5\n\u0014\u0003",
+    "\u0014\u0003\u0014\u0003\u0014\u0005\u0014\u00ea\n\u0014\u0003\u0014",
+    "\u0003\u0014\u0005\u0014\u00ee\n\u0014\u0003\u0014\u0003\u0014\u0003",
+    "\u0014\u0005\u0014\u00f3\n\u0014\u0003\u0014\u0003\u0014\u0005\u0014",
+    "\u00f7\n\u0014\u0003\u0014\u0003\u0014\u0003\u0014\u0005\u0014\u00fc",
+    "\n\u0014\u0003\u0014\u0003\u0014\u0005\u0014\u0100\n\u0014\u0003\u0014",
+    "\u0007\u0014\u0103\n\u0014\f\u0014\u000e\u0014\u0106\u000b\u0014\u0003",
+    "\u0015\u0003\u0015\u0003\u0015\u0003\u0015\u0003\u0016\u0003\u0016\u0003",
+    "\u0016\u0003\u0017\u0003\u0017\u0003\u0017\u0003\u0017\u0003\u0017\u0003",
+    "\u0017\u0005\u0017\u0115\n\u0017\u0003\u0018\u0003\u0018\u0003\u0018",
+    "\u0002\u0003&\u0019\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014",
+    "\u0016\u0018\u001a\u001c\u001e \"$&(*,.\u0002\b\u0003\u0002\u001a\u001b",
     "\u0003\u0002\r\u000e\u0003\u0002\u000f\u0010\u0003\u0002\u0011\u0012",
-    "\u0003\u0002\u001e\"\u0002\u0120\u0002.\u0003\u0002\u0002\u0002\u0004",
-    ";\u0003\u0002\u0002\u0002\u0006D\u0003\u0002\u0002\u0002\bI\u0003\u0002",
-    "\u0002\u0002\nN\u0003\u0002\u0002\u0002\fP\u0003\u0002\u0002\u0002\u000e",
-    "W\u0003\u0002\u0002\u0002\u0010^\u0003\u0002\u0002\u0002\u0012i\u0003",
-    "\u0002\u0002\u0002\u0014v\u0003\u0002\u0002\u0002\u0016\u0083\u0003",
-    "\u0002\u0002\u0002\u0018\u0090\u0003\u0002\u0002\u0002\u001a\u0094\u0003",
-    "\u0002\u0002\u0002\u001c\u0097\u0003\u0002\u0002\u0002\u001e\u00a0\u0003",
-    "\u0002\u0002\u0002 \u00a6\u0003\u0002\u0002\u0002\"\u00c6\u0003\u0002",
-    "\u0002\u0002$\u00f1\u0003\u0002\u0002\u0002&\u00f5\u0003\u0002\u0002",
-    "\u0002(\u00fe\u0003\u0002\u0002\u0002*\u0100\u0003\u0002\u0002\u0002",
-    ",/\u0005\u0004\u0003\u0002-/\u0007%\u0002\u0002.,\u0003\u0002\u0002",
-    "\u0002.-\u0003\u0002\u0002\u0002/0\u0003\u0002\u0002\u00020.\u0003\u0002",
-    "\u0002\u000201\u0003\u0002\u0002\u000212\u0003\u0002\u0002\u000223\u0007",
-    "\u0002\u0002\u00033\u0003\u0003\u0002\u0002\u00024<\u0005\u0006\u0004",
-    "\u00025<\u0005\u001c\u000f\u00026<\u0005\u001c\u000f\u00027<\u0005\u001e",
-    "\u0010\u00028<\u0005 \u0011\u00029<\u0005$\u0013\u0002:<\u0005&\u0014",
-    "\u0002;4\u0003\u0002\u0002\u0002;5\u0003\u0002\u0002\u0002;6\u0003\u0002",
-    "\u0002\u0002;7\u0003\u0002\u0002\u0002;8\u0003\u0002\u0002\u0002;9\u0003",
-    "\u0002\u0002\u0002;:\u0003\u0002\u0002\u0002<>\u0003\u0002\u0002\u0002",
-    "=?\u0007%\u0002\u0002>=\u0003\u0002\u0002\u0002>?\u0003\u0002\u0002",
-    "\u0002?@\u0003\u0002\u0002\u0002@A\u0007\u0003\u0002\u0002A\u0005\u0003",
-    "\u0002\u0002\u0002BE\u0005\b\u0005\u0002CE\u0005\n\u0006\u0002DB\u0003",
-    "\u0002\u0002\u0002DC\u0003\u0002\u0002\u0002E\u0007\u0003\u0002\u0002",
-    "\u0002FJ\u0005\f\u0007\u0002GJ\u0005\u000e\b\u0002HJ\u0005\u0010\t\u0002",
-    "IF\u0003\u0002\u0002\u0002IG\u0003\u0002\u0002\u0002IH\u0003\u0002\u0002",
-    "\u0002J\t\u0003\u0002\u0002\u0002KO\u0005\u0012\n\u0002LO\u0005\u0014",
-    "\u000b\u0002MO\u0005\u0016\f\u0002NK\u0003\u0002\u0002\u0002NL\u0003",
-    "\u0002\u0002\u0002NM\u0003\u0002\u0002\u0002O\u000b\u0003\u0002\u0002",
-    "\u0002PQ\u0007\u0004\u0002\u0002QR\u0007%\u0002\u0002RU\u0007#\u0002",
-    "\u0002ST\u0007%\u0002\u0002TV\u0005\"\u0012\u0002US\u0003\u0002\u0002",
-    "\u0002UV\u0003\u0002\u0002\u0002V\r\u0003\u0002\u0002\u0002WX\u0007",
-    "\u0005\u0002\u0002XY\u0007%\u0002\u0002Y\\\u0007#\u0002\u0002Z[\u0007",
-    "%\u0002\u0002[]\u0005\"\u0012\u0002\\Z\u0003\u0002\u0002\u0002\\]\u0003",
-    "\u0002\u0002\u0002]\u000f\u0003\u0002\u0002\u0002^_\u0007\u0006\u0002",
-    "\u0002_`\u0007%\u0002\u0002`g\u0007#\u0002\u0002ae\u0007%\u0002\u0002",
-    "bf\u0005*\u0016\u0002cf\u0007#\u0002\u0002df\u0005\u001a\u000e\u0002",
-    "eb\u0003\u0002\u0002\u0002ec\u0003\u0002\u0002\u0002ed\u0003\u0002\u0002",
-    "\u0002fh\u0003\u0002\u0002\u0002ga\u0003\u0002\u0002\u0002gh\u0003\u0002",
-    "\u0002\u0002h\u0011\u0003\u0002\u0002\u0002ij\u0007\u0007\u0002\u0002",
-    "jk\u0007#\u0002\u0002kl\u0007\b\u0002\u0002lq\u0007\u0018\u0002\u0002",
-    "mn\u0007\t\u0002\u0002np\u0007\u0018\u0002\u0002om\u0003\u0002\u0002",
-    "\u0002ps\u0003\u0002\u0002\u0002qo\u0003\u0002\u0002\u0002qr\u0003\u0002",
-    "\u0002\u0002rt\u0003\u0002\u0002\u0002sq\u0003\u0002\u0002\u0002tu\u0007",
-    "\n\u0002\u0002u\u0013\u0003\u0002\u0002\u0002vw\u0007\u000b\u0002\u0002",
-    "wx\u0007#\u0002\u0002xy\u0007\b\u0002\u0002y~\t\u0002\u0002\u0002z{",
-    "\u0007\t\u0002\u0002{}\t\u0002\u0002\u0002|z\u0003\u0002\u0002\u0002",
-    "}\u0080\u0003\u0002\u0002\u0002~|\u0003\u0002\u0002\u0002~\u007f\u0003",
-    "\u0002\u0002\u0002\u007f\u0081\u0003\u0002\u0002\u0002\u0080~\u0003",
-    "\u0002\u0002\u0002\u0081\u0082\u0007\n\u0002\u0002\u0082\u0015\u0003",
-    "\u0002\u0002\u0002\u0083\u0084\u0007\f\u0002\u0002\u0084\u0085\u0007",
-    "#\u0002\u0002\u0085\u0086\u0007\b\u0002\u0002\u0086\u008b\u0005*\u0016",
-    "\u0002\u0087\u0088\u0007\t\u0002\u0002\u0088\u008a\u0005*\u0016\u0002",
-    "\u0089\u0087\u0003\u0002\u0002\u0002\u008a\u008d\u0003\u0002\u0002\u0002",
-    "\u008b\u0089\u0003\u0002\u0002\u0002\u008b\u008c\u0003\u0002\u0002\u0002",
-    "\u008c\u008e\u0003\u0002\u0002\u0002\u008d\u008b\u0003\u0002\u0002\u0002",
-    "\u008e\u008f\u0007\n\u0002\u0002\u008f\u0017\u0003\u0002\u0002\u0002",
-    "\u0090\u0091\u0007\b\u0002\u0002\u0091\u0092\u0005(\u0015\u0002\u0092",
-    "\u0093\u0007\n\u0002\u0002\u0093\u0019\u0003\u0002\u0002\u0002\u0094",
-    "\u0095\u0007#\u0002\u0002\u0095\u0096\u0005\u0018\r\u0002\u0096\u001b",
-    "\u0003\u0002\u0002\u0002\u0097\u0098\t\u0003\u0002\u0002\u0098\u009d",
-    "\u0007%\u0002\u0002\u0099\u009c\u0005(\u0015\u0002\u009a\u009c\u0007",
-    "%\u0002\u0002\u009b\u0099\u0003\u0002\u0002\u0002\u009b\u009a\u0003",
-    "\u0002\u0002\u0002\u009c\u009f\u0003\u0002\u0002\u0002\u009d\u009b\u0003",
-    "\u0002\u0002\u0002\u009d\u009e\u0003\u0002\u0002\u0002\u009e\u001d\u0003",
-    "\u0002\u0002\u0002\u009f\u009d\u0003\u0002\u0002\u0002\u00a0\u00a1\t",
-    "\u0004\u0002\u0002\u00a1\u00a4\u0007%\u0002\u0002\u00a2\u00a5\u0007",
-    "#\u0002\u0002\u00a3\u00a5\u0005\u001a\u000e\u0002\u00a4\u00a2\u0003",
-    "\u0002\u0002\u0002\u00a4\u00a3\u0003\u0002\u0002\u0002\u00a5\u001f\u0003",
-    "\u0002\u0002\u0002\u00a6\u00a7\t\u0005\u0002\u0002\u00a7\u00a8\u0007",
-    "%\u0002\u0002\u00a8\u00aa\u0005(\u0015\u0002\u00a9\u00ab\u0007%\u0002",
-    "\u0002\u00aa\u00a9\u0003\u0002\u0002\u0002\u00aa\u00ab\u0003\u0002\u0002",
-    "\u0002\u00ab\u00ac\u0003\u0002\u0002\u0002\u00ac\u00ae\t\u0006\u0002",
-    "\u0002\u00ad\u00af\u0007%\u0002\u0002\u00ae\u00ad\u0003\u0002\u0002",
-    "\u0002\u00ae\u00af\u0003\u0002\u0002\u0002\u00af\u00b0\u0003\u0002\u0002",
-    "\u0002\u00b0\u00b2\u0005(\u0015\u0002\u00b1\u00b3\u0007%\u0002\u0002",
-    "\u00b2\u00b1\u0003\u0002\u0002\u0002\u00b2\u00b3\u0003\u0002\u0002\u0002",
-    "\u00b3\u00b4\u0003\u0002\u0002\u0002\u00b4\u00b7\u0007\u0013\u0002\u0002",
-    "\u00b5\u00b8\u0005\u0004\u0003\u0002\u00b6\u00b8\u0007%\u0002\u0002",
-    "\u00b7\u00b5\u0003\u0002\u0002\u0002\u00b7\u00b6\u0003\u0002\u0002\u0002",
-    "\u00b8\u00b9\u0003\u0002\u0002\u0002\u00b9\u00b7\u0003\u0002\u0002\u0002",
-    "\u00b9\u00ba\u0003\u0002\u0002\u0002\u00ba\u00bb\u0003\u0002\u0002\u0002",
-    "\u00bb\u00bc\u0007\u0014\u0002\u0002\u00bc!\u0003\u0002\u0002\u0002",
-    "\u00bd\u00be\b\u0012\u0001\u0002\u00be\u00bf\u0007\u0015\u0002\u0002",
-    "\u00bf\u00c0\u0005\"\u0012\u0002\u00c0\u00c1\u0007\u0016\u0002\u0002",
-    "\u00c1\u00c7\u0003\u0002\u0002\u0002\u00c2\u00c7\u0007#\u0002\u0002",
-    "\u00c3\u00c7\u0005\u001a\u000e\u0002\u00c4\u00c7\u0007\u0018\u0002\u0002",
-    "\u00c5\u00c7\u0007\u0019\u0002\u0002\u00c6\u00bd\u0003\u0002\u0002\u0002",
-    "\u00c6\u00c2\u0003\u0002\u0002\u0002\u00c6\u00c3\u0003\u0002\u0002\u0002",
-    "\u00c6\u00c4\u0003\u0002\u0002\u0002\u00c6\u00c5\u0003\u0002\u0002\u0002",
-    "\u00c7\u00ee\u0003\u0002\u0002\u0002\u00c8\u00ca\f\n\u0002\u0002\u00c9",
-    "\u00cb\u0007%\u0002\u0002\u00ca\u00c9\u0003\u0002\u0002\u0002\u00ca",
-    "\u00cb\u0003\u0002\u0002\u0002\u00cb\u00cc\u0003\u0002\u0002\u0002\u00cc",
-    "\u00ce\u0007\u001a\u0002\u0002\u00cd\u00cf\u0007%\u0002\u0002\u00ce",
-    "\u00cd\u0003\u0002\u0002\u0002\u00ce\u00cf\u0003\u0002\u0002\u0002\u00cf",
-    "\u00d0\u0003\u0002\u0002\u0002\u00d0\u00ed\u0005\"\u0012\u000b\u00d1",
-    "\u00d3\f\t\u0002\u0002\u00d2\u00d4\u0007%\u0002\u0002\u00d3\u00d2\u0003",
-    "\u0002\u0002\u0002\u00d3\u00d4\u0003\u0002\u0002\u0002\u00d4\u00d5\u0003",
-    "\u0002\u0002\u0002\u00d5\u00d7\u0007\u001b\u0002\u0002\u00d6\u00d8\u0007",
-    "%\u0002\u0002\u00d7\u00d6\u0003\u0002\u0002\u0002\u00d7\u00d8\u0003",
-    "\u0002\u0002\u0002\u00d8\u00d9\u0003\u0002\u0002\u0002\u00d9\u00ed\u0005",
-    "\"\u0012\n\u00da\u00dc\f\b\u0002\u0002\u00db\u00dd\u0007%\u0002\u0002",
-    "\u00dc\u00db\u0003\u0002\u0002\u0002\u00dc\u00dd\u0003\u0002\u0002\u0002",
-    "\u00dd\u00de\u0003\u0002\u0002\u0002\u00de\u00e0\u0007\u001c\u0002\u0002",
-    "\u00df\u00e1\u0007%\u0002\u0002\u00e0\u00df\u0003\u0002\u0002\u0002",
-    "\u00e0\u00e1\u0003\u0002\u0002\u0002\u00e1\u00e2\u0003\u0002\u0002\u0002",
-    "\u00e2\u00ed\u0005\"\u0012\t\u00e3\u00e5\f\u0007\u0002\u0002\u00e4\u00e6",
-    "\u0007%\u0002\u0002\u00e5\u00e4\u0003\u0002\u0002\u0002\u00e5\u00e6",
-    "\u0003\u0002\u0002\u0002\u00e6\u00e7\u0003\u0002\u0002\u0002\u00e7\u00e9",
-    "\u0007\u001d\u0002\u0002\u00e8\u00ea\u0007%\u0002\u0002\u00e9\u00e8",
-    "\u0003\u0002\u0002\u0002\u00e9\u00ea\u0003\u0002\u0002\u0002\u00ea\u00eb",
-    "\u0003\u0002\u0002\u0002\u00eb\u00ed\u0005\"\u0012\b\u00ec\u00c8\u0003",
-    "\u0002\u0002\u0002\u00ec\u00d1\u0003\u0002\u0002\u0002\u00ec\u00da\u0003",
-    "\u0002\u0002\u0002\u00ec\u00e3\u0003\u0002\u0002\u0002\u00ed\u00f0\u0003",
-    "\u0002\u0002\u0002\u00ee\u00ec\u0003\u0002\u0002\u0002\u00ee\u00ef\u0003",
-    "\u0002\u0002\u0002\u00ef#\u0003\u0002\u0002\u0002\u00f0\u00ee\u0003",
-    "\u0002\u0002\u0002\u00f1\u00f2\u0007#\u0002\u0002\u00f2\u00f3\u0007",
-    "%\u0002\u0002\u00f3\u00f4\u0005(\u0015\u0002\u00f4%\u0003\u0002\u0002",
-    "\u0002\u00f5\u00f6\u0005\u001a\u000e\u0002\u00f6\u00f7\u0005(\u0015",
-    "\u0002\u00f7\'\u0003\u0002\u0002\u0002\u00f8\u00ff\u0007#\u0002\u0002",
-    "\u00f9\u00ff\u0007\u0018\u0002\u0002\u00fa\u00ff\u0007\u0019\u0002\u0002",
-    "\u00fb\u00ff\u0005*\u0016\u0002\u00fc\u00ff\u0005\u001a\u000e\u0002",
-    "\u00fd\u00ff\u0005\"\u0012\u0002\u00fe\u00f8\u0003\u0002\u0002\u0002",
-    "\u00fe\u00f9\u0003\u0002\u0002\u0002\u00fe\u00fa\u0003\u0002\u0002\u0002",
-    "\u00fe\u00fb\u0003\u0002\u0002\u0002\u00fe\u00fc\u0003\u0002\u0002\u0002",
-    "\u00fe\u00fd\u0003\u0002\u0002\u0002\u00ff)\u0003\u0002\u0002\u0002",
-    "\u0100\u0101\u0007$\u0002\u0002\u0101+\u0003\u0002\u0002\u0002$.0;>",
-    "DINU\\egq~\u008b\u009b\u009d\u00a4\u00aa\u00ae\u00b2\u00b7\u00b9\u00c6",
-    "\u00ca\u00ce\u00d3\u00d7\u00dc\u00e0\u00e5\u00e9\u00ec\u00ee\u00fe"].join("");
+    "\u0003\u0002\u0015\u0016\u0003\u0002 $\u0002\u0138\u00022\u0003\u0002",
+    "\u0002\u0002\u0004@\u0003\u0002\u0002\u0002\u0006I\u0003\u0002\u0002",
+    "\u0002\bN\u0003\u0002\u0002\u0002\nS\u0003\u0002\u0002\u0002\fU\u0003",
+    "\u0002\u0002\u0002\u000e\\\u0003\u0002\u0002\u0002\u0010c\u0003\u0002",
+    "\u0002\u0002\u0012n\u0003\u0002\u0002\u0002\u0014{\u0003\u0002\u0002",
+    "\u0002\u0016\u0088\u0003\u0002\u0002\u0002\u0018\u0095\u0003\u0002\u0002",
+    "\u0002\u001a\u0099\u0003\u0002\u0002\u0002\u001c\u009c\u0003\u0002\u0002",
+    "\u0002\u001e\u00a5\u0003\u0002\u0002\u0002 \u00ab\u0003\u0002\u0002",
+    "\u0002\"\u00ba\u0003\u0002\u0002\u0002$\u00c9\u0003\u0002\u0002\u0002",
+    "&\u00dc\u0003\u0002\u0002\u0002(\u0107\u0003\u0002\u0002\u0002*\u010b",
+    "\u0003\u0002\u0002\u0002,\u0114\u0003\u0002\u0002\u0002.\u0116\u0003",
+    "\u0002\u0002\u000203\u0005\u0004\u0003\u000213\u0007\'\u0002\u00022",
+    "0\u0003\u0002\u0002\u000221\u0003\u0002\u0002\u000234\u0003\u0002\u0002",
+    "\u000242\u0003\u0002\u0002\u000245\u0003\u0002\u0002\u000256\u0003\u0002",
+    "\u0002\u000267\u0007\u0002\u0002\u00037\u0003\u0003\u0002\u0002\u0002",
+    "8A\u0005\u0006\u0004\u00029A\u0005\u001c\u000f\u0002:A\u0005\u001c\u000f",
+    "\u0002;A\u0005\u001e\u0010\u0002<A\u0005\"\u0012\u0002=A\u0005 \u0011",
+    "\u0002>A\u0005(\u0015\u0002?A\u0005*\u0016\u0002@8\u0003\u0002\u0002",
+    "\u0002@9\u0003\u0002\u0002\u0002@:\u0003\u0002\u0002\u0002@;\u0003\u0002",
+    "\u0002\u0002@<\u0003\u0002\u0002\u0002@=\u0003\u0002\u0002\u0002@>\u0003",
+    "\u0002\u0002\u0002@?\u0003\u0002\u0002\u0002AC\u0003\u0002\u0002\u0002",
+    "BD\u0007\'\u0002\u0002CB\u0003\u0002\u0002\u0002CD\u0003\u0002\u0002",
+    "\u0002DE\u0003\u0002\u0002\u0002EF\u0007\u0003\u0002\u0002F\u0005\u0003",
+    "\u0002\u0002\u0002GJ\u0005\b\u0005\u0002HJ\u0005\n\u0006\u0002IG\u0003",
+    "\u0002\u0002\u0002IH\u0003\u0002\u0002\u0002J\u0007\u0003\u0002\u0002",
+    "\u0002KO\u0005\f\u0007\u0002LO\u0005\u000e\b\u0002MO\u0005\u0010\t\u0002",
+    "NK\u0003\u0002\u0002\u0002NL\u0003\u0002\u0002\u0002NM\u0003\u0002\u0002",
+    "\u0002O\t\u0003\u0002\u0002\u0002PT\u0005\u0012\n\u0002QT\u0005\u0014",
+    "\u000b\u0002RT\u0005\u0016\f\u0002SP\u0003\u0002\u0002\u0002SQ\u0003",
+    "\u0002\u0002\u0002SR\u0003\u0002\u0002\u0002T\u000b\u0003\u0002\u0002",
+    "\u0002UV\u0007\u0004\u0002\u0002VW\u0007\'\u0002\u0002WZ\u0007%\u0002",
+    "\u0002XY\u0007\'\u0002\u0002Y[\u0005&\u0014\u0002ZX\u0003\u0002\u0002",
+    "\u0002Z[\u0003\u0002\u0002\u0002[\r\u0003\u0002\u0002\u0002\\]\u0007",
+    "\u0005\u0002\u0002]^\u0007\'\u0002\u0002^a\u0007%\u0002\u0002_`\u0007",
+    "\'\u0002\u0002`b\u0005&\u0014\u0002a_\u0003\u0002\u0002\u0002ab\u0003",
+    "\u0002\u0002\u0002b\u000f\u0003\u0002\u0002\u0002cd\u0007\u0006\u0002",
+    "\u0002de\u0007\'\u0002\u0002el\u0007%\u0002\u0002fj\u0007\'\u0002\u0002",
+    "gk\u0005.\u0018\u0002hk\u0007%\u0002\u0002ik\u0005\u001a\u000e\u0002",
+    "jg\u0003\u0002\u0002\u0002jh\u0003\u0002\u0002\u0002ji\u0003\u0002\u0002",
+    "\u0002km\u0003\u0002\u0002\u0002lf\u0003\u0002\u0002\u0002lm\u0003\u0002",
+    "\u0002\u0002m\u0011\u0003\u0002\u0002\u0002no\u0007\u0007\u0002\u0002",
+    "op\u0007%\u0002\u0002pq\u0007\b\u0002\u0002qv\u0007\u001a\u0002\u0002",
+    "rs\u0007\t\u0002\u0002su\u0007\u001a\u0002\u0002tr\u0003\u0002\u0002",
+    "\u0002ux\u0003\u0002\u0002\u0002vt\u0003\u0002\u0002\u0002vw\u0003\u0002",
+    "\u0002\u0002wy\u0003\u0002\u0002\u0002xv\u0003\u0002\u0002\u0002yz\u0007",
+    "\n\u0002\u0002z\u0013\u0003\u0002\u0002\u0002{|\u0007\u000b\u0002\u0002",
+    "|}\u0007%\u0002\u0002}~\u0007\b\u0002\u0002~\u0083\t\u0002\u0002\u0002",
+    "\u007f\u0080\u0007\t\u0002\u0002\u0080\u0082\t\u0002\u0002\u0002\u0081",
+    "\u007f\u0003\u0002\u0002\u0002\u0082\u0085\u0003\u0002\u0002\u0002\u0083",
+    "\u0081\u0003\u0002\u0002\u0002\u0083\u0084\u0003\u0002\u0002\u0002\u0084",
+    "\u0086\u0003\u0002\u0002\u0002\u0085\u0083\u0003\u0002\u0002\u0002\u0086",
+    "\u0087\u0007\n\u0002\u0002\u0087\u0015\u0003\u0002\u0002\u0002\u0088",
+    "\u0089\u0007\f\u0002\u0002\u0089\u008a\u0007%\u0002\u0002\u008a\u008b",
+    "\u0007\b\u0002\u0002\u008b\u0090\u0005.\u0018\u0002\u008c\u008d\u0007",
+    "\t\u0002\u0002\u008d\u008f\u0005.\u0018\u0002\u008e\u008c\u0003\u0002",
+    "\u0002\u0002\u008f\u0092\u0003\u0002\u0002\u0002\u0090\u008e\u0003\u0002",
+    "\u0002\u0002\u0090\u0091\u0003\u0002\u0002\u0002\u0091\u0093\u0003\u0002",
+    "\u0002\u0002\u0092\u0090\u0003\u0002\u0002\u0002\u0093\u0094\u0007\n",
+    "\u0002\u0002\u0094\u0017\u0003\u0002\u0002\u0002\u0095\u0096\u0007\b",
+    "\u0002\u0002\u0096\u0097\u0005,\u0017\u0002\u0097\u0098\u0007\n\u0002",
+    "\u0002\u0098\u0019\u0003\u0002\u0002\u0002\u0099\u009a\u0007%\u0002",
+    "\u0002\u009a\u009b\u0005\u0018\r\u0002\u009b\u001b\u0003\u0002\u0002",
+    "\u0002\u009c\u009d\t\u0003\u0002\u0002\u009d\u00a2\u0007\'\u0002\u0002",
+    "\u009e\u00a1\u0005,\u0017\u0002\u009f\u00a1\u0007\'\u0002\u0002\u00a0",
+    "\u009e\u0003\u0002\u0002\u0002\u00a0\u009f\u0003\u0002\u0002\u0002\u00a1",
+    "\u00a4\u0003\u0002\u0002\u0002\u00a2\u00a0\u0003\u0002\u0002\u0002\u00a2",
+    "\u00a3\u0003\u0002\u0002\u0002\u00a3\u001d\u0003\u0002\u0002\u0002\u00a4",
+    "\u00a2\u0003\u0002\u0002\u0002\u00a5\u00a6\t\u0004\u0002\u0002\u00a6",
+    "\u00a9\u0007\'\u0002\u0002\u00a7\u00aa\u0007%\u0002\u0002\u00a8\u00aa",
+    "\u0005\u001a\u000e\u0002\u00a9\u00a7\u0003\u0002\u0002\u0002\u00a9\u00a8",
+    "\u0003\u0002\u0002\u0002\u00aa\u001f\u0003\u0002\u0002\u0002\u00ab\u00ac",
+    "\t\u0005\u0002\u0002\u00ac\u00ad\u0007\'\u0002\u0002\u00ad\u00af\u0005",
+    "$\u0013\u0002\u00ae\u00b0\u0007\'\u0002\u0002\u00af\u00ae\u0003\u0002",
+    "\u0002\u0002\u00af\u00b0\u0003\u0002\u0002\u0002\u00b0\u00b1\u0003\u0002",
+    "\u0002\u0002\u00b1\u00b4\u0007\u0013\u0002\u0002\u00b2\u00b5\u0005\u0004",
+    "\u0003\u0002\u00b3\u00b5\u0007\'\u0002\u0002\u00b4\u00b2\u0003\u0002",
+    "\u0002\u0002\u00b4\u00b3\u0003\u0002\u0002\u0002\u00b5\u00b6\u0003\u0002",
+    "\u0002\u0002\u00b6\u00b4\u0003\u0002\u0002\u0002\u00b6\u00b7\u0003\u0002",
+    "\u0002\u0002\u00b7\u00b8\u0003\u0002\u0002\u0002\u00b8\u00b9\u0007\u0014",
+    "\u0002\u0002\u00b9!\u0003\u0002\u0002\u0002\u00ba\u00bb\t\u0006\u0002",
+    "\u0002\u00bb\u00bc\u0007\'\u0002\u0002\u00bc\u00be\u0005$\u0013\u0002",
+    "\u00bd\u00bf\u0007\'\u0002\u0002\u00be\u00bd\u0003\u0002\u0002\u0002",
+    "\u00be\u00bf\u0003\u0002\u0002\u0002\u00bf\u00c0\u0003\u0002\u0002\u0002",
+    "\u00c0\u00c3\u0007\u0013\u0002\u0002\u00c1\u00c4\u0005\u0004\u0003\u0002",
+    "\u00c2\u00c4\u0007\'\u0002\u0002\u00c3\u00c1\u0003\u0002\u0002\u0002",
+    "\u00c3\u00c2\u0003\u0002\u0002\u0002\u00c4\u00c5\u0003\u0002\u0002\u0002",
+    "\u00c5\u00c3\u0003\u0002\u0002\u0002\u00c5\u00c6\u0003\u0002\u0002\u0002",
+    "\u00c6\u00c7\u0003\u0002\u0002\u0002\u00c7\u00c8\u0007\u0014\u0002\u0002",
+    "\u00c8#\u0003\u0002\u0002\u0002\u00c9\u00cb\u0005,\u0017\u0002\u00ca",
+    "\u00cc\u0007\'\u0002\u0002\u00cb\u00ca\u0003\u0002\u0002\u0002\u00cb",
+    "\u00cc\u0003\u0002\u0002\u0002\u00cc\u00cd\u0003\u0002\u0002\u0002\u00cd",
+    "\u00cf\t\u0007\u0002\u0002\u00ce\u00d0\u0007\'\u0002\u0002\u00cf\u00ce",
+    "\u0003\u0002\u0002\u0002\u00cf\u00d0\u0003\u0002\u0002\u0002\u00d0\u00d1",
+    "\u0003\u0002\u0002\u0002\u00d1\u00d2\u0005,\u0017\u0002\u00d2%\u0003",
+    "\u0002\u0002\u0002\u00d3\u00d4\b\u0014\u0001\u0002\u00d4\u00d5\u0007",
+    "\u0017\u0002\u0002\u00d5\u00d6\u0005&\u0014\u0002\u00d6\u00d7\u0007",
+    "\u0018\u0002\u0002\u00d7\u00dd\u0003\u0002\u0002\u0002\u00d8\u00dd\u0007",
+    "%\u0002\u0002\u00d9\u00dd\u0005\u001a\u000e\u0002\u00da\u00dd\u0007",
+    "\u001a\u0002\u0002\u00db\u00dd\u0007\u001b\u0002\u0002\u00dc\u00d3\u0003",
+    "\u0002\u0002\u0002\u00dc\u00d8\u0003\u0002\u0002\u0002\u00dc\u00d9\u0003",
+    "\u0002\u0002\u0002\u00dc\u00da\u0003\u0002\u0002\u0002\u00dc\u00db\u0003",
+    "\u0002\u0002\u0002\u00dd\u0104\u0003\u0002\u0002\u0002\u00de\u00e0\f",
+    "\n\u0002\u0002\u00df\u00e1\u0007\'\u0002\u0002\u00e0\u00df\u0003\u0002",
+    "\u0002\u0002\u00e0\u00e1\u0003\u0002\u0002\u0002\u00e1\u00e2\u0003\u0002",
+    "\u0002\u0002\u00e2\u00e4\u0007\u001c\u0002\u0002\u00e3\u00e5\u0007\'",
+    "\u0002\u0002\u00e4\u00e3\u0003\u0002\u0002\u0002\u00e4\u00e5\u0003\u0002",
+    "\u0002\u0002\u00e5\u00e6\u0003\u0002\u0002\u0002\u00e6\u0103\u0005&",
+    "\u0014\u000b\u00e7\u00e9\f\t\u0002\u0002\u00e8\u00ea\u0007\'\u0002\u0002",
+    "\u00e9\u00e8\u0003\u0002\u0002\u0002\u00e9\u00ea\u0003\u0002\u0002\u0002",
+    "\u00ea\u00eb\u0003\u0002\u0002\u0002\u00eb\u00ed\u0007\u001d\u0002\u0002",
+    "\u00ec\u00ee\u0007\'\u0002\u0002\u00ed\u00ec\u0003\u0002\u0002\u0002",
+    "\u00ed\u00ee\u0003\u0002\u0002\u0002\u00ee\u00ef\u0003\u0002\u0002\u0002",
+    "\u00ef\u0103\u0005&\u0014\n\u00f0\u00f2\f\b\u0002\u0002\u00f1\u00f3",
+    "\u0007\'\u0002\u0002\u00f2\u00f1\u0003\u0002\u0002\u0002\u00f2\u00f3",
+    "\u0003\u0002\u0002\u0002\u00f3\u00f4\u0003\u0002\u0002\u0002\u00f4\u00f6",
+    "\u0007\u001e\u0002\u0002\u00f5\u00f7\u0007\'\u0002\u0002\u00f6\u00f5",
+    "\u0003\u0002\u0002\u0002\u00f6\u00f7\u0003\u0002\u0002\u0002\u00f7\u00f8",
+    "\u0003\u0002\u0002\u0002\u00f8\u0103\u0005&\u0014\t\u00f9\u00fb\f\u0007",
+    "\u0002\u0002\u00fa\u00fc\u0007\'\u0002\u0002\u00fb\u00fa\u0003\u0002",
+    "\u0002\u0002\u00fb\u00fc\u0003\u0002\u0002\u0002\u00fc\u00fd\u0003\u0002",
+    "\u0002\u0002\u00fd\u00ff\u0007\u001f\u0002\u0002\u00fe\u0100\u0007\'",
+    "\u0002\u0002\u00ff\u00fe\u0003\u0002\u0002\u0002\u00ff\u0100\u0003\u0002",
+    "\u0002\u0002\u0100\u0101\u0003\u0002\u0002\u0002\u0101\u0103\u0005&",
+    "\u0014\b\u0102\u00de\u0003\u0002\u0002\u0002\u0102\u00e7\u0003\u0002",
+    "\u0002\u0002\u0102\u00f0\u0003\u0002\u0002\u0002\u0102\u00f9\u0003\u0002",
+    "\u0002\u0002\u0103\u0106\u0003\u0002\u0002\u0002\u0104\u0102\u0003\u0002",
+    "\u0002\u0002\u0104\u0105\u0003\u0002\u0002\u0002\u0105\'\u0003\u0002",
+    "\u0002\u0002\u0106\u0104\u0003\u0002\u0002\u0002\u0107\u0108\u0007%",
+    "\u0002\u0002\u0108\u0109\u0007\'\u0002\u0002\u0109\u010a\u0005,\u0017",
+    "\u0002\u010a)\u0003\u0002\u0002\u0002\u010b\u010c\u0005\u001a\u000e",
+    "\u0002\u010c\u010d\u0005,\u0017\u0002\u010d+\u0003\u0002\u0002\u0002",
+    "\u010e\u0115\u0007%\u0002\u0002\u010f\u0115\u0007\u001a\u0002\u0002",
+    "\u0110\u0115\u0007\u001b\u0002\u0002\u0111\u0115\u0005.\u0018\u0002",
+    "\u0112\u0115\u0005\u001a\u000e\u0002\u0113\u0115\u0005&\u0014\u0002",
+    "\u0114\u010e\u0003\u0002\u0002\u0002\u0114\u010f\u0003\u0002\u0002\u0002",
+    "\u0114\u0110\u0003\u0002\u0002\u0002\u0114\u0111\u0003\u0002\u0002\u0002",
+    "\u0114\u0112\u0003\u0002\u0002\u0002\u0114\u0113\u0003\u0002\u0002\u0002",
+    "\u0115-\u0003\u0002\u0002\u0002\u0116\u0117\u0007&\u0002\u0002\u0117",
+    "/\u0003\u0002\u0002\u0002\'24@CINSZajlv\u0083\u0090\u00a0\u00a2\u00a9",
+    "\u00af\u00b4\u00b6\u00be\u00c3\u00c5\u00cb\u00cf\u00dc\u00e0\u00e4\u00e9",
+    "\u00ed\u00f2\u00f6\u00fb\u00ff\u0102\u0104\u0114"].join("");
 
 
 var atn = new antlr4.atn.ATNDeserializer().deserialize(serializedATN);
@@ -189,24 +206,25 @@ var sharedContextCache = new antlr4.PredictionContextCache();
 
 var literalNames = [ null, "';'", "'int'", "'real'", "'string'", "'int[]'", 
                      "'['", "','", "']'", "'real[]'", "'string[]'", "'print'", 
-                     "'PRINT'", "'read'", "'READ'", "'if'", "'IF'", "'{'", 
-                     "'}'", "'('", "')'", null, null, null, "'*'", "'/'", 
-                     "'+'", "'-'", "'='", "'<='", "'>='", "'>'", "'<'" ];
+                     "'PRINT'", "'read'", "'READ'", "'while'", "'WHILE'", 
+                     "'{'", "'}'", "'if'", "'IF'", "'('", "')'", null, null, 
+                     null, "'*'", "'/'", "'+'", "'-'", "'='", "'<='", "'>='", 
+                     "'>'", "'<'" ];
 
 var symbolicNames = [ null, null, null, null, null, null, null, null, null, 
                       null, null, null, null, null, null, null, null, null, 
-                      null, null, null, "COMMENT", "INTEGER_NUMBER", "REAL_NUMBER", 
-                      "ASTERISK", "SLASH", "PLUS", "MINUS", "EQUAL", "LESS_OR_EQUAL", 
-                      "GREATER_OR_EQUAL", "GREATER_THAN", "LESS_THAN", "VARIABLE_NAME", 
-                      "TEXT", "W" ];
+                      null, null, null, null, null, "COMMENT", "INTEGER_NUMBER", 
+                      "REAL_NUMBER", "ASTERISK", "SLASH", "PLUS", "MINUS", 
+                      "EQUAL", "LESS_OR_EQUAL", "GREATER_OR_EQUAL", "GREATER_THAN", 
+                      "LESS_THAN", "VARIABLE_NAME", "TEXT", "W" ];
 
 var ruleNames =  [ "program", "instruction", "definition", "single_element_definition", 
                    "array_definition", "int_definition", "real_definition", 
                    "string_definition", "int_array_definition", "real_array_definition", 
                    "string_array_definition", "element_number", "element_of_array", 
-                   "print_instruction", "read_instruction", "if_instruction", 
-                   "arithmetic_expression", "assignment", "array_element_assignment", 
-                   "value", "string" ];
+                   "print_instruction", "read_instruction", "while_instruction", 
+                   "if_instruction", "condition", "arithmetic_expression", 
+                   "assignment", "array_element_assignment", "value", "string" ];
 
 function FiszczLangParser (input) {
 	antlr4.Parser.call(this, input);
@@ -247,21 +265,23 @@ FiszczLangParser.T__16 = 17;
 FiszczLangParser.T__17 = 18;
 FiszczLangParser.T__18 = 19;
 FiszczLangParser.T__19 = 20;
-FiszczLangParser.COMMENT = 21;
-FiszczLangParser.INTEGER_NUMBER = 22;
-FiszczLangParser.REAL_NUMBER = 23;
-FiszczLangParser.ASTERISK = 24;
-FiszczLangParser.SLASH = 25;
-FiszczLangParser.PLUS = 26;
-FiszczLangParser.MINUS = 27;
-FiszczLangParser.EQUAL = 28;
-FiszczLangParser.LESS_OR_EQUAL = 29;
-FiszczLangParser.GREATER_OR_EQUAL = 30;
-FiszczLangParser.GREATER_THAN = 31;
-FiszczLangParser.LESS_THAN = 32;
-FiszczLangParser.VARIABLE_NAME = 33;
-FiszczLangParser.TEXT = 34;
-FiszczLangParser.W = 35;
+FiszczLangParser.T__20 = 21;
+FiszczLangParser.T__21 = 22;
+FiszczLangParser.COMMENT = 23;
+FiszczLangParser.INTEGER_NUMBER = 24;
+FiszczLangParser.REAL_NUMBER = 25;
+FiszczLangParser.ASTERISK = 26;
+FiszczLangParser.SLASH = 27;
+FiszczLangParser.PLUS = 28;
+FiszczLangParser.MINUS = 29;
+FiszczLangParser.EQUAL = 30;
+FiszczLangParser.LESS_OR_EQUAL = 31;
+FiszczLangParser.GREATER_OR_EQUAL = 32;
+FiszczLangParser.GREATER_THAN = 33;
+FiszczLangParser.LESS_THAN = 34;
+FiszczLangParser.VARIABLE_NAME = 35;
+FiszczLangParser.TEXT = 36;
+FiszczLangParser.W = 37;
 
 FiszczLangParser.RULE_program = 0;
 FiszczLangParser.RULE_instruction = 1;
@@ -278,12 +298,14 @@ FiszczLangParser.RULE_element_number = 11;
 FiszczLangParser.RULE_element_of_array = 12;
 FiszczLangParser.RULE_print_instruction = 13;
 FiszczLangParser.RULE_read_instruction = 14;
-FiszczLangParser.RULE_if_instruction = 15;
-FiszczLangParser.RULE_arithmetic_expression = 16;
-FiszczLangParser.RULE_assignment = 17;
-FiszczLangParser.RULE_array_element_assignment = 18;
-FiszczLangParser.RULE_value = 19;
-FiszczLangParser.RULE_string = 20;
+FiszczLangParser.RULE_while_instruction = 15;
+FiszczLangParser.RULE_if_instruction = 16;
+FiszczLangParser.RULE_condition = 17;
+FiszczLangParser.RULE_arithmetic_expression = 18;
+FiszczLangParser.RULE_assignment = 19;
+FiszczLangParser.RULE_array_element_assignment = 20;
+FiszczLangParser.RULE_value = 21;
+FiszczLangParser.RULE_string = 22;
 
 
 function ProgramContext(parser, parent, invokingState) {
@@ -361,11 +383,11 @@ FiszczLangParser.prototype.program = function() {
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 44; 
+        this.state = 48; 
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         do {
-            this.state = 44;
+            this.state = 48;
             this._errHandler.sync(this);
             switch(this._input.LA(1)) {
             case FiszczLangParser.T__1:
@@ -380,22 +402,24 @@ FiszczLangParser.prototype.program = function() {
             case FiszczLangParser.T__13:
             case FiszczLangParser.T__14:
             case FiszczLangParser.T__15:
+            case FiszczLangParser.T__18:
+            case FiszczLangParser.T__19:
             case FiszczLangParser.VARIABLE_NAME:
-                this.state = 42;
+                this.state = 46;
                 this.instruction();
                 break;
             case FiszczLangParser.W:
-                this.state = 43;
+                this.state = 47;
                 this.match(FiszczLangParser.W);
                 break;
             default:
                 throw new antlr4.error.NoViableAltException(this);
             }
-            this.state = 46; 
+            this.state = 50; 
             this._errHandler.sync(this);
             _la = this._input.LA(1);
-        } while((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << FiszczLangParser.T__1) | (1 << FiszczLangParser.T__2) | (1 << FiszczLangParser.T__3) | (1 << FiszczLangParser.T__4) | (1 << FiszczLangParser.T__8) | (1 << FiszczLangParser.T__9) | (1 << FiszczLangParser.T__10) | (1 << FiszczLangParser.T__11) | (1 << FiszczLangParser.T__12) | (1 << FiszczLangParser.T__13) | (1 << FiszczLangParser.T__14) | (1 << FiszczLangParser.T__15))) !== 0) || _la===FiszczLangParser.VARIABLE_NAME || _la===FiszczLangParser.W);
-        this.state = 48;
+        } while((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << FiszczLangParser.T__1) | (1 << FiszczLangParser.T__2) | (1 << FiszczLangParser.T__3) | (1 << FiszczLangParser.T__4) | (1 << FiszczLangParser.T__8) | (1 << FiszczLangParser.T__9) | (1 << FiszczLangParser.T__10) | (1 << FiszczLangParser.T__11) | (1 << FiszczLangParser.T__12) | (1 << FiszczLangParser.T__13) | (1 << FiszczLangParser.T__14) | (1 << FiszczLangParser.T__15) | (1 << FiszczLangParser.T__18) | (1 << FiszczLangParser.T__19))) !== 0) || _la===FiszczLangParser.VARIABLE_NAME || _la===FiszczLangParser.W);
+        this.state = 52;
         this.match(FiszczLangParser.EOF);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -444,6 +468,10 @@ InstructionContext.prototype.if_instruction = function() {
     return this.getTypedRuleContext(If_instructionContext,0);
 };
 
+InstructionContext.prototype.while_instruction = function() {
+    return this.getTypedRuleContext(While_instructionContext,0);
+};
+
 InstructionContext.prototype.assignment = function() {
     return this.getTypedRuleContext(AssignmentContext,0);
 };
@@ -488,55 +516,60 @@ FiszczLangParser.prototype.instruction = function() {
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 57;
+        this.state = 62;
         this._errHandler.sync(this);
         var la_ = this._interp.adaptivePredict(this._input,2,this._ctx);
         switch(la_) {
         case 1:
-            this.state = 50;
+            this.state = 54;
             this.definition();
             break;
 
         case 2:
-            this.state = 51;
+            this.state = 55;
             this.print_instruction();
             break;
 
         case 3:
-            this.state = 52;
+            this.state = 56;
             this.print_instruction();
             break;
 
         case 4:
-            this.state = 53;
+            this.state = 57;
             this.read_instruction();
             break;
 
         case 5:
-            this.state = 54;
+            this.state = 58;
             this.if_instruction();
             break;
 
         case 6:
-            this.state = 55;
-            this.assignment();
+            this.state = 59;
+            this.while_instruction();
             break;
 
         case 7:
-            this.state = 56;
+            this.state = 60;
+            this.assignment();
+            break;
+
+        case 8:
+            this.state = 61;
             this.array_element_assignment();
             break;
 
         }
-        this.state = 60;
+        this.state = 65;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         if(_la===FiszczLangParser.W) {
-            this.state = 59;
+            this.state = 64;
             this.match(FiszczLangParser.W);
         }
 
-        this.state = 62;
+        this.state = 67;
         this.match(FiszczLangParser.T__0);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -608,19 +641,19 @@ FiszczLangParser.prototype.definition = function() {
     this.enterRule(localctx, 4, FiszczLangParser.RULE_definition);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 66;
+        this.state = 71;
         this._errHandler.sync(this);
         switch(this._input.LA(1)) {
         case FiszczLangParser.T__1:
         case FiszczLangParser.T__2:
         case FiszczLangParser.T__3:
-            this.state = 64;
+            this.state = 69;
             this.single_element_definition();
             break;
         case FiszczLangParser.T__4:
         case FiszczLangParser.T__8:
         case FiszczLangParser.T__9:
-            this.state = 65;
+            this.state = 70;
             this.array_definition();
             break;
         default:
@@ -700,19 +733,19 @@ FiszczLangParser.prototype.single_element_definition = function() {
     this.enterRule(localctx, 6, FiszczLangParser.RULE_single_element_definition);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 71;
+        this.state = 76;
         this._errHandler.sync(this);
         switch(this._input.LA(1)) {
         case FiszczLangParser.T__1:
-            this.state = 68;
+            this.state = 73;
             this.int_definition();
             break;
         case FiszczLangParser.T__2:
-            this.state = 69;
+            this.state = 74;
             this.real_definition();
             break;
         case FiszczLangParser.T__3:
-            this.state = 70;
+            this.state = 75;
             this.string_definition();
             break;
         default:
@@ -792,19 +825,19 @@ FiszczLangParser.prototype.array_definition = function() {
     this.enterRule(localctx, 8, FiszczLangParser.RULE_array_definition);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 76;
+        this.state = 81;
         this._errHandler.sync(this);
         switch(this._input.LA(1)) {
         case FiszczLangParser.T__4:
-            this.state = 73;
+            this.state = 78;
             this.int_array_definition();
             break;
         case FiszczLangParser.T__8:
-            this.state = 74;
+            this.state = 79;
             this.real_array_definition();
             break;
         case FiszczLangParser.T__9:
-            this.state = 75;
+            this.state = 80;
             this.string_array_definition();
             break;
         default:
@@ -892,19 +925,19 @@ FiszczLangParser.prototype.int_definition = function() {
     this.enterRule(localctx, 10, FiszczLangParser.RULE_int_definition);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 78;
-        this.match(FiszczLangParser.T__1);
-        this.state = 79;
-        this.match(FiszczLangParser.W);
-        this.state = 80;
-        this.match(FiszczLangParser.VARIABLE_NAME);
         this.state = 83;
+        this.match(FiszczLangParser.T__1);
+        this.state = 84;
+        this.match(FiszczLangParser.W);
+        this.state = 85;
+        this.match(FiszczLangParser.VARIABLE_NAME);
+        this.state = 88;
         this._errHandler.sync(this);
         var la_ = this._interp.adaptivePredict(this._input,7,this._ctx);
         if(la_===1) {
-            this.state = 81;
+            this.state = 86;
             this.match(FiszczLangParser.W);
-            this.state = 82;
+            this.state = 87;
             this.arithmetic_expression(0);
 
         }
@@ -990,19 +1023,19 @@ FiszczLangParser.prototype.real_definition = function() {
     this.enterRule(localctx, 12, FiszczLangParser.RULE_real_definition);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 85;
-        this.match(FiszczLangParser.T__2);
-        this.state = 86;
-        this.match(FiszczLangParser.W);
-        this.state = 87;
-        this.match(FiszczLangParser.VARIABLE_NAME);
         this.state = 90;
+        this.match(FiszczLangParser.T__2);
+        this.state = 91;
+        this.match(FiszczLangParser.W);
+        this.state = 92;
+        this.match(FiszczLangParser.VARIABLE_NAME);
+        this.state = 95;
         this._errHandler.sync(this);
         var la_ = this._interp.adaptivePredict(this._input,8,this._ctx);
         if(la_===1) {
-            this.state = 88;
+            this.state = 93;
             this.match(FiszczLangParser.W);
-            this.state = 89;
+            this.state = 94;
             this.arithmetic_expression(0);
 
         }
@@ -1100,34 +1133,34 @@ FiszczLangParser.prototype.string_definition = function() {
     this.enterRule(localctx, 14, FiszczLangParser.RULE_string_definition);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 92;
+        this.state = 97;
         this.match(FiszczLangParser.T__3);
-        this.state = 93;
+        this.state = 98;
         this.match(FiszczLangParser.W);
-        this.state = 94;
+        this.state = 99;
         this.match(FiszczLangParser.VARIABLE_NAME);
-        this.state = 101;
+        this.state = 106;
         this._errHandler.sync(this);
         var la_ = this._interp.adaptivePredict(this._input,10,this._ctx);
         if(la_===1) {
-            this.state = 95;
+            this.state = 100;
             this.match(FiszczLangParser.W);
-            this.state = 99;
+            this.state = 104;
             this._errHandler.sync(this);
             var la_ = this._interp.adaptivePredict(this._input,9,this._ctx);
             switch(la_) {
             case 1:
-                this.state = 96;
+                this.state = 101;
                 this.string();
                 break;
 
             case 2:
-                this.state = 97;
+                this.state = 102;
                 this.match(FiszczLangParser.VARIABLE_NAME);
                 break;
 
             case 3:
-                this.state = 98;
+                this.state = 103;
                 this.element_of_array();
                 break;
 
@@ -1213,27 +1246,27 @@ FiszczLangParser.prototype.int_array_definition = function() {
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 103;
+        this.state = 108;
         this.match(FiszczLangParser.T__4);
-        this.state = 104;
+        this.state = 109;
         this.match(FiszczLangParser.VARIABLE_NAME);
-        this.state = 105;
+        this.state = 110;
         this.match(FiszczLangParser.T__5);
-        this.state = 106;
-        this.match(FiszczLangParser.INTEGER_NUMBER);
         this.state = 111;
+        this.match(FiszczLangParser.INTEGER_NUMBER);
+        this.state = 116;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         while(_la===FiszczLangParser.T__6) {
-            this.state = 107;
+            this.state = 112;
             this.match(FiszczLangParser.T__6);
-            this.state = 108;
-            this.match(FiszczLangParser.INTEGER_NUMBER);
             this.state = 113;
+            this.match(FiszczLangParser.INTEGER_NUMBER);
+            this.state = 118;
             this._errHandler.sync(this);
             _la = this._input.LA(1);
         }
-        this.state = 114;
+        this.state = 119;
         this.match(FiszczLangParser.T__7);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -1326,13 +1359,13 @@ FiszczLangParser.prototype.real_array_definition = function() {
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 116;
+        this.state = 121;
         this.match(FiszczLangParser.T__8);
-        this.state = 117;
+        this.state = 122;
         this.match(FiszczLangParser.VARIABLE_NAME);
-        this.state = 118;
+        this.state = 123;
         this.match(FiszczLangParser.T__5);
-        this.state = 119;
+        this.state = 124;
         _la = this._input.LA(1);
         if(!(_la===FiszczLangParser.INTEGER_NUMBER || _la===FiszczLangParser.REAL_NUMBER)) {
         this._errHandler.recoverInline(this);
@@ -1341,13 +1374,13 @@ FiszczLangParser.prototype.real_array_definition = function() {
         	this._errHandler.reportMatch(this);
             this.consume();
         }
-        this.state = 124;
+        this.state = 129;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         while(_la===FiszczLangParser.T__6) {
-            this.state = 120;
+            this.state = 125;
             this.match(FiszczLangParser.T__6);
-            this.state = 121;
+            this.state = 126;
             _la = this._input.LA(1);
             if(!(_la===FiszczLangParser.INTEGER_NUMBER || _la===FiszczLangParser.REAL_NUMBER)) {
             this._errHandler.recoverInline(this);
@@ -1356,11 +1389,11 @@ FiszczLangParser.prototype.real_array_definition = function() {
             	this._errHandler.reportMatch(this);
                 this.consume();
             }
-            this.state = 126;
+            this.state = 131;
             this._errHandler.sync(this);
             _la = this._input.LA(1);
         }
-        this.state = 127;
+        this.state = 132;
         this.match(FiszczLangParser.T__7);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -1440,27 +1473,27 @@ FiszczLangParser.prototype.string_array_definition = function() {
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 129;
+        this.state = 134;
         this.match(FiszczLangParser.T__9);
-        this.state = 130;
+        this.state = 135;
         this.match(FiszczLangParser.VARIABLE_NAME);
-        this.state = 131;
+        this.state = 136;
         this.match(FiszczLangParser.T__5);
-        this.state = 132;
-        this.string();
         this.state = 137;
+        this.string();
+        this.state = 142;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         while(_la===FiszczLangParser.T__6) {
-            this.state = 133;
+            this.state = 138;
             this.match(FiszczLangParser.T__6);
-            this.state = 134;
-            this.string();
             this.state = 139;
+            this.string();
+            this.state = 144;
             this._errHandler.sync(this);
             _la = this._input.LA(1);
         }
-        this.state = 140;
+        this.state = 145;
         this.match(FiszczLangParser.T__7);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -1528,11 +1561,11 @@ FiszczLangParser.prototype.element_number = function() {
     this.enterRule(localctx, 22, FiszczLangParser.RULE_element_number);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 142;
+        this.state = 147;
         this.match(FiszczLangParser.T__5);
-        this.state = 143;
+        this.state = 148;
         this.value();
-        this.state = 144;
+        this.state = 149;
         this.match(FiszczLangParser.T__7);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -1604,9 +1637,9 @@ FiszczLangParser.prototype.element_of_array = function() {
     this.enterRule(localctx, 24, FiszczLangParser.RULE_element_of_array);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 146;
+        this.state = 151;
         this.match(FiszczLangParser.VARIABLE_NAME);
-        this.state = 147;
+        this.state = 152;
         this.element_number();
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -1694,7 +1727,7 @@ FiszczLangParser.prototype.print_instruction = function() {
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 149;
+        this.state = 154;
         _la = this._input.LA(1);
         if(!(_la===FiszczLangParser.T__10 || _la===FiszczLangParser.T__11)) {
         this._errHandler.recoverInline(this);
@@ -1703,33 +1736,33 @@ FiszczLangParser.prototype.print_instruction = function() {
         	this._errHandler.reportMatch(this);
             this.consume();
         }
-        this.state = 150;
-        this.match(FiszczLangParser.W);
         this.state = 155;
+        this.match(FiszczLangParser.W);
+        this.state = 160;
         this._errHandler.sync(this);
         var _alt = this._interp.adaptivePredict(this._input,15,this._ctx)
         while(_alt!=2 && _alt!=antlr4.atn.ATN.INVALID_ALT_NUMBER) {
             if(_alt===1) {
-                this.state = 153;
+                this.state = 158;
                 this._errHandler.sync(this);
                 switch(this._input.LA(1)) {
-                case FiszczLangParser.T__18:
+                case FiszczLangParser.T__20:
                 case FiszczLangParser.INTEGER_NUMBER:
                 case FiszczLangParser.REAL_NUMBER:
                 case FiszczLangParser.VARIABLE_NAME:
                 case FiszczLangParser.TEXT:
-                    this.state = 151;
+                    this.state = 156;
                     this.value();
                     break;
                 case FiszczLangParser.W:
-                    this.state = 152;
+                    this.state = 157;
                     this.match(FiszczLangParser.W);
                     break;
                 default:
                     throw new antlr4.error.NoViableAltException(this);
                 } 
             }
-            this.state = 157;
+            this.state = 162;
             this._errHandler.sync(this);
             _alt = this._interp.adaptivePredict(this._input,15,this._ctx);
         }
@@ -1809,7 +1842,7 @@ FiszczLangParser.prototype.read_instruction = function() {
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 158;
+        this.state = 163;
         _la = this._input.LA(1);
         if(!(_la===FiszczLangParser.T__12 || _la===FiszczLangParser.T__13)) {
         this._errHandler.recoverInline(this);
@@ -1818,23 +1851,174 @@ FiszczLangParser.prototype.read_instruction = function() {
         	this._errHandler.reportMatch(this);
             this.consume();
         }
-        this.state = 159;
+        this.state = 164;
         this.match(FiszczLangParser.W);
-        this.state = 162;
+        this.state = 167;
         this._errHandler.sync(this);
         var la_ = this._interp.adaptivePredict(this._input,16,this._ctx);
         switch(la_) {
         case 1:
-            this.state = 160;
+            this.state = 165;
             this.match(FiszczLangParser.VARIABLE_NAME);
             break;
 
         case 2:
-            this.state = 161;
+            this.state = 166;
             this.element_of_array();
             break;
 
         }
+    } catch (re) {
+    	if(re instanceof antlr4.error.RecognitionException) {
+	        localctx.exception = re;
+	        this._errHandler.reportError(this, re);
+	        this._errHandler.recover(this, re);
+	    } else {
+	    	throw re;
+	    }
+    } finally {
+        this.exitRule();
+    }
+    return localctx;
+};
+
+
+function While_instructionContext(parser, parent, invokingState) {
+	if(parent===undefined) {
+	    parent = null;
+	}
+	if(invokingState===undefined || invokingState===null) {
+		invokingState = -1;
+	}
+	antlr4.ParserRuleContext.call(this, parent, invokingState);
+    this.parser = parser;
+    this.ruleIndex = FiszczLangParser.RULE_while_instruction;
+    return this;
+}
+
+While_instructionContext.prototype = Object.create(antlr4.ParserRuleContext.prototype);
+While_instructionContext.prototype.constructor = While_instructionContext;
+
+While_instructionContext.prototype.W = function(i) {
+	if(i===undefined) {
+		i = null;
+	}
+    if(i===null) {
+        return this.getTokens(FiszczLangParser.W);
+    } else {
+        return this.getToken(FiszczLangParser.W, i);
+    }
+};
+
+
+While_instructionContext.prototype.condition = function() {
+    return this.getTypedRuleContext(ConditionContext,0);
+};
+
+While_instructionContext.prototype.instruction = function(i) {
+    if(i===undefined) {
+        i = null;
+    }
+    if(i===null) {
+        return this.getTypedRuleContexts(InstructionContext);
+    } else {
+        return this.getTypedRuleContext(InstructionContext,i);
+    }
+};
+
+While_instructionContext.prototype.enterRule = function(listener) {
+    if(listener instanceof FiszczLangListener ) {
+        listener.enterWhile_instruction(this);
+	}
+};
+
+While_instructionContext.prototype.exitRule = function(listener) {
+    if(listener instanceof FiszczLangListener ) {
+        listener.exitWhile_instruction(this);
+	}
+};
+
+While_instructionContext.prototype.accept = function(visitor) {
+    if ( visitor instanceof FiszczLangVisitor ) {
+        return visitor.visitWhile_instruction(this);
+    } else {
+        return visitor.visitChildren(this);
+    }
+};
+
+
+
+
+FiszczLangParser.While_instructionContext = While_instructionContext;
+
+FiszczLangParser.prototype.while_instruction = function() {
+
+    var localctx = new While_instructionContext(this, this._ctx, this.state);
+    this.enterRule(localctx, 30, FiszczLangParser.RULE_while_instruction);
+    var _la = 0; // Token type
+    try {
+        this.enterOuterAlt(localctx, 1);
+        this.state = 169;
+        _la = this._input.LA(1);
+        if(!(_la===FiszczLangParser.T__14 || _la===FiszczLangParser.T__15)) {
+        this._errHandler.recoverInline(this);
+        }
+        else {
+        	this._errHandler.reportMatch(this);
+            this.consume();
+        }
+        this.state = 170;
+        this.match(FiszczLangParser.W);
+        this.state = 171;
+        this.condition();
+        this.state = 173;
+        this._errHandler.sync(this);
+        _la = this._input.LA(1);
+        if(_la===FiszczLangParser.W) {
+            this.state = 172;
+            this.match(FiszczLangParser.W);
+        }
+
+        this.state = 175;
+        this.match(FiszczLangParser.T__16);
+        this.state = 178; 
+        this._errHandler.sync(this);
+        _la = this._input.LA(1);
+        do {
+            this.state = 178;
+            this._errHandler.sync(this);
+            switch(this._input.LA(1)) {
+            case FiszczLangParser.T__1:
+            case FiszczLangParser.T__2:
+            case FiszczLangParser.T__3:
+            case FiszczLangParser.T__4:
+            case FiszczLangParser.T__8:
+            case FiszczLangParser.T__9:
+            case FiszczLangParser.T__10:
+            case FiszczLangParser.T__11:
+            case FiszczLangParser.T__12:
+            case FiszczLangParser.T__13:
+            case FiszczLangParser.T__14:
+            case FiszczLangParser.T__15:
+            case FiszczLangParser.T__18:
+            case FiszczLangParser.T__19:
+            case FiszczLangParser.VARIABLE_NAME:
+                this.state = 176;
+                this.instruction();
+                break;
+            case FiszczLangParser.W:
+                this.state = 177;
+                this.match(FiszczLangParser.W);
+                break;
+            default:
+                throw new antlr4.error.NoViableAltException(this);
+            }
+            this.state = 180; 
+            this._errHandler.sync(this);
+            _la = this._input.LA(1);
+        } while((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << FiszczLangParser.T__1) | (1 << FiszczLangParser.T__2) | (1 << FiszczLangParser.T__3) | (1 << FiszczLangParser.T__4) | (1 << FiszczLangParser.T__8) | (1 << FiszczLangParser.T__9) | (1 << FiszczLangParser.T__10) | (1 << FiszczLangParser.T__11) | (1 << FiszczLangParser.T__12) | (1 << FiszczLangParser.T__13) | (1 << FiszczLangParser.T__14) | (1 << FiszczLangParser.T__15) | (1 << FiszczLangParser.T__18) | (1 << FiszczLangParser.T__19))) !== 0) || _la===FiszczLangParser.VARIABLE_NAME || _la===FiszczLangParser.W);
+        this.state = 182;
+        this.match(FiszczLangParser.T__17);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
 	        localctx.exception = re;
@@ -1878,35 +2062,8 @@ If_instructionContext.prototype.W = function(i) {
 };
 
 
-If_instructionContext.prototype.value = function(i) {
-    if(i===undefined) {
-        i = null;
-    }
-    if(i===null) {
-        return this.getTypedRuleContexts(ValueContext);
-    } else {
-        return this.getTypedRuleContext(ValueContext,i);
-    }
-};
-
-If_instructionContext.prototype.EQUAL = function() {
-    return this.getToken(FiszczLangParser.EQUAL, 0);
-};
-
-If_instructionContext.prototype.LESS_OR_EQUAL = function() {
-    return this.getToken(FiszczLangParser.LESS_OR_EQUAL, 0);
-};
-
-If_instructionContext.prototype.GREATER_OR_EQUAL = function() {
-    return this.getToken(FiszczLangParser.GREATER_OR_EQUAL, 0);
-};
-
-If_instructionContext.prototype.GREATER_THAN = function() {
-    return this.getToken(FiszczLangParser.GREATER_THAN, 0);
-};
-
-If_instructionContext.prototype.LESS_THAN = function() {
-    return this.getToken(FiszczLangParser.LESS_THAN, 0);
+If_instructionContext.prototype.condition = function() {
+    return this.getTypedRuleContext(ConditionContext,0);
 };
 
 If_instructionContext.prototype.instruction = function(i) {
@@ -1948,65 +2105,38 @@ FiszczLangParser.If_instructionContext = If_instructionContext;
 FiszczLangParser.prototype.if_instruction = function() {
 
     var localctx = new If_instructionContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 30, FiszczLangParser.RULE_if_instruction);
+    this.enterRule(localctx, 32, FiszczLangParser.RULE_if_instruction);
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 164;
+        this.state = 184;
         _la = this._input.LA(1);
-        if(!(_la===FiszczLangParser.T__14 || _la===FiszczLangParser.T__15)) {
+        if(!(_la===FiszczLangParser.T__18 || _la===FiszczLangParser.T__19)) {
         this._errHandler.recoverInline(this);
         }
         else {
         	this._errHandler.reportMatch(this);
             this.consume();
         }
-        this.state = 165;
+        this.state = 185;
         this.match(FiszczLangParser.W);
-        this.state = 166;
-        this.value();
-        this.state = 168;
+        this.state = 186;
+        this.condition();
+        this.state = 188;
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         if(_la===FiszczLangParser.W) {
-            this.state = 167;
+            this.state = 187;
             this.match(FiszczLangParser.W);
         }
 
-        this.state = 170;
-        _la = this._input.LA(1);
-        if(!(((((_la - 28)) & ~0x1f) == 0 && ((1 << (_la - 28)) & ((1 << (FiszczLangParser.EQUAL - 28)) | (1 << (FiszczLangParser.LESS_OR_EQUAL - 28)) | (1 << (FiszczLangParser.GREATER_OR_EQUAL - 28)) | (1 << (FiszczLangParser.GREATER_THAN - 28)) | (1 << (FiszczLangParser.LESS_THAN - 28)))) !== 0))) {
-        this._errHandler.recoverInline(this);
-        }
-        else {
-        	this._errHandler.reportMatch(this);
-            this.consume();
-        }
-        this.state = 172;
-        this._errHandler.sync(this);
-        _la = this._input.LA(1);
-        if(_la===FiszczLangParser.W) {
-            this.state = 171;
-            this.match(FiszczLangParser.W);
-        }
-
-        this.state = 174;
-        this.value();
-        this.state = 176;
-        this._errHandler.sync(this);
-        _la = this._input.LA(1);
-        if(_la===FiszczLangParser.W) {
-            this.state = 175;
-            this.match(FiszczLangParser.W);
-        }
-
-        this.state = 178;
+        this.state = 190;
         this.match(FiszczLangParser.T__16);
-        this.state = 181; 
+        this.state = 193; 
         this._errHandler.sync(this);
         _la = this._input.LA(1);
         do {
-            this.state = 181;
+            this.state = 193;
             this._errHandler.sync(this);
             switch(this._input.LA(1)) {
             case FiszczLangParser.T__1:
@@ -2021,23 +2151,160 @@ FiszczLangParser.prototype.if_instruction = function() {
             case FiszczLangParser.T__13:
             case FiszczLangParser.T__14:
             case FiszczLangParser.T__15:
+            case FiszczLangParser.T__18:
+            case FiszczLangParser.T__19:
             case FiszczLangParser.VARIABLE_NAME:
-                this.state = 179;
+                this.state = 191;
                 this.instruction();
                 break;
             case FiszczLangParser.W:
-                this.state = 180;
+                this.state = 192;
                 this.match(FiszczLangParser.W);
                 break;
             default:
                 throw new antlr4.error.NoViableAltException(this);
             }
-            this.state = 183; 
+            this.state = 195; 
             this._errHandler.sync(this);
             _la = this._input.LA(1);
-        } while((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << FiszczLangParser.T__1) | (1 << FiszczLangParser.T__2) | (1 << FiszczLangParser.T__3) | (1 << FiszczLangParser.T__4) | (1 << FiszczLangParser.T__8) | (1 << FiszczLangParser.T__9) | (1 << FiszczLangParser.T__10) | (1 << FiszczLangParser.T__11) | (1 << FiszczLangParser.T__12) | (1 << FiszczLangParser.T__13) | (1 << FiszczLangParser.T__14) | (1 << FiszczLangParser.T__15))) !== 0) || _la===FiszczLangParser.VARIABLE_NAME || _la===FiszczLangParser.W);
-        this.state = 185;
+        } while((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << FiszczLangParser.T__1) | (1 << FiszczLangParser.T__2) | (1 << FiszczLangParser.T__3) | (1 << FiszczLangParser.T__4) | (1 << FiszczLangParser.T__8) | (1 << FiszczLangParser.T__9) | (1 << FiszczLangParser.T__10) | (1 << FiszczLangParser.T__11) | (1 << FiszczLangParser.T__12) | (1 << FiszczLangParser.T__13) | (1 << FiszczLangParser.T__14) | (1 << FiszczLangParser.T__15) | (1 << FiszczLangParser.T__18) | (1 << FiszczLangParser.T__19))) !== 0) || _la===FiszczLangParser.VARIABLE_NAME || _la===FiszczLangParser.W);
+        this.state = 197;
         this.match(FiszczLangParser.T__17);
+    } catch (re) {
+    	if(re instanceof antlr4.error.RecognitionException) {
+	        localctx.exception = re;
+	        this._errHandler.reportError(this, re);
+	        this._errHandler.recover(this, re);
+	    } else {
+	    	throw re;
+	    }
+    } finally {
+        this.exitRule();
+    }
+    return localctx;
+};
+
+
+function ConditionContext(parser, parent, invokingState) {
+	if(parent===undefined) {
+	    parent = null;
+	}
+	if(invokingState===undefined || invokingState===null) {
+		invokingState = -1;
+	}
+	antlr4.ParserRuleContext.call(this, parent, invokingState);
+    this.parser = parser;
+    this.ruleIndex = FiszczLangParser.RULE_condition;
+    return this;
+}
+
+ConditionContext.prototype = Object.create(antlr4.ParserRuleContext.prototype);
+ConditionContext.prototype.constructor = ConditionContext;
+
+ConditionContext.prototype.value = function(i) {
+    if(i===undefined) {
+        i = null;
+    }
+    if(i===null) {
+        return this.getTypedRuleContexts(ValueContext);
+    } else {
+        return this.getTypedRuleContext(ValueContext,i);
+    }
+};
+
+ConditionContext.prototype.EQUAL = function() {
+    return this.getToken(FiszczLangParser.EQUAL, 0);
+};
+
+ConditionContext.prototype.LESS_OR_EQUAL = function() {
+    return this.getToken(FiszczLangParser.LESS_OR_EQUAL, 0);
+};
+
+ConditionContext.prototype.GREATER_OR_EQUAL = function() {
+    return this.getToken(FiszczLangParser.GREATER_OR_EQUAL, 0);
+};
+
+ConditionContext.prototype.GREATER_THAN = function() {
+    return this.getToken(FiszczLangParser.GREATER_THAN, 0);
+};
+
+ConditionContext.prototype.LESS_THAN = function() {
+    return this.getToken(FiszczLangParser.LESS_THAN, 0);
+};
+
+ConditionContext.prototype.W = function(i) {
+	if(i===undefined) {
+		i = null;
+	}
+    if(i===null) {
+        return this.getTokens(FiszczLangParser.W);
+    } else {
+        return this.getToken(FiszczLangParser.W, i);
+    }
+};
+
+
+ConditionContext.prototype.enterRule = function(listener) {
+    if(listener instanceof FiszczLangListener ) {
+        listener.enterCondition(this);
+	}
+};
+
+ConditionContext.prototype.exitRule = function(listener) {
+    if(listener instanceof FiszczLangListener ) {
+        listener.exitCondition(this);
+	}
+};
+
+ConditionContext.prototype.accept = function(visitor) {
+    if ( visitor instanceof FiszczLangVisitor ) {
+        return visitor.visitCondition(this);
+    } else {
+        return visitor.visitChildren(this);
+    }
+};
+
+
+
+
+FiszczLangParser.ConditionContext = ConditionContext;
+
+FiszczLangParser.prototype.condition = function() {
+
+    var localctx = new ConditionContext(this, this._ctx, this.state);
+    this.enterRule(localctx, 34, FiszczLangParser.RULE_condition);
+    var _la = 0; // Token type
+    try {
+        this.enterOuterAlt(localctx, 1);
+        this.state = 199;
+        this.value();
+        this.state = 201;
+        this._errHandler.sync(this);
+        _la = this._input.LA(1);
+        if(_la===FiszczLangParser.W) {
+            this.state = 200;
+            this.match(FiszczLangParser.W);
+        }
+
+        this.state = 203;
+        _la = this._input.LA(1);
+        if(!(((((_la - 30)) & ~0x1f) == 0 && ((1 << (_la - 30)) & ((1 << (FiszczLangParser.EQUAL - 30)) | (1 << (FiszczLangParser.LESS_OR_EQUAL - 30)) | (1 << (FiszczLangParser.GREATER_OR_EQUAL - 30)) | (1 << (FiszczLangParser.GREATER_THAN - 30)) | (1 << (FiszczLangParser.LESS_THAN - 30)))) !== 0))) {
+        this._errHandler.recoverInline(this);
+        }
+        else {
+        	this._errHandler.reportMatch(this);
+            this.consume();
+        }
+        this.state = 205;
+        this._errHandler.sync(this);
+        _la = this._input.LA(1);
+        if(_la===FiszczLangParser.W) {
+            this.state = 204;
+            this.match(FiszczLangParser.W);
+        }
+
+        this.state = 207;
+        this.value();
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
 	        localctx.exception = re;
@@ -2154,134 +2421,66 @@ FiszczLangParser.prototype.arithmetic_expression = function(_p) {
     var _parentState = this.state;
     var localctx = new Arithmetic_expressionContext(this, this._ctx, _parentState);
     var _prevctx = localctx;
-    var _startState = 32;
-    this.enterRecursionRule(localctx, 32, FiszczLangParser.RULE_arithmetic_expression, _p);
+    var _startState = 36;
+    this.enterRecursionRule(localctx, 36, FiszczLangParser.RULE_arithmetic_expression, _p);
     var _la = 0; // Token type
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 196;
+        this.state = 218;
         this._errHandler.sync(this);
-        var la_ = this._interp.adaptivePredict(this._input,22,this._ctx);
+        var la_ = this._interp.adaptivePredict(this._input,25,this._ctx);
         switch(la_) {
         case 1:
-            this.state = 188;
-            this.match(FiszczLangParser.T__18);
-            this.state = 189;
+            this.state = 210;
+            this.match(FiszczLangParser.T__20);
+            this.state = 211;
             this.arithmetic_expression(0);
-            this.state = 190;
-            this.match(FiszczLangParser.T__19);
+            this.state = 212;
+            this.match(FiszczLangParser.T__21);
             break;
 
         case 2:
-            this.state = 192;
+            this.state = 214;
             this.match(FiszczLangParser.VARIABLE_NAME);
             break;
 
         case 3:
-            this.state = 193;
+            this.state = 215;
             this.element_of_array();
             break;
 
         case 4:
-            this.state = 194;
+            this.state = 216;
             this.match(FiszczLangParser.INTEGER_NUMBER);
             break;
 
         case 5:
-            this.state = 195;
+            this.state = 217;
             this.match(FiszczLangParser.REAL_NUMBER);
             break;
 
         }
         this._ctx.stop = this._input.LT(-1);
-        this.state = 236;
+        this.state = 258;
         this._errHandler.sync(this);
-        var _alt = this._interp.adaptivePredict(this._input,32,this._ctx)
+        var _alt = this._interp.adaptivePredict(this._input,35,this._ctx)
         while(_alt!=2 && _alt!=antlr4.atn.ATN.INVALID_ALT_NUMBER) {
             if(_alt===1) {
                 if(this._parseListeners!==null) {
                     this.triggerExitRuleEvent();
                 }
                 _prevctx = localctx;
-                this.state = 234;
+                this.state = 256;
                 this._errHandler.sync(this);
-                var la_ = this._interp.adaptivePredict(this._input,31,this._ctx);
+                var la_ = this._interp.adaptivePredict(this._input,34,this._ctx);
                 switch(la_) {
                 case 1:
                     localctx = new Arithmetic_expressionContext(this, _parentctx, _parentState);
                     this.pushNewRecursionContext(localctx, _startState, FiszczLangParser.RULE_arithmetic_expression);
-                    this.state = 198;
+                    this.state = 220;
                     if (!( this.precpred(this._ctx, 8))) {
                         throw new antlr4.error.FailedPredicateException(this, "this.precpred(this._ctx, 8)");
                     }
-                    this.state = 200;
-                    this._errHandler.sync(this);
-                    _la = this._input.LA(1);
-                    if(_la===FiszczLangParser.W) {
-                        this.state = 199;
-                        this.match(FiszczLangParser.W);
-                    }
-
-                    this.state = 202;
-                    this.match(FiszczLangParser.ASTERISK);
-                    this.state = 204;
-                    this._errHandler.sync(this);
-                    _la = this._input.LA(1);
-                    if(_la===FiszczLangParser.W) {
-                        this.state = 203;
-                        this.match(FiszczLangParser.W);
-                    }
-
-                    this.state = 206;
-                    this.arithmetic_expression(9);
-                    break;
-
-                case 2:
-                    localctx = new Arithmetic_expressionContext(this, _parentctx, _parentState);
-                    this.pushNewRecursionContext(localctx, _startState, FiszczLangParser.RULE_arithmetic_expression);
-                    this.state = 207;
-                    if (!( this.precpred(this._ctx, 7))) {
-                        throw new antlr4.error.FailedPredicateException(this, "this.precpred(this._ctx, 7)");
-                    }
-                    this.state = 209;
-                    this._errHandler.sync(this);
-                    _la = this._input.LA(1);
-                    if(_la===FiszczLangParser.W) {
-                        this.state = 208;
-                        this.match(FiszczLangParser.W);
-                    }
-
-                    this.state = 211;
-                    this.match(FiszczLangParser.SLASH);
-                    this.state = 213;
-                    this._errHandler.sync(this);
-                    _la = this._input.LA(1);
-                    if(_la===FiszczLangParser.W) {
-                        this.state = 212;
-                        this.match(FiszczLangParser.W);
-                    }
-
-                    this.state = 215;
-                    this.arithmetic_expression(8);
-                    break;
-
-                case 3:
-                    localctx = new Arithmetic_expressionContext(this, _parentctx, _parentState);
-                    this.pushNewRecursionContext(localctx, _startState, FiszczLangParser.RULE_arithmetic_expression);
-                    this.state = 216;
-                    if (!( this.precpred(this._ctx, 6))) {
-                        throw new antlr4.error.FailedPredicateException(this, "this.precpred(this._ctx, 6)");
-                    }
-                    this.state = 218;
-                    this._errHandler.sync(this);
-                    _la = this._input.LA(1);
-                    if(_la===FiszczLangParser.W) {
-                        this.state = 217;
-                        this.match(FiszczLangParser.W);
-                    }
-
-                    this.state = 220;
-                    this.match(FiszczLangParser.PLUS);
                     this.state = 222;
                     this._errHandler.sync(this);
                     _la = this._input.LA(1);
@@ -2291,26 +2490,26 @@ FiszczLangParser.prototype.arithmetic_expression = function(_p) {
                     }
 
                     this.state = 224;
-                    this.arithmetic_expression(7);
-                    break;
-
-                case 4:
-                    localctx = new Arithmetic_expressionContext(this, _parentctx, _parentState);
-                    this.pushNewRecursionContext(localctx, _startState, FiszczLangParser.RULE_arithmetic_expression);
-                    this.state = 225;
-                    if (!( this.precpred(this._ctx, 5))) {
-                        throw new antlr4.error.FailedPredicateException(this, "this.precpred(this._ctx, 5)");
-                    }
-                    this.state = 227;
+                    this.match(FiszczLangParser.ASTERISK);
+                    this.state = 226;
                     this._errHandler.sync(this);
                     _la = this._input.LA(1);
                     if(_la===FiszczLangParser.W) {
-                        this.state = 226;
+                        this.state = 225;
                         this.match(FiszczLangParser.W);
                     }
 
+                    this.state = 228;
+                    this.arithmetic_expression(9);
+                    break;
+
+                case 2:
+                    localctx = new Arithmetic_expressionContext(this, _parentctx, _parentState);
+                    this.pushNewRecursionContext(localctx, _startState, FiszczLangParser.RULE_arithmetic_expression);
                     this.state = 229;
-                    this.match(FiszczLangParser.MINUS);
+                    if (!( this.precpred(this._ctx, 7))) {
+                        throw new antlr4.error.FailedPredicateException(this, "this.precpred(this._ctx, 7)");
+                    }
                     this.state = 231;
                     this._errHandler.sync(this);
                     _la = this._input.LA(1);
@@ -2320,14 +2519,82 @@ FiszczLangParser.prototype.arithmetic_expression = function(_p) {
                     }
 
                     this.state = 233;
+                    this.match(FiszczLangParser.SLASH);
+                    this.state = 235;
+                    this._errHandler.sync(this);
+                    _la = this._input.LA(1);
+                    if(_la===FiszczLangParser.W) {
+                        this.state = 234;
+                        this.match(FiszczLangParser.W);
+                    }
+
+                    this.state = 237;
+                    this.arithmetic_expression(8);
+                    break;
+
+                case 3:
+                    localctx = new Arithmetic_expressionContext(this, _parentctx, _parentState);
+                    this.pushNewRecursionContext(localctx, _startState, FiszczLangParser.RULE_arithmetic_expression);
+                    this.state = 238;
+                    if (!( this.precpred(this._ctx, 6))) {
+                        throw new antlr4.error.FailedPredicateException(this, "this.precpred(this._ctx, 6)");
+                    }
+                    this.state = 240;
+                    this._errHandler.sync(this);
+                    _la = this._input.LA(1);
+                    if(_la===FiszczLangParser.W) {
+                        this.state = 239;
+                        this.match(FiszczLangParser.W);
+                    }
+
+                    this.state = 242;
+                    this.match(FiszczLangParser.PLUS);
+                    this.state = 244;
+                    this._errHandler.sync(this);
+                    _la = this._input.LA(1);
+                    if(_la===FiszczLangParser.W) {
+                        this.state = 243;
+                        this.match(FiszczLangParser.W);
+                    }
+
+                    this.state = 246;
+                    this.arithmetic_expression(7);
+                    break;
+
+                case 4:
+                    localctx = new Arithmetic_expressionContext(this, _parentctx, _parentState);
+                    this.pushNewRecursionContext(localctx, _startState, FiszczLangParser.RULE_arithmetic_expression);
+                    this.state = 247;
+                    if (!( this.precpred(this._ctx, 5))) {
+                        throw new antlr4.error.FailedPredicateException(this, "this.precpred(this._ctx, 5)");
+                    }
+                    this.state = 249;
+                    this._errHandler.sync(this);
+                    _la = this._input.LA(1);
+                    if(_la===FiszczLangParser.W) {
+                        this.state = 248;
+                        this.match(FiszczLangParser.W);
+                    }
+
+                    this.state = 251;
+                    this.match(FiszczLangParser.MINUS);
+                    this.state = 253;
+                    this._errHandler.sync(this);
+                    _la = this._input.LA(1);
+                    if(_la===FiszczLangParser.W) {
+                        this.state = 252;
+                        this.match(FiszczLangParser.W);
+                    }
+
+                    this.state = 255;
                     this.arithmetic_expression(6);
                     break;
 
                 } 
             }
-            this.state = 238;
+            this.state = 260;
             this._errHandler.sync(this);
-            _alt = this._interp.adaptivePredict(this._input,32,this._ctx);
+            _alt = this._interp.adaptivePredict(this._input,35,this._ctx);
         }
 
     } catch( error) {
@@ -2401,14 +2668,14 @@ FiszczLangParser.AssignmentContext = AssignmentContext;
 FiszczLangParser.prototype.assignment = function() {
 
     var localctx = new AssignmentContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 34, FiszczLangParser.RULE_assignment);
+    this.enterRule(localctx, 38, FiszczLangParser.RULE_assignment);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 239;
+        this.state = 261;
         this.match(FiszczLangParser.VARIABLE_NAME);
-        this.state = 240;
+        this.state = 262;
         this.match(FiszczLangParser.W);
-        this.state = 241;
+        this.state = 263;
         this.value();
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -2477,12 +2744,12 @@ FiszczLangParser.Array_element_assignmentContext = Array_element_assignmentConte
 FiszczLangParser.prototype.array_element_assignment = function() {
 
     var localctx = new Array_element_assignmentContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 36, FiszczLangParser.RULE_array_element_assignment);
+    this.enterRule(localctx, 40, FiszczLangParser.RULE_array_element_assignment);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 243;
+        this.state = 265;
         this.element_of_array();
-        this.state = 244;
+        this.state = 266;
         this.value();
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -2567,40 +2834,40 @@ FiszczLangParser.ValueContext = ValueContext;
 FiszczLangParser.prototype.value = function() {
 
     var localctx = new ValueContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 38, FiszczLangParser.RULE_value);
+    this.enterRule(localctx, 42, FiszczLangParser.RULE_value);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 252;
+        this.state = 274;
         this._errHandler.sync(this);
-        var la_ = this._interp.adaptivePredict(this._input,33,this._ctx);
+        var la_ = this._interp.adaptivePredict(this._input,36,this._ctx);
         switch(la_) {
         case 1:
-            this.state = 246;
+            this.state = 268;
             this.match(FiszczLangParser.VARIABLE_NAME);
             break;
 
         case 2:
-            this.state = 247;
+            this.state = 269;
             this.match(FiszczLangParser.INTEGER_NUMBER);
             break;
 
         case 3:
-            this.state = 248;
+            this.state = 270;
             this.match(FiszczLangParser.REAL_NUMBER);
             break;
 
         case 4:
-            this.state = 249;
+            this.state = 271;
             this.string();
             break;
 
         case 5:
-            this.state = 250;
+            this.state = 272;
             this.element_of_array();
             break;
 
         case 6:
-            this.state = 251;
+            this.state = 273;
             this.arithmetic_expression(0);
             break;
 
@@ -2668,10 +2935,10 @@ FiszczLangParser.StringContext = StringContext;
 FiszczLangParser.prototype.string = function() {
 
     var localctx = new StringContext(this, this._ctx, this.state);
-    this.enterRule(localctx, 40, FiszczLangParser.RULE_string);
+    this.enterRule(localctx, 44, FiszczLangParser.RULE_string);
     try {
         this.enterOuterAlt(localctx, 1);
-        this.state = 254;
+        this.state = 276;
         this.match(FiszczLangParser.TEXT);
     } catch (re) {
     	if(re instanceof antlr4.error.RecognitionException) {
@@ -2690,7 +2957,7 @@ FiszczLangParser.prototype.string = function() {
 
 FiszczLangParser.prototype.sempred = function(localctx, ruleIndex, predIndex) {
 	switch(ruleIndex) {
-	case 16:
+	case 18:
 			return this.arithmetic_expression_sempred(localctx, predIndex);
     default:
         throw "No predicate with index:" + ruleIndex;

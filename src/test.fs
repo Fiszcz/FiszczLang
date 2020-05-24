@@ -59,3 +59,9 @@ if 44 >= 44 {
 if 44 <= 44 {
     PRINT "\nLess or equal";
 }
+
+int iterator 1;
+WHILE iterator <= 10 {
+    PRINT "\n" iterator;
+    iterator iterator + 1;
+}

@@ -14,8 +14,8 @@
   "scripts": {
     "compile": "tsc && cross-env NODE_ENV=production node ./src/FiszczLangCompiler.js ./src/program.fs",
     "compile:test": "tsc && cross-env NODE_ENV=production node ./src/FiszczLangCompiler.js ./src/test.fs",
-    "genarate:test": "antlr4 ./src/FiszczLang.g4 & javac ./src/FiszczLang*.java",
-    "test:gui": "grun FiszczLang program test.fs -gui",
+    "generate:test": "antlr4 ./src/FiszczLang.g4 && javac ./FiszczLang*.java",
+    "test:gui": "grun FiszczLang program ./src/test.fs -gui",
     "generate": "antlr4 -Dlanguage=JavaScript -visitor ./src/FiszczLang.g4 -o ./src"
   }
 }
