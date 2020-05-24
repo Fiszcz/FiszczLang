@@ -11,6 +11,6 @@ declare module NodeJS {
         additionalData: {
             line: number;
             column: number;
-        }
+        };
     }
 }

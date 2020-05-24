@@ -1,21 +1,29 @@
 {
-  "name": "FiszczLang",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "https://github.com/Fiszcz/FiszczLang.git",
-  "author": "Filip Szczesniak <fiszczu@gmail.com>",
-  "license": "MIT",
-  "dependencies": {
-    "@types/node": "^13.13.5",
-    "antlr4": "^4.8.0",
-    "cross-env": "^7.0.2",
-    "typescript": "3.9.3"
-  },
-  "scripts": {
-    "compile": "tsc && cross-env NODE_ENV=production node ./src/FiszczLangCompiler.js ./src/program.fs",
-    "compile:test": "tsc && cross-env NODE_ENV=production node ./src/FiszczLangCompiler.js ./src/test.fs",
-    "generate:test": "antlr4 ./src/FiszczLang.g4 && javac ./FiszczLang*.java",
-    "test:gui": "grun FiszczLang program ./src/test.fs -gui",
-    "generate": "antlr4 -Dlanguage=JavaScript -visitor ./src/FiszczLang.g4 -o ./src"
-  }
+    "name": "FiszczLang",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/Fiszcz/FiszczLang.git",
+    "author": "Filip Szczesniak <fiszczu@gmail.com>",
+    "license": "MIT",
+    "dependencies": {
+        "@types/node": "^13.13.5",
+        "antlr4": "^4.8.0",
+        "cross-env": "^7.0.2",
+        "husky": "^4.2.5",
+        "prettier": "^2.0.5",
+        "pretty-quick": "^2.0.1",
+        "typescript": "3.9.3"
+    },
+    "scripts": {
+        "compile": "tsc && cross-env NODE_ENV=production node ./src/FiszczLangCompiler.js ./src/program.fs",
+        "compile:test": "tsc && cross-env NODE_ENV=production node ./src/FiszczLangCompiler.js ./src/test.fs",
+        "generate:test": "antlr4 ./src/FiszczLang.g4 && javac ./FiszczLang*.java",
+        "test:gui": "grun FiszczLang program ./src/test.fs -gui",
+        "generate": "antlr4 -Dlanguage=JavaScript -visitor ./src/FiszczLang.g4 -o ./src"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "pretty-quick --staged"
+        }
+    }
 }

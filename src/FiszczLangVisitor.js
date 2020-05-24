@@ -1,18 +1,21 @@
 // Generated from ./src/FiszczLang.g4 by ANTLR 4.8
 // jshint ignore: start
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
+var __assign =
+    (this && this.__assign) ||
+    function () {
+        __assign =
+            Object.assign ||
+            function (t) {
+                for (var s, i = 1, n = arguments.length; i < n; i++) {
+                    s = arguments[i];
+                    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+                }
+                return t;
+            };
+        return __assign.apply(this, arguments);
     };
-    return __assign.apply(this, arguments);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var types_1 = require("./types");
+Object.defineProperty(exports, '__esModule', {value: true});
+var types_1 = require('./types');
 var antlr4 = require('antlr4/index');
 // This class defines a complete generic visitor for a parse tree produced by FiszczLangParser.
 function FiszczLangVisitor(outputProgram) {
@@ -45,25 +48,35 @@ FiszczLangVisitor.prototype.visitArray_definition = function (ctx) {
 };
 // Visit a parse tree produced by FiszczLangParser#int_definition.
 FiszczLangVisitor.prototype.visitInt_definition = function (ctx) {
-    var resultOfArithmeticOperation = ctx.arithmetic_expression() ? (ctx.arithmetic_expression().getText() ? this.visitArithmetic_expression(ctx.arithmetic_expression()) : { value: "0", type: "i32" }) : { value: "0", type: "i32" };
+    var resultOfArithmeticOperation = ctx.arithmetic_expression()
+        ? ctx.arithmetic_expression().getText()
+            ? this.visitArithmetic_expression(ctx.arithmetic_expression())
+            : {value: '0', type: 'i32'}
+        : {value: '0', type: 'i32'};
     this.program.createNumericVariable(ctx.VARIABLE_NAME().getText(), 'i32', resultOfArithmeticOperation);
 };
 // Visit a parse tree produced by FiszczLangParser#real_definition.
 FiszczLangVisitor.prototype.visitReal_definition = function (ctx) {
-    var resultOfArithmeticOperation = ctx.arithmetic_expression() ? (ctx.arithmetic_expression().getText() ? this.visitArithmetic_expression(ctx.arithmetic_expression()) : { value: "0.0", type: "double" }) : { value: "0.0", type: "double" };
+    var resultOfArithmeticOperation = ctx.arithmetic_expression()
+        ? ctx.arithmetic_expression().getText()
+            ? this.visitArithmetic_expression(ctx.arithmetic_expression())
+            : {value: '0.0', type: 'double'}
+        : {value: '0.0', type: 'double'};
     this.program.createNumericVariable(ctx.VARIABLE_NAME().getText(), 'double', resultOfArithmeticOperation);
 };
 // Visit a parse tree produced by FiszczLangParser#string_definition.
 FiszczLangVisitor.prototype.visitString_definition = function (ctx) {
-    var text = getTextOfString(ctx.string() ? ctx.string().getText() : "");
+    var text = getTextOfString(ctx.string() ? ctx.string().getText() : '');
     this.program.createStringVariable(ctx.VARIABLE_NAME()[0].getText(), 'i8*', text);
 };
 // Visit a parse tree produced by FiszczLangParser#int_array_definition.
 FiszczLangVisitor.prototype.visitInt_array_definition = function (ctx) {
     var variableName = ctx.VARIABLE_NAME().getText();
-    var valuesOfArray = ctx.INTEGER_NUMBER().map(function (integerNumberCtx) { return integerNumberCtx.getText(); });
+    var valuesOfArray = ctx.INTEGER_NUMBER().map(function (integerNumberCtx) {
+        return integerNumberCtx.getText();
+    });
     var sizeOfArray = valuesOfArray.length;
-    var type = "[" + sizeOfArray + " x i32]";
+    var type = '[' + sizeOfArray + ' x i32]';
     this.program.createNumericArray(variableName, type, valuesOfArray);
 };
 // Visit a parse tree produced by FiszczLangParser#real_array_definition.
@@ -73,9 +86,11 @@ FiszczLangVisitor.prototype.visitReal_array_definition = function (ctx) {
 // Visit a parse tree produced by FiszczLangParser#string_array_definition.
 FiszczLangVisitor.prototype.visitString_array_definition = function (ctx) {
     var variableName = ctx.VARIABLE_NAME().getText();
-    var valuesOfArray = ctx.string().map(function (stringCtx) { return getTextOfString(stringCtx.getText()); });
+    var valuesOfArray = ctx.string().map(function (stringCtx) {
+        return getTextOfString(stringCtx.getText());
+    });
     var sizeOfArray = valuesOfArray.length;
-    var type = "[" + sizeOfArray + " x i8*]";
+    var type = '[' + sizeOfArray + ' x i8*]';
     this.program.createStringArray(variableName, type, valuesOfArray);
 };
 // Visit a parse tree produced by FiszczLangParser#element_number.
@@ -114,11 +129,14 @@ FiszczLangVisitor.prototype.visitWhile_instruction = function (ctx) {
 };
 // Visit a parse tree produced by FiszczLangParser#if_instruction.
 FiszczLangVisitor.prototype.visitIf_instruction = function (ctx) {
-    var _a = this.getConditionElements(ctx.condition()), leftSideOfOperator = _a.leftSideOfOperator, rightSideOfOperator = _a.rightSideOfOperator, comparisonType = _a.comparisonType;
+    var _a = this.getConditionElements(ctx.condition()),
+        leftSideOfOperator = _a.leftSideOfOperator,
+        rightSideOfOperator = _a.rightSideOfOperator,
+        comparisonType = _a.comparisonType;
     var comparisonResult = this.program.makeComparison(leftSideOfOperator, rightSideOfOperator, comparisonType);
     var informationAboutIf = this.program.startIf();
     this.visitChildren(ctx);
-    this.program.endIf(__assign({ comparisonResult: comparisonResult }, informationAboutIf));
+    this.program.endIf(__assign({comparisonResult: comparisonResult}, informationAboutIf));
 };
 FiszczLangVisitor.prototype.getConditionElements = function (conditionCtx) {
     var leftSideOfOperator = this.visitValue(conditionCtx.value()[0]);
@@ -126,20 +144,16 @@ FiszczLangVisitor.prototype.getConditionElements = function (conditionCtx) {
     var comparisonType;
     if (conditionCtx.EQUAL()) {
         comparisonType = types_1.Comparisons.EQUAL;
-    }
-    else if (conditionCtx.GREATER_THAN()) {
+    } else if (conditionCtx.GREATER_THAN()) {
         comparisonType = types_1.Comparisons.GREATER_THAN;
-    }
-    else if (conditionCtx.LESS_THAN()) {
+    } else if (conditionCtx.LESS_THAN()) {
         comparisonType = types_1.Comparisons.LESS_THAN;
-    }
-    else if (conditionCtx.LESS_OR_EQUAL()) {
+    } else if (conditionCtx.LESS_OR_EQUAL()) {
         comparisonType = types_1.Comparisons.LESS_OR_EQUAL;
-    }
-    else if (conditionCtx.GREATER_OR_EQUAL()) {
+    } else if (conditionCtx.GREATER_OR_EQUAL()) {
         comparisonType = types_1.Comparisons.GREATER_OR_EQUAL;
     }
-    return { leftSideOfOperator: leftSideOfOperator, rightSideOfOperator: rightSideOfOperator, comparisonType: comparisonType };
+    return {leftSideOfOperator: leftSideOfOperator, rightSideOfOperator: rightSideOfOperator, comparisonType: comparisonType};
 };
 // Visit a parse tree produced by FiszczLangParser#arithmetic_expression.
 FiszczLangVisitor.prototype.visitArithmetic_expression = function (ctx) {
@@ -147,33 +161,26 @@ FiszczLangVisitor.prototype.visitArithmetic_expression = function (ctx) {
         var firstArithmeticExpression = this.visitArithmetic_expression(ctx.arithmetic_expression()[0]);
         var secondArithmeticExpression = this.visitArithmetic_expression(ctx.arithmetic_expression()[1]);
         return this.program.arithmeticOperation(firstArithmeticExpression, secondArithmeticExpression, 'mul');
-    }
-    else if (ctx.SLASH()) {
+    } else if (ctx.SLASH()) {
         var firstArithmeticExpression = this.visitArithmetic_expression(ctx.arithmetic_expression()[0]);
         var secondArithmeticExpression = this.visitArithmetic_expression(ctx.arithmetic_expression()[1]);
         return this.program.arithmeticOperation(firstArithmeticExpression, secondArithmeticExpression, 'div');
-    }
-    else if (ctx.PLUS()) {
+    } else if (ctx.PLUS()) {
         var firstArithmeticExpression = this.visitArithmetic_expression(ctx.arithmetic_expression()[0]);
         var secondArithmeticExpression = this.visitArithmetic_expression(ctx.arithmetic_expression()[1]);
         return this.program.arithmeticOperation(firstArithmeticExpression, secondArithmeticExpression, 'add');
-    }
-    else if (ctx.MINUS()) {
+    } else if (ctx.MINUS()) {
         var firstArithmeticExpression = this.visitArithmetic_expression(ctx.arithmetic_expression()[0]);
         var secondArithmeticExpression = this.visitArithmetic_expression(ctx.arithmetic_expression()[1]);
         return this.program.arithmeticOperation(firstArithmeticExpression, secondArithmeticExpression, 'sub');
-    }
-    else if (ctx.VARIABLE_NAME()) {
+    } else if (ctx.VARIABLE_NAME()) {
         global.additionalData = getLineAndColumn(ctx.VARIABLE_NAME());
         return this.program.getVariableForArithmeticExpression(ctx.VARIABLE_NAME().getText());
-    }
-    else if (ctx.INTEGER_NUMBER()) {
-        return { type: 'i32', value: ctx.INTEGER_NUMBER().getText() };
-    }
-    else if (ctx.REAL_NUMBER()) {
-        return { type: 'double', value: ctx.REAL_NUMBER().getText() };
-    }
-    else if (ctx.arithmetic_expression()) {
+    } else if (ctx.INTEGER_NUMBER()) {
+        return {type: 'i32', value: ctx.INTEGER_NUMBER().getText()};
+    } else if (ctx.REAL_NUMBER()) {
+        return {type: 'double', value: ctx.REAL_NUMBER().getText()};
+    } else if (ctx.arithmetic_expression()) {
         return this.visitArithmetic_expression(ctx.arithmetic_expression()[0]);
     }
 };
@@ -198,28 +205,23 @@ FiszczLangVisitor.prototype.visitValue = function (ctx) {
         var variableNameCtx = ctx.element_of_array().VARIABLE_NAME();
         global.additionalData = getLineAndColumn(variableNameCtx);
         var elementNumberValueCtx = ctx.element_of_array().element_number().value();
-        return { typeOfValue: 'arrayVariable', value: variableNameCtx.getText(), element: this.visitValue(elementNumberValueCtx) };
-    }
-    else if (ctx.VARIABLE_NAME()) {
+        return {typeOfValue: 'arrayVariable', value: variableNameCtx.getText(), element: this.visitValue(elementNumberValueCtx)};
+    } else if (ctx.VARIABLE_NAME()) {
         global.additionalData = getLineAndColumn(ctx.VARIABLE_NAME());
-        return { typeOfValue: 'variable', value: ctx.VARIABLE_NAME().getText() };
-    }
-    else if (ctx.arithmetic_expression()) {
+        return {typeOfValue: 'variable', value: ctx.VARIABLE_NAME().getText()};
+    } else if (ctx.arithmetic_expression()) {
         var resultOfArithmeticExpression = this.visitArithmetic_expression(ctx.arithmetic_expression());
         return {
             typeOfValue: resultOfArithmeticExpression.type,
-            value: resultOfArithmeticExpression.value
+            value: resultOfArithmeticExpression.value,
         };
-    }
-    else if (ctx.string()) {
+    } else if (ctx.string()) {
         var text = getTextOfString(ctx.string().getText());
-        return { typeOfValue: 'i8*', value: text };
-    }
-    else if (ctx.INTEGER_NUMBER()) {
-        return { typeOfValue: 'i32', value: ctx.INTEGER_NUMBER().getText() };
-    }
-    else if (ctx.REAL_NUMBER()) {
-        return { type: 'double', value: ctx.REAL_NUMBER().getText() };
+        return {typeOfValue: 'i8*', value: text};
+    } else if (ctx.INTEGER_NUMBER()) {
+        return {typeOfValue: 'i32', value: ctx.INTEGER_NUMBER().getText()};
+    } else if (ctx.REAL_NUMBER()) {
+        return {type: 'double', value: ctx.REAL_NUMBER().getText()};
     }
 };
 // Visit a parse tree produced by FiszczLangParser#string.
@@ -232,5 +234,7 @@ var getLineAndColumn = function (context) {
         column: context.symbol.column,
     };
 };
-var getTextOfString = function (inputString) { return inputString.substring(inputString.indexOf('"')).slice(1, -1).replace(/\\n/g, "\\0A"); };
+var getTextOfString = function (inputString) {
+    return inputString.substring(inputString.indexOf('"')).slice(1, -1).replace(/\\n/g, '\\0A');
+};
 exports.FiszczLangVisitor = FiszczLangVisitor;

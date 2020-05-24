@@ -1,4 +1,5 @@
 # FiszczLang
+
 ```
   _
  |_ o  _ _   _ _  |   _. ._   _
@@ -6,7 +7,7 @@
                               _|
 ```
 
-A new amateurish programming language 
+A new amateurish programming language
 
 ### Example fragment of code
 
@@ -57,41 +58,41 @@ WHILE iterator <= 10 {
 
 ##### Types
 
-- ``int`` - integer numbers
-- ``real`` - float numbers
-- ``string`` - text
-- ``type[]`` - array of elements
+-   `int` - integer numbers
+-   `real` - float numbers
+-   `string` - text
+-   `type[]` - array of elements
 
 ##### Input/Output operations
 
-- ``read`` - read data from **stdin**
-- ``print`` - print data to **stdout**
+-   `read` - read data from **stdin**
+-   `print` - print data to **stdout**
 
 ##### Arithmetic Operators
 
-- ``+`` - plus
-- ``-`` - minus
-- ``*`` - multiplication
-- ``/`` - division
-- ``()`` - brackets
+-   `+` - plus
+-   `-` - minus
+-   `*` - multiplication
+-   `/` - division
+-   `()` - brackets
 
 ##### Comments
 
-- ``// some comment`` - single line comment
-- ``/* some comment */`` - multiline comment
+-   `// some comment` - single line comment
+-   `/* some comment */` - multiline comment
 
 ##### Conditional instructions
 
-- ``if condition { instructions }`` - if condition
+-   `if condition { instructions }` - if condition
 
 ##### Loops
 
-- ``while condition { instructions }`` - while loop
+-   `while condition { instructions }` - while loop
 
 ##### Comparison operators (conditions)
 
-- ``=`` - equal
-- ``>`` - greater than
-- ``<`` - less than
-- ``>=`` - greater or equal
-- ``<=`` - less or equal
+-   `=` - equal
+-   `>` - greater than
+-   `<` - less than
+-   `>=` - greater or equal
+-   `<=` - less or equal

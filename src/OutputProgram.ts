@@ -1,4 +1,4 @@
-import {Comparisons, Variable} from "./types";
+import {Comparisons, Variable} from './types';
 import {
     comparison,
     convertToDouble,
@@ -14,8 +14,8 @@ import {
     print,
     printString,
     read,
-    store
-} from "./outputLLVMInstructions";
+    store,
+} from './outputLLVMInstructions';
 
 const fs = require('fs');
 
@@ -38,7 +38,6 @@ const endOfFile = `\nret i32 0\n}`;
 process.env.NODE_ENV = 'production';
 
 export class OutputProgram {
-
     instructions: string[] = [];
     variables = new Map<string, Variable>();
     iteratorOfUnnamedVariables = 0;
@@ -52,9 +51,12 @@ export class OutputProgram {
 
     writeToFile() {
         let outputProgram = headerOfFile;
-        this.stringConstants.forEach((stringConstant, index) => outputProgram += createStringConstant(index + 1, getLengthOfString(stringConstant), stringConstant) + '\n');
+        this.stringConstants.forEach(
+            (stringConstant, index) =>
+                (outputProgram += createStringConstant(index + 1, getLengthOfString(stringConstant), stringConstant) + '\n'),
+        );
         outputProgram += mainFunction;
-        this.instructions.forEach((instruction) => outputProgram += instruction + '\n');
+        this.instructions.forEach((instruction) => (outputProgram += instruction + '\n'));
         outputProgram += endOfFile;
 
         fs.writeFileSync('output.ll', outputProgram);
@@ -65,7 +67,14 @@ export class OutputProgram {
         if (variable) {
             return variable;
         } else {
-            process.stderr.write("You are trying to use a variable that does not exist " + ":Line - " + global.additionalData.line + " :Column - " + global.additionalData.column + '\n');
+            process.stderr.write(
+                'You are trying to use a variable that does not exist ' +
+                    ':Line - ' +
+                    global.additionalData.line +
+                    ' :Column - ' +
+                    global.additionalData.column +
+                    '\n',
+            );
             process.exit(1);
         }
     }
@@ -85,7 +94,7 @@ export class OutputProgram {
         return this.iteratorOfStrings;
     }
 
-    createNumericVariable(name: string, type: 'i32' | 'double', value: {type: 'i32' | 'double', value: string}) {
+    createNumericVariable(name: string, type: 'i32' | 'double', value: {type: 'i32' | 'double'; value: string}) {
         let valueToVariable: string | number = value.value;
         if (type === 'i32' && value?.type === 'double') {
             valueToVariable = this.getNextRegId();
@@ -101,12 +110,30 @@ export class OutputProgram {
     createStringVariable(name: string, type: 'i8*', value: string) {
         const stringConstantId = this.addStringConstant(value);
         const lengthOfText = getLengthOfString(value);
-        this.addLineOfIR(createVariableDefinition(name, 'i8*', `getelementptr inbounds ([${lengthOfText + 1} x i8], [${lengthOfText + 1} x i8]* @.str.${stringConstantId}, i64 0, i64 0)`, 8));
+        this.addLineOfIR(
+            createVariableDefinition(
+                name,
+                'i8*',
+                `getelementptr inbounds ([${lengthOfText + 1} x i8], [${lengthOfText + 1} x i8]* @.str.${stringConstantId}, i64 0, i64 0)`,
+                8,
+            ),
+        );
         this.variables.set(name, {type, value: {stringConstantId, lengthOfText}, name});
     }
 
     createNumericArray(name: string, type: string, value: string[]) {
-        this.addLineOfIR(createVariableDefinition(name, type, `[${value.map((valueOfElement) => {return 'i32 ' + valueOfElement}).join(',')}]`, 4));
+        this.addLineOfIR(
+            createVariableDefinition(
+                name,
+                type,
+                `[${value
+                    .map((valueOfElement) => {
+                        return 'i32 ' + valueOfElement;
+                    })
+                    .join(',')}]`,
+                4,
+            ),
+        );
         this.variables.set(name, {type, value, name, basicType: 'i32'});
     }
 
@@ -117,9 +144,16 @@ export class OutputProgram {
             return {
                 lengthOfText,
                 stringConstantId,
-            }
+            };
         });
-        const valueToStoreInstruction = `[${createdStrings.map((createdString) => `i8* getelementptr inbounds ([${createdString.lengthOfText + 1} x i8], [${createdString.lengthOfText + 1} x i8]* @.str.${createdString.stringConstantId}, i64 0, i64 0)`).join(',')}]`;
+        const valueToStoreInstruction = `[${createdStrings
+            .map(
+                (createdString) =>
+                    `i8* getelementptr inbounds ([${createdString.lengthOfText + 1} x i8], [${
+                        createdString.lengthOfText + 1
+                    } x i8]* @.str.${createdString.stringConstantId}, i64 0, i64 0)`,
+            )
+            .join(',')}]`;
         this.addLineOfIR(`%${name} = alloca ${type}, align ${16}`);
         this.addLineOfIR(store(name, type, valueToStoreInstruction, 4));
         this.variables.set(name, {type, value: createdStrings, name, basicType: 'i8*'});
@@ -160,19 +194,42 @@ export class OutputProgram {
                 const variable = this.getVariable(variableName);
                 if (variable.type === 'i8*') {
                     const regIdWithValueToPrint = this.loadOperation(variable);
-                    this.addLineOfIR(print(this.getNextRegId(), getInputOutputStringType(variable.type, variable.value), variable.type, '%' + regIdWithValueToPrint));
+                    this.addLineOfIR(
+                        print(
+                            this.getNextRegId(),
+                            getInputOutputStringType(variable.type, variable.value),
+                            variable.type,
+                            '%' + regIdWithValueToPrint,
+                        ),
+                    );
                 } else {
                     const regIdWithValueToPrint = this.loadOperation(variable);
-                    this.addLineOfIR(print(this.getNextRegId(), getInputOutputStringType(variable.type), variable.type, '%' + regIdWithValueToPrint));
+                    this.addLineOfIR(
+                        print(this.getNextRegId(), getInputOutputStringType(variable.type), variable.type, '%' + regIdWithValueToPrint),
+                    );
                 }
                 break;
             }
             case 'i32': {
-                this.addLineOfIR(print(this.getNextRegId(), getInputOutputStringType(valueToPrint.typeOfValue), valueToPrint.typeOfValue, valueToPrint.value));
+                this.addLineOfIR(
+                    print(
+                        this.getNextRegId(),
+                        getInputOutputStringType(valueToPrint.typeOfValue),
+                        valueToPrint.typeOfValue,
+                        valueToPrint.value,
+                    ),
+                );
                 break;
             }
             case 'double': {
-                this.addLineOfIR(print(this.getNextRegId(), getInputOutputStringType(valueToPrint.typeOfValue), valueToPrint.typeOfValue, valueToPrint.value));
+                this.addLineOfIR(
+                    print(
+                        this.getNextRegId(),
+                        getInputOutputStringType(valueToPrint.typeOfValue),
+                        valueToPrint.typeOfValue,
+                        valueToPrint.value,
+                    ),
+                );
                 break;
             }
             case 'i8*': {
@@ -183,7 +240,9 @@ export class OutputProgram {
             case 'arrayVariable': {
                 const variable = this.getVariable(valueToPrint.value);
                 const elementRegId = this.loadArrayElementOperation(variable, valueToPrint.element.value);
-                this.addLineOfIR(print(this.getNextRegId(), getInputOutputStringType(variable.basicType), variable.basicType, '%' + elementRegId));
+                this.addLineOfIR(
+                    print(this.getNextRegId(), getInputOutputStringType(variable.basicType), variable.basicType, '%' + elementRegId),
+                );
                 break;
             }
         }
@@ -194,7 +253,7 @@ export class OutputProgram {
         this.addLineOfIR(read(this.getNextRegId(), getInputOutputStringType(variable.type), variable.type, variableName));
     }
 
-    startWhile(conditionElements: {leftSideOfOperator, rightSideOfOperator, comparisonType}) {
+    startWhile(conditionElements: {leftSideOfOperator; rightSideOfOperator; comparisonType}) {
         const labelOfCondition = this.getNextRegId();
 
         this.addLineOfIR(openWhile(labelOfCondition));
@@ -203,7 +262,7 @@ export class OutputProgram {
         const comparisonResult = this.makeComparison(leftSideOfOperator, rightSideOfOperator, comparisonType);
 
         const lineOfIRToEditAfterEndOfIf = this.instructions.length;
-        this.addLineOfIR("WAITING FOR IF");
+        this.addLineOfIR('WAITING FOR IF');
 
         const labelOfWhileBody = this.getNextRegId();
 
@@ -222,7 +281,7 @@ export class OutputProgram {
         const labelOfIf = this.getNextRegId();
 
         const lineOfIRToEditAfterEndOfIf = this.instructions.length;
-        this.addLineOfIR("WAITING FOR IF");
+        this.addLineOfIR('WAITING FOR IF');
 
         return {lineOfIRToEditAfterEndOfIf, labelOfIf};
     }
@@ -246,26 +305,64 @@ export class OutputProgram {
         }
         if (firstElement.typeOfValue === 'arrayVariable') {
             const variableRepresentation = this.getVariable(firstElement.value);
-            firstElement = {typeOfValue: variableRepresentation.basicType, value: '%' + this.loadArrayElementOperation(variableRepresentation, firstElement.element.value)};
+            firstElement = {
+                typeOfValue: variableRepresentation.basicType,
+                value: '%' + this.loadArrayElementOperation(variableRepresentation, firstElement.element.value),
+            };
         }
         if (secondElement.typeOfValue === 'arrayVariable') {
             const variableRepresentation = this.getVariable(secondElement.value);
-            secondElement = {typeOfValue: variableRepresentation.basicType, value: '%' + this.loadArrayElementOperation(variableRepresentation, secondElement.element.value)};
+            secondElement = {
+                typeOfValue: variableRepresentation.basicType,
+                value: '%' + this.loadArrayElementOperation(variableRepresentation, secondElement.element.value),
+            };
         }
 
         const comparisonRegId = this.getNextRegId();
         if (firstElement.typeOfValue === 'i32' && secondElement.typeOfValue === 'i32') {
-            this.addLineOfIR(comparison(comparisonRegId, getTypeOfComparisonForType(typeOfComparison, 'i32'), 'i32', firstElement.value, secondElement.value));
+            this.addLineOfIR(
+                comparison(
+                    comparisonRegId,
+                    getTypeOfComparisonForType(typeOfComparison, 'i32'),
+                    'i32',
+                    firstElement.value,
+                    secondElement.value,
+                ),
+            );
         } else if (firstElement.typeOfValue === 'i32' && secondElement.typeOfValue === 'double') {
             const convertedToDouble = this.getNextRegId();
             this.addLineOfIR(convertToDouble(convertedToDouble, firstElement.value));
-            this.addLineOfIR(comparison(comparisonRegId, getTypeOfComparisonForType(typeOfComparison, 'double'), 'double', convertedToDouble, secondElement.value));
+            this.addLineOfIR(
+                comparison(
+                    comparisonRegId,
+                    getTypeOfComparisonForType(typeOfComparison, 'double'),
+                    'double',
+                    convertedToDouble,
+                    secondElement.value,
+                ),
+            );
         } else if (firstElement.typeOfValue === 'double' && secondElement.typeOfValue === 'i32') {
             const convertedToDouble = this.getNextRegId();
             this.addLineOfIR(convertToDouble(convertedToDouble, secondElement.value));
-            this.addLineOfIR(comparison(comparisonRegId, getTypeOfComparisonForType(typeOfComparison, 'double'), 'double', firstElement.value, convertedToDouble));
+            this.addLineOfIR(
+                comparison(
+                    comparisonRegId,
+                    getTypeOfComparisonForType(typeOfComparison, 'double'),
+                    'double',
+                    firstElement.value,
+                    convertedToDouble,
+                ),
+            );
         } else {
-            this.addLineOfIR(comparison(comparisonRegId, getTypeOfComparisonForType(typeOfComparison, 'double'), 'double', firstElement.value, secondElement.value));
+            this.addLineOfIR(
+                comparison(
+                    comparisonRegId,
+                    getTypeOfComparisonForType(typeOfComparison, 'double'),
+                    'double',
+                    firstElement.value,
+                    secondElement.value,
+                ),
+            );
         }
 
         return '%' + comparisonRegId;
@@ -299,12 +396,11 @@ export class OutputProgram {
             return {type: 'double', value: '%' + returnRegId};
         }
     }
-
 }
 
 const getLengthOfString = (text) => {
-    return text.length - 2 * (text.match(/\\0/g) || []).length
-}
+    return text.length - 2 * (text.match(/\\0/g) || []).length;
+};
 
 const getInputOutputStringType = (type, options = {lengthOfText: 2, stringConstantId: 0}) => {
     switch (type) {
@@ -315,7 +411,7 @@ const getInputOutputStringType = (type, options = {lengthOfText: 2, stringConsta
         case 'i8*':
             return `[${options.lengthOfText + 1} x i8], [${options.lengthOfText + 1} x i8]* @.str.${options.stringConstantId}`;
     }
-}
+};
 
 const getAlign = (type) => {
     switch (type) {
@@ -326,7 +422,7 @@ const getAlign = (type) => {
         case 'i8*':
             return 8;
     }
-}
+};
 
 const getTypeOfComparisonForType = (comparison: Comparisons, typeOfElements) => {
     switch (comparison) {
@@ -350,6 +446,6 @@ const getTypeOfComparisonForType = (comparison: Comparisons, typeOfElements) => 
             return (typeOfElements === 'double' ? 'o' : 's') + 'le';
         }
     }
-}
+};
 
 exports.OutputProgram = OutputProgram;
