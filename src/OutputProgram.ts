@@ -1,10 +1,12 @@
-import {Comparisons, Variable} from './types';
+import {Comparisons, FunctionSignature, Variable} from './types';
 import {
+    call,
     comparison,
     convertToDouble,
     convertToi32,
     createStringConstant,
     createVariableDefinition,
+    definitionOfFunction,
     endOfIfInstruction,
     endWhileLoop,
     ifInstruction,
@@ -14,8 +16,10 @@ import {
     print,
     printString,
     read,
+    ret,
     store,
 } from './outputLLVMInstructions';
+import {ReturnTypeVisitValue} from './FiszczLangVisitor';
 
 const fs = require('fs');
 
@@ -45,12 +49,20 @@ export class OutputProgram {
     stringConstants: string[] = [];
     iteratorOfStrings = 0;
 
+    functionSignatures = new Map<string, FunctionSignature>();
+    functions: string[] = [];
+    areWeInsideFunction: boolean = false;
+    iteratorOfUnnamedVariablesInsideFunction = 0;
+    temporaryPlaceForInstructions: string[] = [];
+    functionVariables: Map<string, Variable>;
+
     addCommentAboutCurrentInstruction(instruction: string) {
         this.instructions.push('\n\t; ' + instruction);
     }
 
     writeToFile() {
         let outputProgram = headerOfFile;
+        this.functions.forEach((definedFunction) => (outputProgram += definedFunction + '\n'));
         this.stringConstants.forEach(
             (stringConstant, index) =>
                 (outputProgram += createStringConstant(index + 1, getLengthOfString(stringConstant), stringConstant) + '\n'),
@@ -62,8 +74,16 @@ export class OutputProgram {
         fs.writeFileSync('output.ll', outputProgram);
     }
 
+    addVariable(name, dataAboutVariable: Variable) {
+        if (this.areWeInsideFunction) {
+            this.functionVariables.set(name, dataAboutVariable);
+        } else {
+            this.variables.set(name, dataAboutVariable);
+        }
+    }
+
     getVariable(variableName: string) {
-        const variable = this.variables.get(variableName);
+        const variable = this.areWeInsideFunction ? this.functionVariables.get(variableName) : this.variables.get(variableName);
         if (variable) {
             return variable;
         } else {
@@ -80,7 +100,11 @@ export class OutputProgram {
     }
 
     getNextRegId(): number {
-        return ++this.iteratorOfUnnamedVariables;
+        if (this.areWeInsideFunction) {
+            return ++this.iteratorOfUnnamedVariablesInsideFunction;
+        } else {
+            return ++this.iteratorOfUnnamedVariables;
+        }
     }
 
     addLineOfIR(line: string) {
@@ -94,6 +118,70 @@ export class OutputProgram {
         return this.iteratorOfStrings;
     }
 
+    startFunction({
+        nameOfOperation,
+        returnType,
+        parameters,
+    }: {
+        nameOfOperation: string;
+        returnType: string;
+        parameters: {type: string; nameOfParameter: string}[];
+    }) {
+        this.iteratorOfUnnamedVariablesInsideFunction = parameters.length;
+        this.areWeInsideFunction = true;
+
+        this.temporaryPlaceForInstructions = this.instructions;
+        this.instructions = [];
+
+        this.addLineOfIR(
+            definitionOfFunction(
+                returnType,
+                nameOfOperation,
+                parameters.map((parameter) => parameter.type),
+            ),
+        );
+
+        this.functionVariables = new Map<string, Variable>();
+        parameters.forEach((parameter, index) => {
+            this.addLineOfIR(createVariableDefinition(parameter.nameOfParameter, parameter.type, '%' + index, getAlign(parameter.type)));
+            this.addVariable(parameter.nameOfParameter, {type: parameter.type, value: '', name: parameter.nameOfParameter});
+        });
+
+        this.functionSignatures.set(nameOfOperation, {
+            name: nameOfOperation,
+            returnType,
+            parameters: parameters.map((parameter) => parameter.type),
+        });
+    }
+
+    endFunction() {
+        this.addLineOfIR('}');
+        this.areWeInsideFunction = false;
+        this.functions.push(this.instructions.join('\n'));
+        this.instructions = this.temporaryPlaceForInstructions;
+    }
+
+    // TODO: sprawdzac czy typ zwracany zgadza sie z typem zwracanym funkcji
+    returnValue(returnValue: ReturnTypeVisitValue) {
+        if (returnValue.typeOfValue === 'variable') {
+            const variable = this.getVariable(returnValue.value);
+            this.addLineOfIR(ret(variable.type, '%' + this.loadOperation(variable)));
+        } else {
+            this.addLineOfIR(ret(returnValue.typeOfValue, returnValue.value));
+        }
+    }
+
+    // TODO: sprawdzac poprawnosc typow argumentow do funkcji
+    callFunction(operationName: string, argumentsToFunction: ReturnTypeVisitValue[]): ReturnTypeVisitValue {
+        const returnRegId = this.getNextRegId();
+
+        const returnTypeOfFunction = this.functionSignatures.get(operationName).returnType;
+
+        this.addLineOfIR(call(returnRegId, returnTypeOfFunction, operationName, argumentsToFunction));
+
+        return {value: '%' + returnRegId, typeOfValue: returnTypeOfFunction};
+    }
+
     createNumericVariable(name: string, type: 'i32' | 'double', value: {type: 'i32' | 'double'; value: string}) {
         let valueToVariable: string | number = value.value;
         if (type === 'i32' && value?.type === 'double') {
@@ -104,7 +192,7 @@ export class OutputProgram {
             convertToDouble(valueToVariable, value.value);
         }
         this.addLineOfIR(createVariableDefinition(name, type, valueToVariable, getAlign(type)));
-        this.variables.set(name, {type, value, name});
+        this.addVariable(name, {type, value, name});
     }
 
     createStringVariable(name: string, type: 'i8*', value: string) {
@@ -118,7 +206,7 @@ export class OutputProgram {
                 8,
             ),
         );
-        this.variables.set(name, {type, value: {stringConstantId, lengthOfText}, name});
+        this.addVariable(name, {type, value: {stringConstantId, lengthOfText}, name});
     }
 
     createNumericArray(name: string, type: string, value: string[]) {
@@ -134,7 +222,7 @@ export class OutputProgram {
                 4,
             ),
         );
-        this.variables.set(name, {type, value, name, basicType: 'i32'});
+        this.addVariable(name, {type, value, name, basicType: 'i32'});
     }
 
     createStringArray(name: string, type: string, value: string[]) {
@@ -156,7 +244,7 @@ export class OutputProgram {
             .join(',')}]`;
         this.addLineOfIR(`%${name} = alloca ${type}, align ${16}`);
         this.addLineOfIR(store(name, type, valueToStoreInstruction, 4));
-        this.variables.set(name, {type, value: createdStrings, name, basicType: 'i8*'});
+        this.addVariable(name, {type, value: createdStrings, name, basicType: 'i8*'});
     }
 
     assignment(variableName: string, newValue: {value: string}) {

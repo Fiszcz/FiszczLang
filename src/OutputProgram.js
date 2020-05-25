@@ -29,12 +29,20 @@ var OutputProgram = /** @class */ (function () {
         this.iteratorOfUnnamedVariables = 0;
         this.stringConstants = [];
         this.iteratorOfStrings = 0;
+        this.functionSignatures = new Map();
+        this.functions = [];
+        this.areWeInsideFunction = false;
+        this.iteratorOfUnnamedVariablesInsideFunction = 0;
+        this.temporaryPlaceForInstructions = [];
     }
     OutputProgram.prototype.addCommentAboutCurrentInstruction = function (instruction) {
         this.instructions.push('\n\t; ' + instruction);
     };
     OutputProgram.prototype.writeToFile = function () {
         var outputProgram = headerOfFile;
+        this.functions.forEach(function (definedFunction) {
+            return (outputProgram += definedFunction + '\n');
+        });
         this.stringConstants.forEach(function (stringConstant, index) {
             return (outputProgram +=
                 outputLLVMInstructions_1.createStringConstant(index + 1, getLengthOfString(stringConstant), stringConstant) + '\n');
@@ -46,8 +54,15 @@ var OutputProgram = /** @class */ (function () {
         outputProgram += endOfFile;
         fs.writeFileSync('output.ll', outputProgram);
     };
+    OutputProgram.prototype.addVariable = function (name, dataAboutVariable) {
+        if (this.areWeInsideFunction) {
+            this.functionVariables.set(name, dataAboutVariable);
+        } else {
+            this.variables.set(name, dataAboutVariable);
+        }
+    };
     OutputProgram.prototype.getVariable = function (variableName) {
-        var variable = this.variables.get(variableName);
+        var variable = this.areWeInsideFunction ? this.functionVariables.get(variableName) : this.variables.get(variableName);
         if (variable) {
             return variable;
         } else {
@@ -63,7 +78,11 @@ var OutputProgram = /** @class */ (function () {
         }
     };
     OutputProgram.prototype.getNextRegId = function () {
-        return ++this.iteratorOfUnnamedVariables;
+        if (this.areWeInsideFunction) {
+            return ++this.iteratorOfUnnamedVariablesInsideFunction;
+        } else {
+            return ++this.iteratorOfUnnamedVariables;
+        }
     };
     OutputProgram.prototype.addLineOfIR = function (line) {
         this.instructions.push(line);
@@ -72,6 +91,66 @@ var OutputProgram = /** @class */ (function () {
         ++this.iteratorOfStrings;
         this.stringConstants.push(text);
         return this.iteratorOfStrings;
+    };
+    OutputProgram.prototype.startFunction = function (_a) {
+        var _this = this;
+        var nameOfOperation = _a.nameOfOperation,
+            returnType = _a.returnType,
+            parameters = _a.parameters;
+        this.iteratorOfUnnamedVariablesInsideFunction = parameters.length;
+        this.areWeInsideFunction = true;
+        this.temporaryPlaceForInstructions = this.instructions;
+        this.instructions = [];
+        this.addLineOfIR(
+            outputLLVMInstructions_1.definitionOfFunction(
+                returnType,
+                nameOfOperation,
+                parameters.map(function (parameter) {
+                    return parameter.type;
+                }),
+            ),
+        );
+        this.functionVariables = new Map();
+        parameters.forEach(function (parameter, index) {
+            _this.addLineOfIR(
+                outputLLVMInstructions_1.createVariableDefinition(
+                    parameter.nameOfParameter,
+                    parameter.type,
+                    '%' + index,
+                    getAlign(parameter.type),
+                ),
+            );
+            _this.addVariable(parameter.nameOfParameter, {type: parameter.type, value: '', name: parameter.nameOfParameter});
+        });
+        this.functionSignatures.set(nameOfOperation, {
+            name: nameOfOperation,
+            returnType: returnType,
+            parameters: parameters.map(function (parameter) {
+                return parameter.type;
+            }),
+        });
+    };
+    OutputProgram.prototype.endFunction = function () {
+        this.addLineOfIR('}');
+        this.areWeInsideFunction = false;
+        this.functions.push(this.instructions.join('\n'));
+        this.instructions = this.temporaryPlaceForInstructions;
+    };
+    // TODO: sprawdzac czy typ zwracany zgadza sie z typem zwracanym funkcji
+    OutputProgram.prototype.returnValue = function (returnValue) {
+        if (returnValue.typeOfValue === 'variable') {
+            var variable = this.getVariable(returnValue.value);
+            this.addLineOfIR(outputLLVMInstructions_1.ret(variable.type, '%' + this.loadOperation(variable)));
+        } else {
+            this.addLineOfIR(outputLLVMInstructions_1.ret(returnValue.typeOfValue, returnValue.value));
+        }
+    };
+    // TODO: sprawdzac poprawnosc typow argumentow do funkcji
+    OutputProgram.prototype.callFunction = function (operationName, argumentsToFunction) {
+        var returnRegId = this.getNextRegId();
+        var returnTypeOfFunction = this.functionSignatures.get(operationName).returnType;
+        this.addLineOfIR(outputLLVMInstructions_1.call(returnRegId, returnTypeOfFunction, operationName, argumentsToFunction));
+        return {value: '%' + returnRegId, typeOfValue: returnTypeOfFunction};
     };
     OutputProgram.prototype.createNumericVariable = function (name, type, value) {
         var valueToVariable = value.value;
@@ -83,7 +162,7 @@ var OutputProgram = /** @class */ (function () {
             outputLLVMInstructions_1.convertToDouble(valueToVariable, value.value);
         }
         this.addLineOfIR(outputLLVMInstructions_1.createVariableDefinition(name, type, valueToVariable, getAlign(type)));
-        this.variables.set(name, {type: type, value: value, name: name});
+        this.addVariable(name, {type: type, value: value, name: name});
     };
     OutputProgram.prototype.createStringVariable = function (name, type, value) {
         var stringConstantId = this.addStringConstant(value);
@@ -102,7 +181,7 @@ var OutputProgram = /** @class */ (function () {
                 8,
             ),
         );
-        this.variables.set(name, {type: type, value: {stringConstantId: stringConstantId, lengthOfText: lengthOfText}, name: name});
+        this.addVariable(name, {type: type, value: {stringConstantId: stringConstantId, lengthOfText: lengthOfText}, name: name});
     };
     OutputProgram.prototype.createNumericArray = function (name, type, value) {
         this.addLineOfIR(
@@ -119,7 +198,7 @@ var OutputProgram = /** @class */ (function () {
                 4,
             ),
         );
-        this.variables.set(name, {type: type, value: value, name: name, basicType: 'i32'});
+        this.addVariable(name, {type: type, value: value, name: name, basicType: 'i32'});
     };
     OutputProgram.prototype.createStringArray = function (name, type, value) {
         var _this = this;
@@ -149,7 +228,7 @@ var OutputProgram = /** @class */ (function () {
             ']';
         this.addLineOfIR('%' + name + ' = alloca ' + type + ', align ' + 16);
         this.addLineOfIR(outputLLVMInstructions_1.store(name, type, valueToStoreInstruction, 4));
-        this.variables.set(name, {type: type, value: createdStrings, name: name, basicType: 'i8*'});
+        this.addVariable(name, {type: type, value: createdStrings, name: name, basicType: 'i8*'});
     };
     OutputProgram.prototype.assignment = function (variableName, newValue) {
         var variable = this.getVariable(variableName);
@@ -448,3 +527,4 @@ var getTypeOfComparisonForType = function (comparison, typeOfElements) {
     }
 };
 exports.OutputProgram = OutputProgram;
+//# sourceMappingURL=OutputProgram.js.map

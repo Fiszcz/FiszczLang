@@ -5,6 +5,12 @@ export interface Variable {
     name: string;
 }
 
+export interface FunctionSignature {
+    name: string;
+    returnType: string;
+    parameters: string[];
+}
+
 export enum Comparisons {
     EQUAL,
     LESS_THAN,

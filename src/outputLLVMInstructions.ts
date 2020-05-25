@@ -1,3 +1,5 @@
+import {ReturnTypeVisitValue} from './FiszczLangVisitor';
+
 export const createStringConstant = (index, lengthOfText, text) => {
     return `@.str.${index} = private constant [${lengthOfText + 1} x i8] c"${text}${'\00'}", align 1`;
 };
@@ -40,6 +42,21 @@ global.fmul = (returnRegId, firstElement, secondElement) => {
 
 global.mul = (returnRegId, firstElement, secondElement) => {
     return `%${returnRegId} = mul nsw i32 ${firstElement}, ${secondElement}`;
+};
+
+export const definitionOfFunction = (returnType: string, nameOfFunction: string, parameters: string[]) => {
+    return `; Function Attrs: noinline nounwind optnone
+define ${returnType} @${nameOfFunction}(${parameters.join(', ')}) #0 {`;
+};
+
+export const ret = (type: string, value: string) => {
+    return `ret ${type} ${value}`;
+};
+
+export const call = (regId: number, returnType: string, functionName: string, argumentsToFunction: ReturnTypeVisitValue[]) => {
+    return `%${regId} = call ${returnType} @${functionName}(${argumentsToFunction
+        .map((argument) => argument.typeOfValue + ' ' + argument.value)
+        .join(', ')})`;
 };
 
 export const read = (returnRegId, typeOfFirstArgumentOfScanf, type, nameOfVariable) => {

@@ -34,6 +34,35 @@ FiszczLangVisitor.prototype.visitInstruction = function (ctx) {
     this.program.addCommentAboutCurrentInstruction(ctx.getText().split('\n')[0]);
     return this.visitChildren(ctx);
 };
+// Visit a parse tree produced by FiszczLangParser#new_operation.
+FiszczLangVisitor.prototype.visitNew_operation = function (ctx) {
+    var nameOfOperation = ctx.VARIABLE_NAME().getText();
+    var returnType = mapTypeNameToLLVMType(ctx.type().getText());
+    var parameters = ctx.parameter().map(this.visitParameter);
+    this.program.startFunction({nameOfOperation: nameOfOperation, returnType: returnType, parameters: parameters});
+    this.visitChildren(ctx);
+    this.program.endFunction();
+};
+// Visit a parse tree produced by FiszczLangParser#call_operation.
+FiszczLangVisitor.prototype.visitCall_operation = function (ctx) {
+    var operationName = ctx.VARIABLE_NAME().getText();
+    var values = ctx.value().map(this.visitValue);
+    return this.program.callFunction(operationName, values);
+};
+// Visit a parse tree produced by FiszczLangParser#parameter.
+FiszczLangVisitor.prototype.visitParameter = function (ctx) {
+    var type = mapTypeNameToLLVMType(ctx.type().getText());
+    var nameOfParameter = ctx.VARIABLE_NAME().getText();
+    return {type: type, nameOfParameter: nameOfParameter};
+};
+var mapTypeNameToLLVMType = function (typeName) {
+    switch (typeName) {
+        case 'int':
+            return 'i32';
+        case 'real':
+            return 'double';
+    }
+};
 // Visit a parse tree produced by FiszczLangParser#definition.
 FiszczLangVisitor.prototype.visitDefinition = function (ctx) {
     return this.visitChildren(ctx);
@@ -155,6 +184,12 @@ FiszczLangVisitor.prototype.getConditionElements = function (conditionCtx) {
     }
     return {leftSideOfOperator: leftSideOfOperator, rightSideOfOperator: rightSideOfOperator, comparisonType: comparisonType};
 };
+// Visit a parse tree produced by FiszczLangParser#return_instruction.
+FiszczLangVisitor.prototype.visitReturn_instruction = function (ctx) {
+    var newValueCtx = ctx.value();
+    this.program.returnValue(this.visitValue(newValueCtx));
+};
+// TODO: zmienic na taka sama sygnature typu zwracanego jak w przypadku visitValue()
 // Visit a parse tree produced by FiszczLangParser#arithmetic_expression.
 FiszczLangVisitor.prototype.visitArithmetic_expression = function (ctx) {
     if (ctx.ASTERISK()) {
@@ -182,6 +217,9 @@ FiszczLangVisitor.prototype.visitArithmetic_expression = function (ctx) {
         return {type: 'double', value: ctx.REAL_NUMBER().getText()};
     } else if (ctx.arithmetic_expression()) {
         return this.visitArithmetic_expression(ctx.arithmetic_expression()[0]);
+    } else if (ctx.call_operation()) {
+        var returnedValue = this.visitCall_operation(ctx.call_operation());
+        return {type: returnedValue.typeOfValue, value: returnedValue.value};
     }
 };
 // Visit a parse tree produced by FiszczLangParser#assignment.
@@ -199,7 +237,6 @@ FiszczLangVisitor.prototype.visitArray_element_assignment = function (ctx) {
     var newValueCtx = ctx.value();
     this.program.assignmentToArrayElement(variableNameCtx.getText(), this.visitValue(elementNumberCtx), this.visitValue(newValueCtx));
 };
-// Visit a parse tree produced by FiszczLangParser#value.
 FiszczLangVisitor.prototype.visitValue = function (ctx) {
     if (ctx.element_of_array()) {
         var variableNameCtx = ctx.element_of_array().VARIABLE_NAME();
@@ -221,8 +258,14 @@ FiszczLangVisitor.prototype.visitValue = function (ctx) {
     } else if (ctx.INTEGER_NUMBER()) {
         return {typeOfValue: 'i32', value: ctx.INTEGER_NUMBER().getText()};
     } else if (ctx.REAL_NUMBER()) {
-        return {type: 'double', value: ctx.REAL_NUMBER().getText()};
+        return {typeOfValue: 'double', value: ctx.REAL_NUMBER().getText()};
+    } else if (ctx.call_operation()) {
+        return this.visitCall_operation(ctx.call_operation());
     }
+};
+// Visit a parse tree produced by FiszczLangParser#type.
+FiszczLangVisitor.prototype.visitType = function (ctx) {
+    return this.visitChildren(ctx);
 };
 // Visit a parse tree produced by FiszczLangParser#string.
 FiszczLangVisitor.prototype.visitString = function (ctx) {
@@ -238,3 +281,4 @@ var getTextOfString = function (inputString) {
     return inputString.substring(inputString.indexOf('"')).slice(1, -1).replace(/\\n/g, '\\0A');
 };
 exports.FiszczLangVisitor = FiszczLangVisitor;
+//# sourceMappingURL=FiszczLangVisitor.js.map

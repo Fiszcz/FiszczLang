@@ -7,6 +7,15 @@
 Creator: Filip Szcześniak
 */
 
+int OPERATION POW: int number, int power {
+    int base number;
+    WHILE power > 1 {
+        number base * number;
+        power power - 1;
+    };
+    # number;
+};
+
 // Example of FiszczLang
 int someNumber 5;
 real floatNumber 5.0;
@@ -65,3 +74,5 @@ WHILE iterator <= 10 {
     PRINT "\n" iterator;
     iterator iterator + 1;
 }
+
+PRINT POW<2, 4>;

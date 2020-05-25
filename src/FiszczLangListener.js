@@ -23,6 +23,12 @@ FiszczLangListener.prototype.enterInstruction = function (ctx) {};
 // Exit a parse tree produced by FiszczLangParser#instruction.
 FiszczLangListener.prototype.exitInstruction = function (ctx) {};
 
+// Enter a parse tree produced by FiszczLangParser#parameter.
+FiszczLangListener.prototype.enterParameter = function (ctx) {};
+
+// Exit a parse tree produced by FiszczLangParser#parameter.
+FiszczLangListener.prototype.exitParameter = function (ctx) {};
+
 // Enter a parse tree produced by FiszczLangParser#definition.
 FiszczLangListener.prototype.enterDefinition = function (ctx) {};
 
@@ -77,6 +83,12 @@ FiszczLangListener.prototype.enterString_array_definition = function (ctx) {};
 // Exit a parse tree produced by FiszczLangParser#string_array_definition.
 FiszczLangListener.prototype.exitString_array_definition = function (ctx) {};
 
+// Enter a parse tree produced by FiszczLangParser#new_operation.
+FiszczLangListener.prototype.enterNew_operation = function (ctx) {};
+
+// Exit a parse tree produced by FiszczLangParser#new_operation.
+FiszczLangListener.prototype.exitNew_operation = function (ctx) {};
+
 // Enter a parse tree produced by FiszczLangParser#element_number.
 FiszczLangListener.prototype.enterElement_number = function (ctx) {};
 
@@ -113,11 +125,23 @@ FiszczLangListener.prototype.enterIf_instruction = function (ctx) {};
 // Exit a parse tree produced by FiszczLangParser#if_instruction.
 FiszczLangListener.prototype.exitIf_instruction = function (ctx) {};
 
+// Enter a parse tree produced by FiszczLangParser#return_instruction.
+FiszczLangListener.prototype.enterReturn_instruction = function (ctx) {};
+
+// Exit a parse tree produced by FiszczLangParser#return_instruction.
+FiszczLangListener.prototype.exitReturn_instruction = function (ctx) {};
+
 // Enter a parse tree produced by FiszczLangParser#condition.
 FiszczLangListener.prototype.enterCondition = function (ctx) {};
 
 // Exit a parse tree produced by FiszczLangParser#condition.
 FiszczLangListener.prototype.exitCondition = function (ctx) {};
+
+// Enter a parse tree produced by FiszczLangParser#call_operation.
+FiszczLangListener.prototype.enterCall_operation = function (ctx) {};
+
+// Exit a parse tree produced by FiszczLangParser#call_operation.
+FiszczLangListener.prototype.exitCall_operation = function (ctx) {};
 
 // Enter a parse tree produced by FiszczLangParser#arithmetic_expression.
 FiszczLangListener.prototype.enterArithmetic_expression = function (ctx) {};
@@ -142,6 +166,12 @@ FiszczLangListener.prototype.enterValue = function (ctx) {};
 
 // Exit a parse tree produced by FiszczLangParser#value.
 FiszczLangListener.prototype.exitValue = function (ctx) {};
+
+// Enter a parse tree produced by FiszczLangParser#type.
+FiszczLangListener.prototype.enterType = function (ctx) {};
+
+// Exit a parse tree produced by FiszczLangParser#type.
+FiszczLangListener.prototype.exitType = function (ctx) {};
 
 // Enter a parse tree produced by FiszczLangParser#string.
 FiszczLangListener.prototype.enterString = function (ctx) {};
