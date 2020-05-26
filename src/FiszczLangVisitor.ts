@@ -6,6 +6,8 @@ import {Comparisons} from './types';
 
 var antlr4 = require('antlr4/index');
 
+const functionsToCreate = [];
+
 // This class defines a complete generic visitor for a parse tree produced by FiszczLangParser.
 function FiszczLangVisitor(outputProgram: OutputProgram) {
     this.program = outputProgram;
@@ -18,7 +20,13 @@ FiszczLangVisitor.prototype.constructor = FiszczLangVisitor;
 
 // Visit a parse tree produced by FiszczLangParser#program.
 FiszczLangVisitor.prototype.visitProgram = function (ctx) {
-    return this.visitChildren(ctx);
+    this.visitChildren(ctx);
+
+    functionsToCreate.forEach((functionDefinition) => {
+        this.program.startFunction(functionDefinition);
+        this.visitChildren(functionDefinition.ctx);
+        this.program.endFunction(functionDefinition.returnType);
+    });
 };
 
 // Visit a parse tree produced by FiszczLangParser#instruction.
@@ -32,12 +40,9 @@ FiszczLangVisitor.prototype.visitNew_operation = function (ctx) {
     const nameOfOperation = ctx.VARIABLE_NAME().getText();
     const returnType = mapTypeNameToLLVMType(ctx.type().getText());
     const parameters = ctx.parameter().map(this.visitParameter);
+    this.program.addFunctionSignature({nameOfOperation, returnType, parameters});
 
-    this.program.startFunction({nameOfOperation, returnType, parameters});
-
-    this.visitChildren(ctx);
-
-    this.program.endFunction();
+    functionsToCreate.push({nameOfOperation, returnType, parameters, ctx});
 };
 
 // Visit a parse tree produced by FiszczLangParser#call_operation.

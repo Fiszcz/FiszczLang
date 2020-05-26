@@ -25,7 +25,7 @@ process.env.NODE_ENV = 'production';
 var OutputProgram = /** @class */ (function () {
     function OutputProgram() {
         this.instructions = [];
-        this.variables = new Map();
+        this.globalVariables = new Map();
         this.iteratorOfUnnamedVariables = 0;
         this.stringConstants = [];
         this.iteratorOfStrings = 0;
@@ -34,6 +34,7 @@ var OutputProgram = /** @class */ (function () {
         this.areWeInsideFunction = false;
         this.iteratorOfUnnamedVariablesInsideFunction = 0;
         this.temporaryPlaceForInstructions = [];
+        this.functionVariables = new Map();
     }
     OutputProgram.prototype.addCommentAboutCurrentInstruction = function (instruction) {
         this.instructions.push('\n\t; ' + instruction);
@@ -43,9 +44,14 @@ var OutputProgram = /** @class */ (function () {
         this.functions.forEach(function (definedFunction) {
             return (outputProgram += definedFunction + '\n');
         });
+        outputProgram += '\n';
         this.stringConstants.forEach(function (stringConstant, index) {
             return (outputProgram +=
                 outputLLVMInstructions_1.createStringConstant(index + 1, getLengthOfString(stringConstant), stringConstant) + '\n');
+        });
+        outputProgram += '\n';
+        this.globalVariables.forEach(function (variable) {
+            outputProgram += outputLLVMInstructions_1.createGlobalVariable(variable) + '\n';
         });
         outputProgram += mainFunction;
         this.instructions.forEach(function (instruction) {
@@ -56,16 +62,15 @@ var OutputProgram = /** @class */ (function () {
     };
     OutputProgram.prototype.addVariable = function (name, dataAboutVariable) {
         if (this.areWeInsideFunction) {
-            this.functionVariables.set(name, dataAboutVariable);
+            this.functionVariables.set(name, __assign(__assign({}, dataAboutVariable), {name: '%' + name}));
         } else {
-            this.variables.set(name, dataAboutVariable);
+            this.globalVariables.set(name, __assign(__assign({}, dataAboutVariable), {name: '@' + name}));
         }
     };
     OutputProgram.prototype.getVariable = function (variableName) {
-        var variable = this.areWeInsideFunction ? this.functionVariables.get(variableName) : this.variables.get(variableName);
-        if (variable) {
-            return variable;
-        } else {
+        var localVariable = this.functionVariables.get(variableName);
+        var globalVariable = this.globalVariables.get(variableName);
+        if (!localVariable && !globalVariable) {
             process.stderr.write(
                 'You are trying to use a variable that does not exist ' +
                     ':Line - ' +
@@ -75,6 +80,11 @@ var OutputProgram = /** @class */ (function () {
                     '\n',
             );
             process.exit(1);
+        }
+        if (this.areWeInsideFunction) {
+            return localVariable || globalVariable;
+        } else {
+            return globalVariable;
         }
     };
     OutputProgram.prototype.getNextRegId = function () {
@@ -122,6 +132,11 @@ var OutputProgram = /** @class */ (function () {
             );
             _this.addVariable(parameter.nameOfParameter, {type: parameter.type, value: '', name: parameter.nameOfParameter});
         });
+    };
+    OutputProgram.prototype.addFunctionSignature = function (_a) {
+        var nameOfOperation = _a.nameOfOperation,
+            returnType = _a.returnType,
+            parameters = _a.parameters;
         this.functionSignatures.set(nameOfOperation, {
             name: nameOfOperation,
             returnType: returnType,
@@ -130,7 +145,8 @@ var OutputProgram = /** @class */ (function () {
             }),
         });
     };
-    OutputProgram.prototype.endFunction = function () {
+    OutputProgram.prototype.endFunction = function (returnType) {
+        this.addLineOfIR('ret ' + (returnType === 'i32' ? 'i32 0' : 'double 0.0'));
         this.addLineOfIR('}');
         this.areWeInsideFunction = false;
         this.functions.push(this.instructions.join('\n'));
@@ -161,43 +177,45 @@ var OutputProgram = /** @class */ (function () {
             valueToVariable = this.getNextRegId();
             outputLLVMInstructions_1.convertToDouble(valueToVariable, value.value);
         }
-        this.addLineOfIR(outputLLVMInstructions_1.createVariableDefinition(name, type, valueToVariable, getAlign(type)));
+        if (this.areWeInsideFunction) {
+            this.addLineOfIR(outputLLVMInstructions_1.createVariableDefinition(name, type, valueToVariable, getAlign(type)));
+        } else {
+            this.addLineOfIR(outputLLVMInstructions_1.store('@' + name, type, valueToVariable, getAlign(type)));
+        }
         this.addVariable(name, {type: type, value: value, name: name});
     };
     OutputProgram.prototype.createStringVariable = function (name, type, value) {
         var stringConstantId = this.addStringConstant(value);
         var lengthOfText = getLengthOfString(value);
-        this.addLineOfIR(
-            outputLLVMInstructions_1.createVariableDefinition(
-                name,
-                'i8*',
-                'getelementptr inbounds ([' +
-                    (lengthOfText + 1) +
-                    ' x i8], [' +
-                    (lengthOfText + 1) +
-                    ' x i8]* @.str.' +
-                    stringConstantId +
-                    ', i64 0, i64 0)',
-                8,
-            ),
-        );
-        this.addVariable(name, {type: type, value: {stringConstantId: stringConstantId, lengthOfText: lengthOfText}, name: name});
+        var definition =
+            'getelementptr inbounds ([' +
+            (lengthOfText + 1) +
+            ' x i8], [' +
+            (lengthOfText + 1) +
+            ' x i8]* @.str.' +
+            stringConstantId +
+            ', i64 0, i64 0)';
+        if (this.areWeInsideFunction) {
+            this.addLineOfIR(outputLLVMInstructions_1.createVariableDefinition(name, 'i8*', definition, 8));
+        }
+        this.addVariable(name, {
+            type: type,
+            value: {stringConstantId: stringConstantId, lengthOfText: lengthOfText, definition: 'i8* ' + definition + ', align 8'},
+            name: name,
+        });
     };
     OutputProgram.prototype.createNumericArray = function (name, type, value) {
-        this.addLineOfIR(
-            outputLLVMInstructions_1.createVariableDefinition(
-                name,
-                type,
-                '[' +
-                    value
-                        .map(function (valueOfElement) {
-                            return 'i32 ' + valueOfElement;
-                        })
-                        .join(',') +
-                    ']',
-                4,
-            ),
-        );
+        var definition =
+            '[' +
+            value
+                .map(function (valueOfElement) {
+                    return 'i32 ' + valueOfElement;
+                })
+                .join(',') +
+            ']';
+        if (this.areWeInsideFunction) {
+            this.addLineOfIR(outputLLVMInstructions_1.createVariableDefinition(name, type, definition, 4));
+        }
         this.addVariable(name, {type: type, value: value, name: name, basicType: 'i32'});
     };
     OutputProgram.prototype.createStringArray = function (name, type, value) {
@@ -210,7 +228,7 @@ var OutputProgram = /** @class */ (function () {
                 stringConstantId: stringConstantId,
             };
         });
-        var valueToStoreInstruction =
+        var definition =
             '[' +
             createdStrings
                 .map(function (createdString) {
@@ -226,20 +244,27 @@ var OutputProgram = /** @class */ (function () {
                 })
                 .join(',') +
             ']';
-        this.addLineOfIR('%' + name + ' = alloca ' + type + ', align ' + 16);
-        this.addLineOfIR(outputLLVMInstructions_1.store(name, type, valueToStoreInstruction, 4));
-        this.addVariable(name, {type: type, value: createdStrings, name: name, basicType: 'i8*'});
+        if (this.areWeInsideFunction) {
+            this.addLineOfIR('%' + name + ' = alloca ' + type + ', align ' + 16);
+            this.addLineOfIR(outputLLVMInstructions_1.store(name, type, definition, 4));
+        }
+        this.addVariable(name, {
+            type: type,
+            value: __assign(__assign({}, createdStrings), {definition: definition}),
+            name: name,
+            basicType: 'i8*',
+        });
     };
     OutputProgram.prototype.assignment = function (variableName, newValue) {
         var variable = this.getVariable(variableName);
-        this.addLineOfIR(outputLLVMInstructions_1.store(variableName, variable.type, newValue.value, getAlign(variable.type)));
+        this.addLineOfIR(outputLLVMInstructions_1.store(variable.name, variable.type, newValue.value, getAlign(variable.type)));
     };
     OutputProgram.prototype.assignmentToArrayElement = function (variableName, elementNumber, newValue) {
         var variable = this.getVariable(variableName);
         var regIdOfGetElement = this.getNextRegId();
         this.addLineOfIR(outputLLVMInstructions_1.loadArrayElement(regIdOfGetElement, variable.type, variable.name, elementNumber.value));
         this.addLineOfIR(
-            outputLLVMInstructions_1.store(regIdOfGetElement, variable.basicType, newValue.value, getAlign(variable.basicType)),
+            outputLLVMInstructions_1.store('%' + regIdOfGetElement, variable.basicType, newValue.value, getAlign(variable.basicType)),
         );
     };
     OutputProgram.prototype.loadOperation = function (variable) {
@@ -250,7 +275,7 @@ var OutputProgram = /** @class */ (function () {
     OutputProgram.prototype.loadArrayElementOperation = function (variable, element) {
         var regIdOfGetElement = this.getNextRegId();
         this.addLineOfIR(outputLLVMInstructions_1.loadArrayElement(regIdOfGetElement, variable.type, variable.name, element));
-        return this.loadOperation({name: regIdOfGetElement, type: variable.basicType});
+        return this.loadOperation({name: '%' + regIdOfGetElement, type: variable.basicType});
     };
     OutputProgram.prototype.printValue = function (valueToPrint) {
         switch (valueToPrint.typeOfValue) {
@@ -327,7 +352,7 @@ var OutputProgram = /** @class */ (function () {
     OutputProgram.prototype.readValue = function (variableName) {
         var variable = this.getVariable(variableName);
         this.addLineOfIR(
-            outputLLVMInstructions_1.read(this.getNextRegId(), getInputOutputStringType(variable.type), variable.type, variableName),
+            outputLLVMInstructions_1.read(this.getNextRegId(), getInputOutputStringType(variable.type), variable.type, variable.name),
         );
     };
     OutputProgram.prototype.startWhile = function (conditionElements) {

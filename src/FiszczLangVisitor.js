@@ -17,6 +17,7 @@ var __assign =
 Object.defineProperty(exports, '__esModule', {value: true});
 var types_1 = require('./types');
 var antlr4 = require('antlr4/index');
+var functionsToCreate = [];
 // This class defines a complete generic visitor for a parse tree produced by FiszczLangParser.
 function FiszczLangVisitor(outputProgram) {
     this.program = outputProgram;
@@ -27,7 +28,13 @@ FiszczLangVisitor.prototype = Object.create(antlr4.tree.ParseTreeVisitor.prototy
 FiszczLangVisitor.prototype.constructor = FiszczLangVisitor;
 // Visit a parse tree produced by FiszczLangParser#program.
 FiszczLangVisitor.prototype.visitProgram = function (ctx) {
-    return this.visitChildren(ctx);
+    var _this = this;
+    this.visitChildren(ctx);
+    functionsToCreate.forEach(function (functionDefinition) {
+        _this.program.startFunction(functionDefinition);
+        _this.visitChildren(functionDefinition.ctx);
+        _this.program.endFunction(functionDefinition.returnType);
+    });
 };
 // Visit a parse tree produced by FiszczLangParser#instruction.
 FiszczLangVisitor.prototype.visitInstruction = function (ctx) {
@@ -39,9 +46,8 @@ FiszczLangVisitor.prototype.visitNew_operation = function (ctx) {
     var nameOfOperation = ctx.VARIABLE_NAME().getText();
     var returnType = mapTypeNameToLLVMType(ctx.type().getText());
     var parameters = ctx.parameter().map(this.visitParameter);
-    this.program.startFunction({nameOfOperation: nameOfOperation, returnType: returnType, parameters: parameters});
-    this.visitChildren(ctx);
-    this.program.endFunction();
+    this.program.addFunctionSignature({nameOfOperation: nameOfOperation, returnType: returnType, parameters: parameters});
+    functionsToCreate.push({nameOfOperation: nameOfOperation, returnType: returnType, parameters: parameters, ctx: ctx});
 };
 // Visit a parse tree produced by FiszczLangParser#call_operation.
 FiszczLangVisitor.prototype.visitCall_operation = function (ctx) {

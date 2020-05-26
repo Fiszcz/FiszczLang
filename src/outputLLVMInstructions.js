@@ -1,5 +1,5 @@
 Object.defineProperty(exports, '__esModule', {value: true});
-exports.store = exports.createVariableDefinition = exports.loadArrayElement = exports.load = exports.comparison = exports.endOfIfInstruction = exports.ifInstruction = exports.endWhileLoop = exports.openWhile = exports.printString = exports.print = exports.read = exports.call = exports.ret = exports.definitionOfFunction = exports.convertToDouble = exports.convertToi32 = exports.createStringConstant = void 0;
+exports.createGlobalVariable = exports.store = exports.createVariableDefinition = exports.loadArrayElement = exports.load = exports.comparison = exports.endOfIfInstruction = exports.ifInstruction = exports.endWhileLoop = exports.openWhile = exports.printString = exports.print = exports.read = exports.call = exports.ret = exports.definitionOfFunction = exports.convertToDouble = exports.convertToi32 = exports.createStringConstant = void 0;
 exports.createStringConstant = function (index, lengthOfText, text) {
     return '@.str.' + index + ' = private constant [' + (lengthOfText + 1) + ' x i8] c"' + text + '\00' + '", align 1';
 };
@@ -66,7 +66,7 @@ exports.read = function (returnRegId, typeOfFirstArgumentOfScanf, type, nameOfVa
         typeOfFirstArgumentOfScanf +
         ', i64 0, i64 0), ' +
         type +
-        '* %' +
+        '* ' +
         nameOfVariable +
         ')'
     );
@@ -126,15 +126,48 @@ exports.comparison = function (regId, typeOfComparison, typeOfElements, firstEle
     );
 };
 exports.load = function (regId, type, fromId, align) {
-    return '%' + regId + ' = load ' + type + ', ' + type + '* %' + fromId + ', align ' + align;
+    return '%' + regId + ' = load ' + type + ', ' + type + '* ' + fromId + ', align ' + align;
 };
 exports.loadArrayElement = function (regId, type, fromId, element) {
-    return '%' + regId + ' = getelementptr inbounds ' + type + ', ' + type + '* %' + fromId + ', i64 0, i32 ' + element;
+    return '%' + regId + ' = getelementptr inbounds ' + type + ', ' + type + '* ' + fromId + ', i64 0, i32 ' + element;
 };
 exports.createVariableDefinition = function (name, type, value, align) {
-    return '%' + name + ' = alloca ' + type + ', align ' + align + '\n' + exports.store(name, type, value, align);
+    return '%' + name + ' = alloca ' + type + ', align ' + align + '\n' + exports.store('%' + name, type, value, align);
 };
 exports.store = function (name, type, value, align) {
-    return 'store ' + type + ' ' + value + ', ' + type + '* %' + name + ', align ' + align;
+    return 'store ' + type + ' ' + value + ', ' + type + '* ' + name + ', align ' + align;
+};
+exports.createGlobalVariable = function (variable) {
+    var type = variable.type,
+        name = variable.name,
+        basicType = variable.basicType,
+        value = variable.value;
+    var globalVariable = name + ' = global ';
+    switch (type) {
+        case 'i32': {
+            return globalVariable + 'i32 0, align 4';
+        }
+        case 'double': {
+            return globalVariable + 'double 0.0, align 8';
+        }
+        case 'i8*': {
+            return globalVariable + value.definition;
+        }
+        default: {
+            if (basicType === 'i32') {
+                var definition =
+                    '[' +
+                    value
+                        .map(function (valueOfElement) {
+                            return 'i32 ' + valueOfElement;
+                        })
+                        .join(',') +
+                    ']';
+                return globalVariable + type + ' ' + definition + ', align 16';
+            } else if (basicType === 'i8*') {
+                return globalVariable + type + ' ' + value.definition + ', align 16';
+            }
+        }
+    }
 };
 //# sourceMappingURL=outputLLVMInstructions.js.map

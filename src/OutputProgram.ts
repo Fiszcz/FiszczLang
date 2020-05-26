@@ -4,6 +4,7 @@ import {
     comparison,
     convertToDouble,
     convertToi32,
+    createGlobalVariable,
     createStringConstant,
     createVariableDefinition,
     definitionOfFunction,
@@ -43,7 +44,7 @@ process.env.NODE_ENV = 'production';
 
 export class OutputProgram {
     instructions: string[] = [];
-    variables = new Map<string, Variable>();
+    globalVariables = new Map<string, Variable>();
     iteratorOfUnnamedVariables = 0;
 
     stringConstants: string[] = [];
@@ -54,7 +55,7 @@ export class OutputProgram {
     areWeInsideFunction: boolean = false;
     iteratorOfUnnamedVariablesInsideFunction = 0;
     temporaryPlaceForInstructions: string[] = [];
-    functionVariables: Map<string, Variable>;
+    functionVariables = new Map<string, Variable>();
 
     addCommentAboutCurrentInstruction(instruction: string) {
         this.instructions.push('\n\t; ' + instruction);
@@ -62,11 +63,20 @@ export class OutputProgram {
 
     writeToFile() {
         let outputProgram = headerOfFile;
+
         this.functions.forEach((definedFunction) => (outputProgram += definedFunction + '\n'));
+        outputProgram += '\n';
+
         this.stringConstants.forEach(
             (stringConstant, index) =>
                 (outputProgram += createStringConstant(index + 1, getLengthOfString(stringConstant), stringConstant) + '\n'),
         );
+        outputProgram += '\n';
+
+        this.globalVariables.forEach((variable) => {
+            outputProgram += createGlobalVariable(variable) + '\n';
+        });
+
         outputProgram += mainFunction;
         this.instructions.forEach((instruction) => (outputProgram += instruction + '\n'));
         outputProgram += endOfFile;
@@ -76,17 +86,16 @@ export class OutputProgram {
 
     addVariable(name, dataAboutVariable: Variable) {
         if (this.areWeInsideFunction) {
-            this.functionVariables.set(name, dataAboutVariable);
+            this.functionVariables.set(name, {...dataAboutVariable, name: '%' + name});
         } else {
-            this.variables.set(name, dataAboutVariable);
+            this.globalVariables.set(name, {...dataAboutVariable, name: '@' + name});
         }
     }
 
     getVariable(variableName: string) {
-        const variable = this.areWeInsideFunction ? this.functionVariables.get(variableName) : this.variables.get(variableName);
-        if (variable) {
-            return variable;
-        } else {
+        const localVariable = this.functionVariables.get(variableName);
+        const globalVariable = this.globalVariables.get(variableName);
+        if (!localVariable && !globalVariable) {
             process.stderr.write(
                 'You are trying to use a variable that does not exist ' +
                     ':Line - ' +
@@ -96,6 +105,11 @@ export class OutputProgram {
                     '\n',
             );
             process.exit(1);
+        }
+        if (this.areWeInsideFunction) {
+            return localVariable || globalVariable;
+        } else {
+            return globalVariable;
         }
     }
 
@@ -146,7 +160,17 @@ export class OutputProgram {
             this.addLineOfIR(createVariableDefinition(parameter.nameOfParameter, parameter.type, '%' + index, getAlign(parameter.type)));
             this.addVariable(parameter.nameOfParameter, {type: parameter.type, value: '', name: parameter.nameOfParameter});
         });
+    }
 
+    addFunctionSignature({
+        nameOfOperation,
+        returnType,
+        parameters,
+    }: {
+        nameOfOperation: string;
+        returnType: string;
+        parameters: {type: string; nameOfParameter: string}[];
+    }) {
         this.functionSignatures.set(nameOfOperation, {
             name: nameOfOperation,
             returnType,
@@ -154,7 +178,8 @@ export class OutputProgram {
         });
     }
 
-    endFunction() {
+    endFunction(returnType: string) {
+        this.addLineOfIR(`ret ${returnType === 'i32' ? 'i32 0' : 'double 0.0'}`);
         this.addLineOfIR('}');
         this.areWeInsideFunction = false;
         this.functions.push(this.instructions.join('\n'));
@@ -191,37 +216,37 @@ export class OutputProgram {
             valueToVariable = this.getNextRegId();
             convertToDouble(valueToVariable, value.value);
         }
-        this.addLineOfIR(createVariableDefinition(name, type, valueToVariable, getAlign(type)));
+        if (this.areWeInsideFunction) {
+            this.addLineOfIR(createVariableDefinition(name, type, valueToVariable, getAlign(type)));
+        } else {
+            this.addLineOfIR(store('@' + name, type, valueToVariable, getAlign(type)));
+        }
         this.addVariable(name, {type, value, name});
     }
 
     createStringVariable(name: string, type: 'i8*', value: string) {
         const stringConstantId = this.addStringConstant(value);
         const lengthOfText = getLengthOfString(value);
-        this.addLineOfIR(
-            createVariableDefinition(
-                name,
-                'i8*',
-                `getelementptr inbounds ([${lengthOfText + 1} x i8], [${lengthOfText + 1} x i8]* @.str.${stringConstantId}, i64 0, i64 0)`,
-                8,
-            ),
-        );
-        this.addVariable(name, {type, value: {stringConstantId, lengthOfText}, name});
+
+        const definition = `getelementptr inbounds ([${lengthOfText + 1} x i8], [${
+            lengthOfText + 1
+        } x i8]* @.str.${stringConstantId}, i64 0, i64 0)`;
+        if (this.areWeInsideFunction) {
+            this.addLineOfIR(createVariableDefinition(name, 'i8*', definition, 8));
+        }
+        this.addVariable(name, {type, value: {stringConstantId, lengthOfText, definition: 'i8* ' + definition + ', align 8'}, name});
     }
 
     createNumericArray(name: string, type: string, value: string[]) {
-        this.addLineOfIR(
-            createVariableDefinition(
-                name,
-                type,
-                `[${value
-                    .map((valueOfElement) => {
-                        return 'i32 ' + valueOfElement;
-                    })
-                    .join(',')}]`,
-                4,
-            ),
-        );
+        const definition = `[${value
+            .map((valueOfElement) => {
+                return 'i32 ' + valueOfElement;
+            })
+            .join(',')}]`;
+
+        if (this.areWeInsideFunction) {
+            this.addLineOfIR(createVariableDefinition(name, type, definition, 4));
+        }
         this.addVariable(name, {type, value, name, basicType: 'i32'});
     }
 
@@ -234,7 +259,7 @@ export class OutputProgram {
                 stringConstantId,
             };
         });
-        const valueToStoreInstruction = `[${createdStrings
+        const definition = `[${createdStrings
             .map(
                 (createdString) =>
                     `i8* getelementptr inbounds ([${createdString.lengthOfText + 1} x i8], [${
@@ -242,14 +267,16 @@ export class OutputProgram {
                     } x i8]* @.str.${createdString.stringConstantId}, i64 0, i64 0)`,
             )
             .join(',')}]`;
-        this.addLineOfIR(`%${name} = alloca ${type}, align ${16}`);
-        this.addLineOfIR(store(name, type, valueToStoreInstruction, 4));
-        this.addVariable(name, {type, value: createdStrings, name, basicType: 'i8*'});
+        if (this.areWeInsideFunction) {
+            this.addLineOfIR(`%${name} = alloca ${type}, align ${16}`);
+            this.addLineOfIR(store(name, type, definition, 4));
+        }
+        this.addVariable(name, {type, value: {...createdStrings, definition}, name, basicType: 'i8*'});
     }
 
     assignment(variableName: string, newValue: {value: string}) {
         const variable = this.getVariable(variableName);
-        this.addLineOfIR(store(variableName, variable.type, newValue.value, getAlign(variable.type)));
+        this.addLineOfIR(store(variable.name, variable.type, newValue.value, getAlign(variable.type)));
     }
 
     assignmentToArrayElement(variableName, elementNumber, newValue) {
@@ -258,7 +285,7 @@ export class OutputProgram {
         const regIdOfGetElement = this.getNextRegId();
         this.addLineOfIR(loadArrayElement(regIdOfGetElement, variable.type, variable.name, elementNumber.value));
 
-        this.addLineOfIR(store(regIdOfGetElement, variable.basicType, newValue.value, getAlign(variable.basicType)));
+        this.addLineOfIR(store('%' + regIdOfGetElement, variable.basicType, newValue.value, getAlign(variable.basicType)));
     }
 
     loadOperation(variable) {
@@ -272,7 +299,7 @@ export class OutputProgram {
         const regIdOfGetElement = this.getNextRegId();
         this.addLineOfIR(loadArrayElement(regIdOfGetElement, variable.type, variable.name, element));
 
-        return this.loadOperation({name: regIdOfGetElement, type: variable.basicType});
+        return this.loadOperation({name: '%' + regIdOfGetElement, type: variable.basicType});
     }
 
     printValue(valueToPrint) {
@@ -338,7 +365,7 @@ export class OutputProgram {
 
     readValue(variableName) {
         const variable = this.getVariable(variableName);
-        this.addLineOfIR(read(this.getNextRegId(), getInputOutputStringType(variable.type), variable.type, variableName));
+        this.addLineOfIR(read(this.getNextRegId(), getInputOutputStringType(variable.type), variable.type, variable.name));
     }
 
     startWhile(conditionElements: {leftSideOfOperator; rightSideOfOperator; comparisonType}) {

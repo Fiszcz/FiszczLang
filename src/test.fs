@@ -16,6 +16,10 @@ int OPERATION POW: int number, int power {
     # number;
 };
 
+int OPERATION printGlobalVariable: {
+    PRINT globalVariable;
+};
+
 // Example of FiszczLang
 int someNumber 5;
 real floatNumber 5.0;
@@ -76,3 +80,6 @@ WHILE iterator <= 10 {
 }
 
 PRINT POW<2, 4>;
+
+string globalVariable "globalVariable";
+printGlobalVariable<>;

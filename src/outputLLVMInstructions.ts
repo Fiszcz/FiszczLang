@@ -1,4 +1,5 @@
 import {ReturnTypeVisitValue} from './FiszczLangVisitor';
+import {Variable} from './types';
 
 export const createStringConstant = (index, lengthOfText, text) => {
     return `@.str.${index} = private constant [${lengthOfText + 1} x i8] c"${text}${'\00'}", align 1`;
@@ -60,7 +61,7 @@ export const call = (regId: number, returnType: string, functionName: string, ar
 };
 
 export const read = (returnRegId, typeOfFirstArgumentOfScanf, type, nameOfVariable) => {
-    return `%${returnRegId} = call i32 (i8*, ...) @scanf(i8* getelementptr inbounds (${typeOfFirstArgumentOfScanf}, i64 0, i64 0), ${type}* %${nameOfVariable})`;
+    return `%${returnRegId} = call i32 (i8*, ...) @scanf(i8* getelementptr inbounds (${typeOfFirstArgumentOfScanf}, i64 0, i64 0), ${type}* ${nameOfVariable})`;
 };
 
 export const print = (returnRegId, typeOfFirstArgumentOfPrintf, type, valueToPrint) => {
@@ -94,17 +95,46 @@ export const comparison = (regId, typeOfComparison, typeOfElements, firstElement
 };
 
 export const load = (regId, type, fromId, align) => {
-    return `%${regId} = load ${type}, ${type}* %${fromId}, align ${align}`;
+    return `%${regId} = load ${type}, ${type}* ${fromId}, align ${align}`;
 };
 
 export const loadArrayElement = (regId, type, fromId, element) => {
-    return `%${regId} = getelementptr inbounds ${type}, ${type}* %${fromId}, i64 0, i32 ${element}`;
+    return `%${regId} = getelementptr inbounds ${type}, ${type}* ${fromId}, i64 0, i32 ${element}`;
 };
 
 export const createVariableDefinition = (name, type, value, align) => {
-    return `%${name} = alloca ${type}, align ${align}\n` + store(name, type, value, align);
+    return `%${name} = alloca ${type}, align ${align}\n` + store('%' + name, type, value, align);
 };
 
 export const store = (name, type, value, align) => {
-    return `store ${type} ${value}, ${type}* %${name}, align ${align}`;
+    return `store ${type} ${value}, ${type}* ${name}, align ${align}`;
+};
+
+export const createGlobalVariable = (variable: Variable): string => {
+    const {type, name, basicType, value} = variable;
+
+    const globalVariable = `${name} = global `;
+    switch (type) {
+        case 'i32': {
+            return globalVariable + `i32 0, align 4`;
+        }
+        case 'double': {
+            return globalVariable + `double 0.0, align 8`;
+        }
+        case 'i8*': {
+            return globalVariable + value.definition;
+        }
+        default: {
+            if (basicType === 'i32') {
+                const definition = `[${value
+                    .map((valueOfElement) => {
+                        return 'i32 ' + valueOfElement;
+                    })
+                    .join(',')}]`;
+                return globalVariable + type + ' ' + definition + ', align 16';
+            } else if (basicType === 'i8*') {
+                return globalVariable + type + ' ' + value.definition + ', align 16';
+            }
+        }
+    }
 };
