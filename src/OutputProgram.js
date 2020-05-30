@@ -67,10 +67,13 @@ var OutputProgram = /** @class */ (function () {
             this.globalVariables.set(name, __assign(__assign({}, dataAboutVariable), {name: '@' + name}));
         }
     };
-    OutputProgram.prototype.getVariable = function (variableName) {
+    OutputProgram.prototype.getVariable = function (variableName, notError) {
+        if (notError === void 0) {
+            notError = false;
+        }
         var localVariable = this.functionVariables.get(variableName);
         var globalVariable = this.globalVariables.get(variableName);
-        if (!localVariable && !globalVariable) {
+        if (!notError && !localVariable && !globalVariable) {
             process.stderr.write(
                 'You are trying to use a variable that does not exist ' +
                     ':Line - ' +
@@ -121,6 +124,14 @@ var OutputProgram = /** @class */ (function () {
             ),
         );
         this.functionVariables = new Map();
+        this.addLineOfIR(
+            outputLLVMInstructions_1.createVariableDefinition(
+                'returnValue',
+                returnType,
+                returnType === 'i32' ? '0' : '0.0',
+                getAlign(returnType),
+            ),
+        );
         parameters.forEach(function (parameter, index) {
             _this.addLineOfIR(
                 outputLLVMInstructions_1.createVariableDefinition(
@@ -146,7 +157,10 @@ var OutputProgram = /** @class */ (function () {
         });
     };
     OutputProgram.prototype.endFunction = function (returnType) {
-        this.addLineOfIR('ret ' + (returnType === 'i32' ? 'i32 0' : 'double 0.0'));
+        this.addLineOfIR('br label %returnBlock');
+        this.addLineOfIR('returnBlock:');
+        var regId = this.loadOperation({type: returnType, name: '%returnValue'});
+        this.addLineOfIR('ret ' + (returnType === 'i32' ? 'i32' : 'double') + ' %' + regId);
         this.addLineOfIR('}');
         this.areWeInsideFunction = false;
         this.functions.push(this.instructions.join('\n'));
@@ -156,16 +170,39 @@ var OutputProgram = /** @class */ (function () {
     OutputProgram.prototype.returnValue = function (returnValue) {
         if (returnValue.typeOfValue === 'variable') {
             var variable = this.getVariable(returnValue.value);
-            this.addLineOfIR(outputLLVMInstructions_1.ret(variable.type, '%' + this.loadOperation(variable)));
+            this.addLineOfIR(
+                outputLLVMInstructions_1.store('%returnValue', variable.type, '%' + this.loadOperation(variable), getAlign(variable.type)),
+            );
         } else {
-            this.addLineOfIR(outputLLVMInstructions_1.ret(returnValue.typeOfValue, returnValue.value));
+            this.addLineOfIR(
+                outputLLVMInstructions_1.store(
+                    '%returnValue',
+                    returnValue.typeOfValue,
+                    returnValue.value,
+                    getAlign(returnValue.typeOfValue),
+                ),
+            );
         }
+        this.addLineOfIR('br label %returnBlock');
+        this.getNextRegId();
     };
     // TODO: sprawdzac poprawnosc typow argumentow do funkcji
     OutputProgram.prototype.callFunction = function (operationName, argumentsToFunction) {
-        var returnRegId = this.getNextRegId();
+        var _this = this;
         var returnTypeOfFunction = this.functionSignatures.get(operationName).returnType;
-        this.addLineOfIR(outputLLVMInstructions_1.call(returnRegId, returnTypeOfFunction, operationName, argumentsToFunction));
+        var mappedArguments = argumentsToFunction.map(function (arg) {
+            if (arg.typeOfValue === 'variable') {
+                var variable = _this.getVariable(arg.value);
+                var regId = _this.loadOperation(variable);
+                return {
+                    typeOfValue: variable.type,
+                    value: '%' + regId,
+                };
+            }
+            return arg;
+        });
+        var returnRegId = this.getNextRegId();
+        this.addLineOfIR(outputLLVMInstructions_1.call(returnRegId, returnTypeOfFunction, operationName, mappedArguments));
         return {value: '%' + returnRegId, typeOfValue: returnTypeOfFunction};
     };
     OutputProgram.prototype.createNumericVariable = function (name, type, value) {
@@ -183,6 +220,20 @@ var OutputProgram = /** @class */ (function () {
             this.addLineOfIR(outputLLVMInstructions_1.store('@' + name, type, valueToVariable, getAlign(type)));
         }
         this.addVariable(name, {type: type, value: value, name: name});
+    };
+    OutputProgram.prototype.createDynamicVariable = function (name, value) {
+        var variable = this.getVariable(name, true);
+        var newName = (variable === null || variable === void 0 ? void 0 : variable.name) ? variable.name.slice(1) + 'a' : name;
+        if (this.areWeInsideFunction) {
+            this.addLineOfIR(outputLLVMInstructions_1.createVariableDefinition(newName, value.type, value.value, getAlign(value.type)));
+        } else {
+            this.addLineOfIR(outputLLVMInstructions_1.store('@' + newName, value.type, value.value, getAlign(value.type)));
+        }
+        if (this.areWeInsideFunction) {
+            this.functionVariables.set(name, {type: value.type, value: value, name: '%' + newName, dynamic: true});
+        } else {
+            this.globalVariables.set(name, {type: value.type, value: value, name: '@' + newName, dynamic: true});
+        }
     };
     OutputProgram.prototype.createStringVariable = function (name, type, value) {
         var stringConstantId = this.addStringConstant(value);
@@ -257,7 +308,15 @@ var OutputProgram = /** @class */ (function () {
     };
     OutputProgram.prototype.assignment = function (variableName, newValue) {
         var variable = this.getVariable(variableName);
-        this.addLineOfIR(outputLLVMInstructions_1.store(variable.name, variable.type, newValue.value, getAlign(variable.type)));
+        if (variable.dynamic) {
+            if (newValue.typeOfValue === 'variable') {
+                var variable_1 = this.getVariable(newValue.value);
+                this.createDynamicVariable(variableName, {type: variable_1.type, value: '%' + this.loadOperation(variable_1)});
+            }
+            this.createDynamicVariable(variableName, {type: newValue.typeOfValue, value: newValue.value});
+        } else {
+            this.addLineOfIR(outputLLVMInstructions_1.store(variable.name, variable.type, newValue.value, getAlign(variable.type)));
+        }
     };
     OutputProgram.prototype.assignmentToArrayElement = function (variableName, elementNumber, newValue) {
         var variable = this.getVariable(variableName);

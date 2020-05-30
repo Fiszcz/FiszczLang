@@ -92,10 +92,10 @@ export class OutputProgram {
         }
     }
 
-    getVariable(variableName: string) {
+    getVariable(variableName: string, notError: boolean = false) {
         const localVariable = this.functionVariables.get(variableName);
         const globalVariable = this.globalVariables.get(variableName);
-        if (!localVariable && !globalVariable) {
+        if (!notError && !localVariable && !globalVariable) {
             process.stderr.write(
                 'You are trying to use a variable that does not exist ' +
                     ':Line - ' +
@@ -156,6 +156,7 @@ export class OutputProgram {
         );
 
         this.functionVariables = new Map<string, Variable>();
+        this.addLineOfIR(createVariableDefinition('returnValue', returnType, returnType === 'i32' ? '0' : '0.0', getAlign(returnType)));
         parameters.forEach((parameter, index) => {
             this.addLineOfIR(createVariableDefinition(parameter.nameOfParameter, parameter.type, '%' + index, getAlign(parameter.type)));
             this.addVariable(parameter.nameOfParameter, {type: parameter.type, value: '', name: parameter.nameOfParameter});
@@ -179,7 +180,10 @@ export class OutputProgram {
     }
 
     endFunction(returnType: string) {
-        this.addLineOfIR(`ret ${returnType === 'i32' ? 'i32 0' : 'double 0.0'}`);
+        this.addLineOfIR('br label %returnBlock');
+        this.addLineOfIR('returnBlock:');
+        const regId = this.loadOperation({type: returnType, name: '%returnValue'});
+        this.addLineOfIR(`ret ${returnType === 'i32' ? 'i32' : 'double'} %${regId}`);
         this.addLineOfIR('}');
         this.areWeInsideFunction = false;
         this.functions.push(this.instructions.join('\n'));
@@ -190,19 +194,33 @@ export class OutputProgram {
     returnValue(returnValue: ReturnTypeVisitValue) {
         if (returnValue.typeOfValue === 'variable') {
             const variable = this.getVariable(returnValue.value);
-            this.addLineOfIR(ret(variable.type, '%' + this.loadOperation(variable)));
+            this.addLineOfIR(store('%returnValue', variable.type, '%' + this.loadOperation(variable), getAlign(variable.type)));
         } else {
-            this.addLineOfIR(ret(returnValue.typeOfValue, returnValue.value));
+            this.addLineOfIR(store('%returnValue', returnValue.typeOfValue, returnValue.value, getAlign(returnValue.typeOfValue)));
         }
+        this.addLineOfIR('br label %returnBlock');
+        this.getNextRegId();
     }
 
     // TODO: sprawdzac poprawnosc typow argumentow do funkcji
     callFunction(operationName: string, argumentsToFunction: ReturnTypeVisitValue[]): ReturnTypeVisitValue {
-        const returnRegId = this.getNextRegId();
-
         const returnTypeOfFunction = this.functionSignatures.get(operationName).returnType;
 
-        this.addLineOfIR(call(returnRegId, returnTypeOfFunction, operationName, argumentsToFunction));
+        const mappedArguments = argumentsToFunction.map((arg) => {
+            if (arg.typeOfValue === 'variable') {
+                const variable = this.getVariable(arg.value);
+                const regId = this.loadOperation(variable);
+                return {
+                    typeOfValue: variable.type,
+                    value: '%' + regId,
+                };
+            }
+            return arg;
+        });
+
+        const returnRegId = this.getNextRegId();
+
+        this.addLineOfIR(call(returnRegId, returnTypeOfFunction, operationName, mappedArguments));
 
         return {value: '%' + returnRegId, typeOfValue: returnTypeOfFunction};
     }
@@ -222,6 +240,23 @@ export class OutputProgram {
             this.addLineOfIR(store('@' + name, type, valueToVariable, getAlign(type)));
         }
         this.addVariable(name, {type, value, name});
+    }
+
+    createDynamicVariable(name: string, value: {type: 'i32' | 'double'; value: string}) {
+        const variable = this.getVariable(name, true);
+        let newName = variable?.name ? variable.name.slice(1) + 'a' : name;
+
+        if (this.areWeInsideFunction) {
+            this.addLineOfIR(createVariableDefinition(newName, value.type, value.value, getAlign(value.type)));
+        } else {
+            this.addLineOfIR(store('@' + newName, value.type, value.value, getAlign(value.type)));
+        }
+
+        if (this.areWeInsideFunction) {
+            this.functionVariables.set(name, {type: value.type, value, name: '%' + newName, dynamic: true});
+        } else {
+            this.globalVariables.set(name, {type: value.type, value, name: '@' + newName, dynamic: true});
+        }
     }
 
     createStringVariable(name: string, type: 'i8*', value: string) {
@@ -274,9 +309,17 @@ export class OutputProgram {
         this.addVariable(name, {type, value: {...createdStrings, definition}, name, basicType: 'i8*'});
     }
 
-    assignment(variableName: string, newValue: {value: string}) {
+    assignment(variableName: string, newValue: ReturnTypeVisitValue) {
         const variable = this.getVariable(variableName);
-        this.addLineOfIR(store(variable.name, variable.type, newValue.value, getAlign(variable.type)));
+        if (variable.dynamic) {
+            if (newValue.typeOfValue === 'variable') {
+                const variable = this.getVariable(newValue.value);
+                this.createDynamicVariable(variableName, {type: variable.type as any, value: '%' + this.loadOperation(variable)});
+            }
+            this.createDynamicVariable(variableName, {type: newValue.typeOfValue as any, value: newValue.value});
+        } else {
+            this.addLineOfIR(store(variable.name, variable.type, newValue.value, getAlign(variable.type)));
+        }
     }
 
     assignmentToArrayElement(variableName, elementNumber, newValue) {

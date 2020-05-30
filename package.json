@@ -15,10 +15,10 @@
         "typescript": "3.9.3"
     },
     "scripts": {
-        "compile": "tsc && cross-env NODE_ENV=production node ./src/FiszczLangCompiler.js ./src/program.fs",
+        "compile": "tsc && cross-env NODE_ENV=production node ./src/FiszczLangCompiler.js",
         "compile:test": "tsc && cross-env NODE_ENV=production node ./src/FiszczLangCompiler.js ./src/test.fs",
         "generate:test": "antlr4 ./src/FiszczLang.g4 && javac ./FiszczLang*.java",
-        "test:gui": "grun FiszczLang program ./src/test.fs -gui",
+        "test:gui": "grun FiszczLang program ./src/program2.fs -gui",
         "generate": "antlr4 -Dlanguage=JavaScript -visitor ./src/FiszczLang.g4 -o ./src"
     },
     "husky": {

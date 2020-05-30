@@ -65,6 +65,12 @@ FiszczLangListener.prototype.enterString_definition = function (ctx) {};
 // Exit a parse tree produced by FiszczLangParser#string_definition.
 FiszczLangListener.prototype.exitString_definition = function (ctx) {};
 
+// Enter a parse tree produced by FiszczLangParser#dynamic_definition.
+FiszczLangListener.prototype.enterDynamic_definition = function (ctx) {};
+
+// Exit a parse tree produced by FiszczLangParser#dynamic_definition.
+FiszczLangListener.prototype.exitDynamic_definition = function (ctx) {};
+
 // Enter a parse tree produced by FiszczLangParser#int_array_definition.
 FiszczLangListener.prototype.enterInt_array_definition = function (ctx) {};
 

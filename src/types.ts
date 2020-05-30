@@ -3,6 +3,7 @@ export interface Variable {
     basicType?: string;
     value: any;
     name: string;
+    dynamic?: boolean;
 }
 
 export interface FunctionSignature {

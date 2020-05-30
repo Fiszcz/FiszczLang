@@ -26,7 +26,7 @@ READ wiek;
 
 // Kraj pochodzenia
 int wybranePanstwo;
-string[] panstwa ["Niemcy", "Polska", "Rosja"];
+string[] panstwa = ["Niemcy", "Polska", "Rosja"];
 PRINT "Wybierz jedno z panstw: 1)" panstwa[0] " 2)" panstwa[1] " 3)" panstwa[2] "\n";
 READ wybranePanstwo;
 

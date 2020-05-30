@@ -8,18 +8,20 @@ instruction : (new_operation | definition | print_instruction | print_instructio
 
 parameter : type W VARIABLE_NAME;
 
-definition : (single_element_definition | array_definition) ;
+definition : (single_element_definition | array_definition | dynamic_definition) ;
 
 single_element_definition : (int_definition | real_definition | string_definition) ;
 array_definition : (int_array_definition | real_array_definition | string_array_definition) ;
 
-int_definition : 'int' W VARIABLE_NAME (W arithmetic_expression)? ;
-real_definition : 'real' W VARIABLE_NAME (W arithmetic_expression)? ;
-string_definition : 'string' W VARIABLE_NAME (W (string | VARIABLE_NAME | element_of_array))? ;
+int_definition : 'int' W VARIABLE_NAME (W? '=' W? arithmetic_expression)? ;
+real_definition : 'real' W VARIABLE_NAME (W? '=' W? arithmetic_expression)? ;
+string_definition : 'string' W VARIABLE_NAME (W? '=' W? (string | VARIABLE_NAME | element_of_array))? ;
 
-int_array_definition : 'int[]' W VARIABLE_NAME W? '[' W? INTEGER_NUMBER (W? ',' W? INTEGER_NUMBER)* W?']' ;
-real_array_definition : 'real[]' W VARIABLE_NAME W? '['W? (INTEGER_NUMBER | REAL_NUMBER) (W? ',' W? (INTEGER_NUMBER | REAL_NUMBER))* W?']' ;
-string_array_definition : 'string[]' W VARIABLE_NAME W? '['W? string (W? ',' W? string)* W?']' ;
+dynamic_definition : 'val' W VARIABLE_NAME (W? '=' W? arithmetic_expression)? ;
+
+int_array_definition : 'int[]' W VARIABLE_NAME W? '=' W? '[' W? INTEGER_NUMBER (W? ',' W? INTEGER_NUMBER)* W?']' ;
+real_array_definition : 'real[]' W VARIABLE_NAME W? '=' W? '['W? (INTEGER_NUMBER | REAL_NUMBER) (W? ',' W? (INTEGER_NUMBER | REAL_NUMBER))* W?']' ;
+string_array_definition : 'string[]' W VARIABLE_NAME W? '=' W? '['W? string (W? ',' W? string)* W?']' ;
 
 new_operation : type W OPERATION_STRING W VARIABLE_NAME W? ':' (W? parameter?) (',' W? parameter)* W? '{' (instruction | W)+ '}' ;
 
@@ -51,8 +53,8 @@ arithmetic_expression : '(' arithmetic_expression ')'
                       | REAL_NUMBER
                       ;
 
-assignment :  VARIABLE_NAME W value ;
-array_element_assignment : element_of_array value ;
+assignment :  VARIABLE_NAME W? '=' W?  value ;
+array_element_assignment : element_of_array W? '=' W?  value ;
 
 value : (call_operation | VARIABLE_NAME | INTEGER_NUMBER | REAL_NUMBER | string | element_of_array | arithmetic_expression) ;
 

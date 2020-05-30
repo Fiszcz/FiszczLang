@@ -69,6 +69,15 @@ var mapTypeNameToLLVMType = function (typeName) {
             return 'double';
     }
 };
+// Visit a parse tree produced by FiszczLangParser#dynamic_definition.
+FiszczLangVisitor.prototype.visitDynamic_definition = function (ctx) {
+    var resultOfArithmeticOperation = ctx.arithmetic_expression()
+        ? ctx.arithmetic_expression().getText()
+            ? this.visitArithmetic_expression(ctx.arithmetic_expression())
+            : {value: '0', type: 'i32'}
+        : {value: '0', type: 'i32'};
+    this.program.createDynamicVariable(ctx.VARIABLE_NAME().getText(), resultOfArithmeticOperation);
+};
 // Visit a parse tree produced by FiszczLangParser#definition.
 FiszczLangVisitor.prototype.visitDefinition = function (ctx) {
     return this.visitChildren(ctx);
