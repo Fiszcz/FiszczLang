@@ -12,46 +12,91 @@ A new amateurish programming language
 ### Example fragment of code
 
 ```
-int some_number 5;
-real float_number 5.0;
-PRINT some_number float_number;
+int OPERATION POW: int number, int power {
+    int base = number;
+    WHILE power > 1 {
+        number = base * number;
+        power = power - 1;
+    };
+    # number;
+};
 
-READ some_number;
-PRINT some_number;
-PRINT some_number + 5 * 6 - 7 / 7;
+int OPERATION printGlobalVariable: {
+    PRINT globalVariable;
+};
 
-some_number 10;
-PRINT some_number;
+// Example of FiszczLang
+int someNumber = 5;
+real floatNumber = 5.0;
+PRINT someNumber floatNumber;
 
-int other_number 20;
-some_number other_number;
-PRINT some_number;
+READ someNumber;
+PRINT someNumber;
+PRINT someNumber + 5 * (6 - 7) / 7;
+PRINT 1.5 / 3;
 
-string some_text "some text";
-PRINT some_text " and other text";
+int someNewNumber = 10 + 5;
+PRINT someNewNumber;
 
-int[] array_of_numbers [1, 2, 3];
-PRINT array_of_numbers[0];
-array_of_numbers[0] 100;
-PRINT array_of_numbers[0];
+string someText = "some text";
+PRINT someText " and other text";
+PRINT "New line\nAnd we are in new line";
+READ someText;
+PRINT someText;
 
-IF 44 > someNumber {
+int[] arrayOfNumbers = [1, 2, 3];
+PRINT arrayOfNumbers[0];
+arrayOfNumbers[0] = 100;
+PRINT arrayOfNumbers[0];
+
+string[] arrayOfStrings = ["one", "two", "three"];
+PRINT arrayOfStrings[1];
+
+int numberWithoutInitialValue;
+PRINT numberWithoutInitialValue;
+
+PRINT "\n" arrayOfNumbers[2];
+IF arrayOfNumbers[2] < 10 {
+    PRINT "\nBeginning of IF";
     PRINT "\nInside IF (greater than)";
+    PRINT "\nEnd of IF";
 }
 
-IF 44 = someNumber {
+IF someNumber = 44 {
     PRINT "\nInside IF (equal)";
 }
 
-IF 44 < someNumber {
+IF 44 > someNumber {
     PRINT "\nInside IF (less than)";
 }
 
-int iterator 1;
+if 44 >= 44 {
+    PRINT "\nGreater or equal";
+}
+
+if 44 <= 44 {
+    PRINT "\nLess or equal";
+}
+
+int iterator = 1;
 WHILE iterator <= 10 {
     PRINT "\n" iterator;
     iterator iterator + 1;
 }
+
+PRINT POW<2, 4>;
+
+string globalVariable = "globalVariable";
+printGlobalVariable<>;
+
+val dynamicValue1 = 3.0;
+PRINT "\n" dynamicValue1;
+
+val dynamicValue2 = 1 + 2;
+PRINT "\n" dynamicValue2;
+
+val dynamicValue3 = 1 + 2 + 3.5;
+PRINT "\n" dynamicValue3;
 ```
 
 ### Concept of language
@@ -96,3 +141,9 @@ WHILE iterator <= 10 {
 -   `<` - less than
 -   `>=` - greater or equal
 -   `<=` - less or equal
+
+##### Functions
+
+-   `return_type OPERATION name_of_function: parameters { instructions }` - definition of function
+-   `name_of_function<arguments>` - call function
+-   `ret` - return value from function
